@@ -2,7 +2,7 @@
   "name": "NEXO — Campo de Pulsos",
   "short_name": "NEXO",
   "description": "Arcade espacial. Absorbé cristales, esquivá enemigos, derrotá guardianes.",
-  "start_url": "./nexo.html",
+  "start_url": "./",
   "scope": "./",
   "display": "fullscreen",
   "orientation": "any",

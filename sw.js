@@ -2,7 +2,7 @@
 const CACHE = 'nexo-v1';
 const ASSETS = [
   './',
-  './nexo.html',
+  './index.html',
   './manifest.webmanifest',
   './icon-192.png',
   './icon-512.png',

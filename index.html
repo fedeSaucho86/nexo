@@ -16,8 +16,8 @@
 <meta name="mobile-web-app-capable" content="yes">
 <style>
   * { box-sizing: border-box; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
-  html, body { margin: 0; padding: 0; height: 100%; background: #000; overflow: hidden; font-family: 'Courier New', monospace; color: #fff; touch-action: none; }
-  canvas { display: block; cursor: none; }
+  html, body { margin: 0; padding: 0; height: 100%; background: #000; overflow: hidden; font-family: 'Courier New', monospace; color: #fff; }
+  canvas { display: block; cursor: none; touch-action: none; }
 
   /* HUD */
   #hud {
@@ -95,10 +95,13 @@
   .overlay p { font-size: 13px; opacity: 0.85; line-height: 1.8; letter-spacing: 2px; max-width: 560px; }
   .overlay button {
     background: transparent; color: #0ff; border: 2px solid #0ff;
-    padding: 14px 36px; font-family: inherit; cursor: pointer;
-    font-size: 13px; letter-spacing: 6px; margin: 6px;
+    padding: 16px 36px; font-family: inherit; cursor: pointer;
+    font-size: 14px; letter-spacing: 6px; margin: 6px;
     transition: all 0.2s;
+    min-height: 52px; min-width: 170px;
+    touch-action: manipulation;
   }
+  .shipcard { touch-action: manipulation; }
   .overlay button:hover { background: rgba(0,255,255,0.15); box-shadow: 0 0 25px #0ff; transform: scale(1.04); }
   .overlay button.secondary { color: #888; border-color: #555; }
   .overlay button.secondary:hover { color: #fff; border-color: #aaa; box-shadow: 0 0 15px #fff; }
@@ -1417,20 +1420,27 @@ addEventListener('keydown', e => {
   }
 });
 
-// Touch básico para mobile
-addEventListener('touchmove', e => {
+// Touch solo sobre el canvas — no interfiere con botones del UI
+let lastTouchPulse = 0;
+canvas.addEventListener('touchmove', e => {
+  if (game.state !== 'playing') return;
   if (e.touches.length > 0) {
     mouseX = e.touches[0].clientX;
     mouseY = e.touches[0].clientY;
   }
   e.preventDefault();
 }, { passive: false });
-addEventListener('touchstart', e => {
+canvas.addEventListener('touchstart', e => {
+  if (game.state !== 'playing') return;
   if (e.touches.length > 0) {
     mouseX = e.touches[0].clientX;
     mouseY = e.touches[0].clientY;
   }
-  if (game.state === 'playing' && e.touches.length >= 2) firePulse();
+  if (e.touches.length >= 2) firePulse();
+  // Doble tap = pulso (alternativa al 2-dedos)
+  const now = performance.now();
+  if (now - lastTouchPulse < 300) firePulse();
+  lastTouchPulse = now;
   e.preventDefault();
 }, { passive: false });
 

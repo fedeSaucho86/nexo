@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-<title>NEXO</title>
-<meta name="description" content="NEXO — Campo de pulsos. Arcade espacial.">
+<title>NEXO — Viaje al Sol</title>
+<meta name="description" content="NEXO — Arcade espacial. Viajá de la Tierra al Sol aprendiendo el sistema solar.">
 <meta name="theme-color" content="#000010">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
@@ -21,60 +21,72 @@
 
   /* HUD */
   #hud {
-    position: fixed; top: 12px; left: 12px; right: 12px;
+    position: fixed; top: 10px; left: 10px; right: 10px;
     pointer-events: none; z-index: 10;
     display: flex; justify-content: space-between; align-items: flex-start;
-    gap: 8px;
+    gap: 6px;
   }
   .panel {
     background: rgba(0,15,30,0.55);
     border: 1px solid rgba(0,255,255,0.35);
-    padding: 6px 12px;
+    padding: 5px 10px;
     backdrop-filter: blur(4px);
-    font-size: 11px; letter-spacing: 2px;
+    font-size: 10px; letter-spacing: 1.5px;
     text-shadow: 0 0 8px currentColor;
   }
-  .panel .lbl { opacity: 0.55; font-size: 9px; }
-  .panel .v { font-size: 18px; font-weight: bold; color: #0ff; display: block; }
-  .hud-left, .hud-right { display: flex; flex-direction: column; gap: 6px; }
+  .panel .lbl { opacity: 0.55; font-size: 8px; }
+  .panel .v { font-size: 16px; font-weight: bold; color: #0ff; display: block; }
+  .hud-left, .hud-right { display: flex; flex-direction: column; gap: 4px; }
   .hud-right { align-items: flex-end; }
-  .hud-center { text-align: center; min-width: 260px; }
-  .hud-center .mission { font-size: 12px; color: #ff8; letter-spacing: 4px; }
+  .hud-center { text-align: center; min-width: 200px; max-width: 50vw; }
+  .hud-center .mission { font-size: 11px; color: #ff8; letter-spacing: 3px; }
   .hud-center .progress {
     width: 100%; height: 5px; background: #111; border: 1px solid #0ff5;
-    margin: 6px 0 0; position: relative; overflow: hidden;
+    margin: 4px 0 0; position: relative; overflow: hidden;
   }
   .hud-center .progress .fill {
     height: 100%; background: linear-gradient(90deg, #ff8, #0ff);
     width: 0%; transition: width 0.25s; box-shadow: 0 0 10px #0ff;
   }
 
+  /* Mute / Install */
+  #topright {
+    position: fixed; top: 10px; right: 10px;
+    z-index: 30; display: flex; gap: 6px;
+  }
+  .iconbtn {
+    background: rgba(0,15,30,0.7); border: 1px solid #0ff5;
+    color: #0ff; font-size: 18px; width: 38px; height: 38px;
+    display: none; align-items: center; justify-content: center;
+    cursor: pointer; padding: 0; line-height: 1;
+  }
+  .iconbtn:hover { background: rgba(0,255,255,0.2); }
+
   /* Barras inferiores */
   #bars {
-    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
-    display: flex; gap: 16px; z-index: 10; pointer-events: none;
+    position: fixed; bottom: 14px; left: 50%; transform: translateX(-50%);
+    display: flex; gap: 12px; z-index: 10; pointer-events: none;
   }
-  .bar { width: 180px; height: 8px; background: #111; border: 1px solid; position: relative; }
+  .bar { width: 150px; height: 8px; background: #111; border: 1px solid; position: relative; }
   .bar.energy { border-color: #0ff5; }
   .bar.energy .fill { background: linear-gradient(90deg, #08f, #0ff); box-shadow: 0 0 10px #0ff; }
   .bar.life { border-color: #4f85; }
   .bar.life .fill { background: linear-gradient(90deg, #f80, #4f8); box-shadow: 0 0 10px #4f8; }
   .bar .fill { height: 100%; width: 100%; transition: width 0.12s; }
-  .bar .label { position: absolute; top: -14px; left: 0; font-size: 9px; opacity: 0.6; letter-spacing: 2px; }
+  .bar .label { position: absolute; top: -13px; left: 0; font-size: 9px; opacity: 0.6; letter-spacing: 2px; }
 
   /* Boss bar */
   #bossbar {
-    position: fixed; top: 90px; left: 50%; transform: translateX(-50%);
-    width: 480px; max-width: 90vw; display: none; z-index: 10; pointer-events: none;
+    position: fixed; top: 80px; left: 50%; transform: translateX(-50%);
+    width: 460px; max-width: 88vw; display: none; z-index: 10; pointer-events: none;
   }
-  #bossbar .nm { font-size: 13px; letter-spacing: 6px; color: #f44; text-align: center; margin-bottom: 6px; text-shadow: 0 0 14px #f44; }
+  #bossbar .nm { font-size: 12px; letter-spacing: 4px; color: #f44; text-align: center; margin-bottom: 5px; text-shadow: 0 0 14px #f44; }
   #bossbar .b { height: 10px; background: #200; border: 1px solid #f44; }
   #bossbar .b .f { height: 100%; background: linear-gradient(90deg, #f44, #f80); width: 100%; box-shadow: 0 0 15px #f44; transition: width 0.2s; }
 
-  /* Combo flash */
   #comboflash {
     position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    font-size: 80px; font-weight: bold; color: #ff8; pointer-events: none;
+    font-size: 72px; font-weight: bold; color: #ff8; pointer-events: none;
     text-shadow: 0 0 30px #ff0; opacity: 0; z-index: 5;
     transition: opacity 0.3s, transform 0.3s;
   }
@@ -83,68 +95,143 @@
   .overlay {
     position: fixed; inset: 0; z-index: 100;
     display: flex; flex-direction: column; justify-content: center; align-items: center;
-    text-align: center; padding: 20px;
-    background: radial-gradient(ellipse at center, rgba(0,20,40,0.88), rgba(0,0,0,0.97));
+    text-align: center; padding: 18px;
+    background: radial-gradient(ellipse at center, rgba(0,20,40,0.92), rgba(0,0,0,0.98));
+    overflow-y: auto;
   }
   .overlay h1 {
-    font-size: 84px; margin: 0; letter-spacing: 24px;
+    font-size: 64px; margin: 0; letter-spacing: 18px;
     text-shadow: 0 0 30px #0ff, 0 0 60px #0ff;
     animation: pulse 2.5s infinite;
   }
-  .overlay .sub { font-size: 13px; opacity: 0.7; letter-spacing: 6px; margin: 12px 0 28px; }
-  .overlay p { font-size: 13px; opacity: 0.85; line-height: 1.8; letter-spacing: 2px; max-width: 560px; }
+  .overlay .sub { font-size: 12px; opacity: 0.7; letter-spacing: 5px; margin: 10px 0 22px; }
+  .overlay p { font-size: 12px; opacity: 0.85; line-height: 1.7; letter-spacing: 1.5px; max-width: 520px; margin: 8px 0; }
   .overlay button {
     background: transparent; color: #0ff; border: 2px solid #0ff;
-    padding: 16px 36px; font-family: inherit; cursor: pointer;
-    font-size: 14px; letter-spacing: 6px; margin: 6px;
-    transition: all 0.2s;
-    min-height: 52px; min-width: 170px;
+    padding: 14px 32px; font-family: inherit; cursor: pointer;
+    font-size: 13px; letter-spacing: 5px; margin: 5px;
+    transition: all 0.15s;
+    min-height: 50px; min-width: 160px;
     touch-action: manipulation;
   }
-  .shipcard { touch-action: manipulation; }
-  .overlay button:hover { background: rgba(0,255,255,0.15); box-shadow: 0 0 25px #0ff; transform: scale(1.04); }
+  .overlay button:active { background: rgba(0,255,255,0.3); transform: scale(0.96); }
+  .overlay button:hover { background: rgba(0,255,255,0.15); box-shadow: 0 0 20px #0ff; }
   .overlay button.secondary { color: #888; border-color: #555; }
-  .overlay button.secondary:hover { color: #fff; border-color: #aaa; box-shadow: 0 0 15px #fff; }
+  .overlay button.secondary:active { background: rgba(255,255,255,0.15); }
+  .overlay button.green { color: #4f8; border-color: #4f8; }
+  .overlay button.green:active { background: rgba(80,255,150,0.25); }
 
   @keyframes pulse {
     0%, 100% { text-shadow: 0 0 30px #0ff, 0 0 60px #0ff; }
     50% { text-shadow: 0 0 50px #0ff, 0 0 100px #0ff; }
   }
 
-  /* Ship select */
-  #ships { display: flex; gap: 20px; margin: 24px 0; flex-wrap: wrap; justify-content: center; }
-  .shipcard {
-    width: 210px; padding: 18px; background: rgba(0,30,60,0.45);
-    border: 2px solid #0ff5; cursor: pointer;
-    transition: all 0.2s;
+  /* Dificultad */
+  #difficulties { display: flex; gap: 14px; margin: 20px 0; flex-wrap: wrap; justify-content: center; }
+  .diffcard {
+    width: 180px; padding: 18px 14px; background: rgba(0,30,60,0.45);
+    border: 2px solid; cursor: pointer; transition: all 0.15s;
+    touch-action: manipulation;
   }
-  .shipcard:hover { border-color: #0ff; background: rgba(0,60,120,0.55); transform: translateY(-4px); box-shadow: 0 8px 30px #0ff7; }
-  .shipcard canvas { display: block; width: 174px; height: 90px; margin: 0 auto; }
-  .shipcard h3 { margin: 10px 0 6px; letter-spacing: 4px; font-size: 16px; }
-  .shipcard .stats { font-size: 10px; opacity: 0.85; line-height: 1.8; letter-spacing: 1px; text-align: left; margin-top: 6px; }
+  .diffcard.facil { border-color: #4f8; }
+  .diffcard.medio { border-color: #ff8; }
+  .diffcard.dificil { border-color: #f44; }
+  .diffcard:active { transform: scale(0.96); }
+  .diffcard:hover { transform: translateY(-3px); }
+  .diffcard.facil:hover { background: rgba(80,255,150,0.18); box-shadow: 0 8px 26px #4f87; }
+  .diffcard.medio:hover { background: rgba(255,255,140,0.18); box-shadow: 0 8px 26px #ff87; }
+  .diffcard.dificil:hover { background: rgba(255,80,80,0.18); box-shadow: 0 8px 26px #f447; }
+  .diffcard .emoji { font-size: 42px; }
+  .diffcard .name { font-size: 16px; letter-spacing: 4px; margin: 6px 0; font-weight: bold; }
+  .diffcard.facil .name { color: #4f8; }
+  .diffcard.medio .name { color: #ff8; }
+  .diffcard.dificil .name { color: #f44; }
+  .diffcard .desc { font-size: 10px; opacity: 0.75; line-height: 1.5; letter-spacing: 1px; }
+
+  /* Ship select */
+  #ships { display: flex; gap: 16px; margin: 20px 0; flex-wrap: wrap; justify-content: center; }
+  .shipcard {
+    width: 180px; padding: 14px; background: rgba(0,30,60,0.45);
+    border: 2px solid #0ff5; cursor: pointer;
+    transition: all 0.15s; touch-action: manipulation;
+  }
+  .shipcard:active { transform: scale(0.96); background: rgba(0,80,160,0.6); }
+  .shipcard:hover { border-color: #0ff; background: rgba(0,60,120,0.55); transform: translateY(-3px); box-shadow: 0 8px 26px #0ff7; }
+  .shipcard canvas { display: block; width: 150px; height: 80px; margin: 0 auto; }
+  .shipcard h3 { margin: 8px 0 5px; letter-spacing: 3px; font-size: 14px; }
+  .shipcard .stats { font-size: 10px; opacity: 0.85; line-height: 1.7; letter-spacing: 1px; text-align: left; margin-top: 5px; }
   .shipcard .s { display: flex; justify-content: space-between; }
   .shipcard .s b { color: #ff8; }
-  .shipcard .desc { font-size: 10px; opacity: 0.55; margin: 8px 0 0; letter-spacing: 1px; line-height: 1.5; }
+  .shipcard .desc { font-size: 9px; opacity: 0.55; margin: 6px 0 0; letter-spacing: 1px; line-height: 1.4; }
 
-  /* Sector intro */
-  #sectorIntro {
+  /* Planet intro */
+  #planetIntro {
     position: fixed; inset: 0; display: none; z-index: 50;
-    background: rgba(0,0,0,0.78);
+    background: rgba(0,0,0,0.82);
     flex-direction: column; justify-content: center; align-items: center;
-    pointer-events: none;
+    pointer-events: none; padding: 20px; text-align: center;
   }
-  #sectorIntro .sn { font-size: 88px; letter-spacing: 12px; color: #ff8; text-shadow: 0 0 40px #ff0; }
-  #sectorIntro .sl { font-size: 14px; letter-spacing: 8px; margin-top: 12px; color: #0ff; }
-  #sectorIntro .ms { font-size: 16px; margin-top: 28px; letter-spacing: 4px; opacity: 0.9; }
+  #planetIntro .pemoji { font-size: 96px; filter: drop-shadow(0 0 30px currentColor); animation: spin 8s linear infinite; }
+  #planetIntro .pname { font-size: 60px; letter-spacing: 8px; margin-top: 8px; text-shadow: 0 0 30px currentColor; }
+  #planetIntro .pdist { font-size: 12px; letter-spacing: 4px; margin-top: 10px; opacity: 0.7; color: #0ff; }
+  #planetIntro .pfact { font-size: 13px; margin-top: 16px; opacity: 0.9; max-width: 480px; line-height: 1.6; }
+  #planetIntro .pmission { font-size: 14px; margin-top: 22px; letter-spacing: 3px; color: #ff8; }
+  @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-  /* Level complete */
-  .stat { font-size: 15px; margin: 6px 0; letter-spacing: 2px; }
-  .stat .num { color: #ff8; font-size: 26px; font-weight: bold; }
+  /* Stats */
+  .stat { font-size: 14px; margin: 5px 0; letter-spacing: 2px; }
+  .stat .num { color: #ff8; font-size: 24px; font-weight: bold; }
 
-  /* Pause hint */
+  /* Tutorial */
+  #tutorial {
+    position: fixed; inset: 0; display: none; z-index: 60;
+    background: rgba(0,0,0,0.85);
+    flex-direction: column; justify-content: center; align-items: center;
+    text-align: center; padding: 20px;
+  }
+  #tutorial .step { margin: 14px 0; font-size: 14px; letter-spacing: 2px; }
+  #tutorial .step .ic { font-size: 30px; display: block; margin-bottom: 6px; }
+  #tutorial button { margin-top: 24px; }
+
+  /* Install banner */
+  #installBanner {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(180deg, rgba(0,30,60,0.95), rgba(0,15,30,0.98));
+    border-top: 2px solid #0ff;
+    padding: 12px 16px; display: none; z-index: 80;
+    text-align: center; font-size: 12px; letter-spacing: 2px;
+  }
+  #installBanner button { margin-left: 12px; padding: 8px 18px; font-size: 11px; min-height: 0; min-width: 0; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .overlay h1 { font-size: 44px; letter-spacing: 10px; }
+    .overlay .sub { font-size: 10px; letter-spacing: 3px; }
+    .overlay p { font-size: 11px; }
+    .overlay button { padding: 12px 22px; font-size: 12px; letter-spacing: 3px; min-width: 140px; }
+    .diffcard, .shipcard { width: 46%; min-width: 140px; }
+    .diffcard .emoji { font-size: 34px; }
+    .diffcard .name { font-size: 13px; letter-spacing: 2px; }
+    .shipcard canvas { width: 100%; height: 60px; }
+    .shipcard h3 { font-size: 12px; letter-spacing: 2px; }
+    .panel { padding: 4px 7px; font-size: 9px; letter-spacing: 1px; }
+    .panel .v { font-size: 13px; }
+    .panel .lbl { font-size: 7px; }
+    .hud-center { min-width: 140px; max-width: 42vw; }
+    .hud-center .mission { font-size: 9px; letter-spacing: 2px; }
+    .bar { width: 110px; }
+    #comboflash { font-size: 48px; }
+    #planetIntro .pname { font-size: 36px; letter-spacing: 4px; }
+    #planetIntro .pemoji { font-size: 72px; }
+    #planetIntro .pfact { font-size: 11px; }
+    #planetIntro .pmission { font-size: 12px; }
+    #bossbar { width: 90vw; }
+    .iconbtn { width: 36px; height: 36px; font-size: 16px; }
+  }
+
   #pauseHint {
-    position: fixed; bottom: 12px; right: 12px;
-    font-size: 10px; opacity: 0.4; letter-spacing: 2px; z-index: 10;
+    position: fixed; bottom: 8px; right: 8px;
+    font-size: 9px; opacity: 0.35; letter-spacing: 1px; z-index: 10;
     pointer-events: none;
   }
 </style>
@@ -152,7 +239,11 @@
 <body>
 <canvas id="game"></canvas>
 
-<!-- HUD -->
+<div id="topright">
+  <button id="btnMute" class="iconbtn" title="Mute" aria-label="Mute">♪</button>
+  <button id="btnPauseTop" class="iconbtn" title="Pausa" aria-label="Pausa">⏸</button>
+</div>
+
 <div id="hud" style="display:none">
   <div class="hud-left">
     <div class="panel"><div class="lbl">SCORE</div><span class="v" id="hScore">0</span></div>
@@ -164,7 +255,7 @@
   </div>
   <div class="hud-right">
     <div class="panel"><div class="lbl">NIVEL</div><span class="v" id="hLevel">1</span></div>
-    <div class="panel"><div class="lbl">SECTOR</div><span class="v" id="hSector">α</span></div>
+    <div class="panel"><div class="lbl" id="hPlanetLbl">PLANETA</div><span class="v" id="hPlanet" style="font-size:18px">🌍</span></div>
   </div>
 </div>
 
@@ -177,48 +268,115 @@
 
 <div id="comboflash"></div>
 
-<!-- MENU PRINCIPAL -->
+<!-- MENU -->
 <div id="menu" class="overlay">
   <h1>NEXO</h1>
-  <div class="sub">CAMPO DE PULSOS</div>
-  <p>Absorbé cristales verdes. Esquivá o destruí enemigos rojos.<br>
-     Click = pulso de onda. Sobreviví. Avanzá por sectores. Derrotá guardianes.</p>
+  <div class="sub">VIAJE AL SOL</div>
+  <p>Recolectá estrellitas. Esquivá monstruitos espaciales.<br>
+     Viajá de la Tierra al Sol aprendiendo el sistema solar.</p>
   <div>
     <button id="btnStart">EMPEZAR</button>
-    <button id="btnContinue" class="secondary" style="display:none">CONTINUAR CHECKPOINT</button>
+    <button id="btnContinue" class="secondary" style="display:none">CONTINUAR</button>
   </div>
-  <p style="margin-top:24px;font-size:11px;opacity:0.5">RÉCORD: <span id="mRecord">0</span> · MÁX NIVEL: <span id="mMaxLevel">1</span></p>
+  <div style="margin-top:8px">
+    <button id="btnInstall" class="green" style="display:none;font-size:11px;padding:10px 24px;min-height:auto;min-width:auto">📲 INSTALAR APP</button>
+    <button id="btnHowInstall" class="secondary" style="font-size:10px;padding:8px 18px;min-height:auto;min-width:auto">¿CÓMO INSTALAR?</button>
+  </div>
+  <p style="margin-top:18px;font-size:10px;opacity:0.5">RÉCORD: <span id="mRecord">0</span> · MÁX NIVEL: <span id="mMaxLevel">1</span></p>
 </div>
 
-<!-- SHIP SELECT -->
+<!-- DIFICULTAD -->
+<div id="diffSelect" class="overlay" style="display:none">
+  <h1 style="font-size:38px">DIFICULTAD</h1>
+  <div id="difficulties">
+    <div class="diffcard facil" data-diff="facil">
+      <div class="emoji">😊</div>
+      <div class="name">FÁCIL</div>
+      <div class="desc">Más vida. Pulso barato. Pocos enemigos. Para nenes.</div>
+    </div>
+    <div class="diffcard medio" data-diff="medio">
+      <div class="emoji">😎</div>
+      <div class="name">MEDIO</div>
+      <div class="desc">Balanceado. Para todos.</div>
+    </div>
+    <div class="diffcard dificil" data-diff="dificil">
+      <div class="emoji">💀</div>
+      <div class="name">DIFÍCIL</div>
+      <div class="desc">Poca vida. Enemigos veloces. Para masocas.</div>
+    </div>
+  </div>
+  <button id="btnBackDiff" class="secondary">VOLVER</button>
+</div>
+
+<!-- SHIPS -->
 <div id="shipSelect" class="overlay" style="display:none">
-  <h1 style="font-size:44px">ELEGÍ TU NAVE</h1>
+  <h1 style="font-size:38px">ELEGÍ TU NAVE</h1>
   <div id="ships"></div>
-  <button id="btnBack" class="secondary">VOLVER</button>
+  <button id="btnBackShip" class="secondary">VOLVER</button>
 </div>
 
-<!-- SECTOR INTRO -->
-<div id="sectorIntro">
-  <div class="sn" id="siName">SECTOR α</div>
-  <div class="sl" id="siLabel">ESPACIO PROFUNDO</div>
-  <div class="ms" id="siMission">ABSORBÉ 8 CRISTALES</div>
+<!-- HOW TO INSTALL -->
+<div id="howInstall" class="overlay" style="display:none">
+  <h1 style="font-size:34px">CÓMO INSTALAR</h1>
+  <p style="text-align:left;line-height:2">
+    <b style="color:#4f8">📱 ANDROID (Chrome):</b><br>
+    1. Tocá el menú ⋮ arriba a la derecha<br>
+    2. Tocá "Instalar aplicación" o "Agregar a inicio"<br>
+    3. Confirmá<br><br>
+    <b style="color:#0ff">🍎 IPHONE (Safari):</b><br>
+    1. Tocá el botón compartir ⎙ (abajo en el centro)<br>
+    2. Scrolleá y tocá "Agregar a inicio"<br>
+    3. Confirmá<br><br>
+    <span style="color:#ff8;font-size:11px">⚠️ No funciona desde WhatsApp/Instagram.<br>Abrí el link en Chrome o Safari directo.</span>
+  </p>
+  <button id="btnBackHow" class="secondary">VOLVER</button>
+</div>
+
+<!-- TUTORIAL -->
+<div id="tutorial">
+  <h1 style="font-size:32px;letter-spacing:8px">CÓMO JUGAR</h1>
+  <div class="step"><span class="ic">👆</span>ARRASTRÁ PARA MOVER LA NAVE</div>
+  <div class="step"><span class="ic">⭐</span>TOCÁ ESTRELLITAS PARA SUMAR</div>
+  <div class="step"><span class="ic">👾</span>EVITÁ A LOS MONSTRUITOS</div>
+  <div class="step"><span class="ic">✌️</span>DOBLE TAP = PULSO DE ONDA</div>
+  <button id="btnTutorialOk">¡A JUGAR!</button>
+</div>
+
+<!-- PLANET INTRO -->
+<div id="planetIntro">
+  <div class="pemoji" id="piEmoji">🌍</div>
+  <div class="pname" id="piName">TIERRA</div>
+  <div class="pdist" id="piDist">DISTANCIA AL SOL: 150M KM</div>
+  <div class="pfact" id="piFact">Tu hogar.</div>
+  <div class="pmission" id="piMission">ABSORBÉ 8 ESTRELLAS</div>
 </div>
 
 <!-- LEVEL COMPLETE -->
 <div id="levelComplete" class="overlay" style="display:none">
-  <h1 style="font-size:54px;color:#4f8;text-shadow:0 0 40px #4f8" id="lcTitle">NIVEL SUPERADO</h1>
+  <h1 style="font-size:44px;color:#4f8;text-shadow:0 0 40px #4f8" id="lcTitle">NIVEL SUPERADO</h1>
   <div class="stat">SCORE: <span class="num" id="lcScore">0</span></div>
   <div class="stat">COMBO MÁX: <span class="num" id="lcMaxCombo">x1</span></div>
-  <div class="stat" style="font-size:11px;margin-top:18px;color:#0ff;letter-spacing:4px">CHECKPOINT GUARDADO</div>
-  <button id="btnNext">SIGUIENTE NIVEL</button>
+  <div class="stat" style="font-size:10px;margin-top:14px;color:#0ff;letter-spacing:3px">CHECKPOINT GUARDADO</div>
+  <button id="btnNext">SIGUIENTE</button>
 </div>
 
-<!-- BOSS DEFEAT -->
-<div id="bossDefeat" class="overlay" style="display:none">
-  <h1 style="font-size:54px;color:#ff8;text-shadow:0 0 40px #ff0">JEFE DERROTADO</h1>
-  <div class="sub" id="bdSub">SECTOR SUPERADO</div>
-  <div class="stat">SCORE: <span class="num" id="bdScore">0</span></div>
-  <button id="btnNextSector">AVANZAR AL SIGUIENTE SECTOR</button>
+<!-- PLANET REACHED -->
+<div id="planetReached" class="overlay" style="display:none">
+  <div style="font-size:96px" id="prEmoji">🌕</div>
+  <h1 style="font-size:42px;color:#ff8;text-shadow:0 0 40px #ff0;letter-spacing:8px" id="prTitle">¡LLEGASTE A LA LUNA!</h1>
+  <p id="prFact" style="margin:18px 0;max-width:500px"></p>
+  <div class="stat">SCORE: <span class="num" id="prScore">0</span></div>
+  <button id="btnNextPlanet">SEGUIR VIAJE</button>
+</div>
+
+<!-- VICTORY (sol alcanzado) -->
+<div id="victory" class="overlay" style="display:none">
+  <div style="font-size:120px;animation:spin 4s linear infinite">☀️</div>
+  <h1 style="font-size:42px;color:#ff8;text-shadow:0 0 50px #ff0;letter-spacing:6px">¡LLEGASTE AL SOL!</h1>
+  <p>Viajaste de la Tierra al corazón del sistema solar.</p>
+  <div class="stat">SCORE FINAL: <span class="num" id="vScore">0</span></div>
+  <button id="btnEndless" class="green">MODO INFINITO</button>
+  <button id="btnVictoryMenu" class="secondary">MENÚ</button>
 </div>
 
 <!-- GAME OVER -->
@@ -227,24 +385,31 @@
   <div class="stat">SCORE: <span class="num" id="goScore">0</span></div>
   <div class="stat">NIVEL: <span class="num" id="goLevel">1</span></div>
   <div class="stat">RÉCORD: <span class="num" id="goRecord">0</span></div>
-  <div style="margin-top:24px">
-    <button id="btnContinueFromCp" style="display:none">CONTINUAR CHECKPOINT</button>
+  <div style="margin-top:18px">
+    <button id="btnContinueFromCp" style="display:none">CONTINUAR</button>
     <button id="btnRestart">MENÚ</button>
   </div>
 </div>
 
 <!-- PAUSE -->
 <div id="paused" class="overlay" style="display:none;background:rgba(0,0,0,0.85)">
-  <h1 style="font-size:48px">PAUSA</h1>
+  <h1 style="font-size:42px">PAUSA</h1>
   <button id="btnResume">CONTINUAR</button>
   <button id="btnQuit" class="secondary">SALIR AL MENÚ</button>
 </div>
 
-<div id="pauseHint">ESC = PAUSA · CLICK = PULSO</div>
+<!-- INSTALL BANNER (auto) -->
+<div id="installBanner">
+  📲 Instalá NEXO en tu celu para jugar offline
+  <button id="btnInstallBanner" class="green">INSTALAR</button>
+  <button id="btnDismissBanner" class="secondary" style="background:transparent;color:#888;border-color:#444">×</button>
+</div>
+
+<div id="pauseHint">DOBLE TAP = PULSO</div>
 
 <script>
 // ════════════════════════════════════════════════════════════
-//  NEXO — Campo de Pulsos
+//  NEXO — Viaje al Sol
 // ════════════════════════════════════════════════════════════
 
 const canvas = document.getElementById('game');
@@ -253,28 +418,103 @@ let W, H;
 function resize() { W = canvas.width = innerWidth; H = canvas.height = innerHeight; }
 resize(); addEventListener('resize', resize);
 
-// ─── Audio ───
+// ─── Audio (SFX + música) ───
 let audioCtx = null;
-function initAudio() { if (!audioCtx) try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {} }
+let masterGain = null;
+let musicGain = null;
+let muted = localStorage.getItem('nexo_muted') === '1';
+
+function initAudio() {
+  if (audioCtx) return;
+  try {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+    masterGain = audioCtx.createGain();
+    masterGain.gain.value = muted ? 0 : 1;
+    masterGain.connect(audioCtx.destination);
+    musicGain = audioCtx.createGain();
+    musicGain.gain.value = 0.25;
+    musicGain.connect(masterGain);
+  } catch(e) {}
+}
+
+function setMuted(m) {
+  muted = m;
+  localStorage.setItem('nexo_muted', m ? '1' : '0');
+  if (masterGain) masterGain.gain.value = m ? 0 : 1;
+  document.getElementById('btnMute').textContent = m ? '🔇' : '♪';
+}
+
 function beep(freq, dur=0.08, type='sine', vol=0.06) {
-  if (!audioCtx) return;
+  if (!audioCtx || muted) return;
   const o = audioCtx.createOscillator(), g = audioCtx.createGain();
   o.type = type; o.frequency.value = freq;
   g.gain.setValueAtTime(vol, audioCtx.currentTime);
   g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
-  o.connect(g); g.connect(audioCtx.destination);
+  o.connect(g); g.connect(masterGain);
   o.start(); o.stop(audioCtx.currentTime + dur);
 }
 const sfx = {
   collect: () => { beep(660, 0.06, 'triangle', 0.04); setTimeout(() => beep(990, 0.06, 'triangle', 0.04), 50); },
   kill:    () => beep(180, 0.12, 'sawtooth', 0.05),
-  hit:     () => beep(110, 0.2, 'sawtooth', 0.08),
+  hit:     () => { beep(110, 0.2, 'sawtooth', 0.08); haptic(30); },
   pulse:   () => { beep(180, 0.15, 'sawtooth', 0.04); beep(90, 0.2, 'sine', 0.04); },
-  bomb:    () => beep(60, 0.4, 'sawtooth', 0.09),
+  bomb:    () => { beep(60, 0.4, 'sawtooth', 0.09); haptic(80); },
   laser:   () => beep(800, 0.04, 'sawtooth', 0.025),
-  win:     () => { beep(523, 0.1, 'triangle', 0.06); setTimeout(() => beep(659, 0.1, 'triangle', 0.06), 100); setTimeout(() => beep(784, 0.2, 'triangle', 0.06), 200); },
-  lose:    () => { beep(180, 0.3, 'sawtooth', 0.08); setTimeout(() => beep(120, 0.3, 'sawtooth', 0.08), 150); setTimeout(() => beep(80, 0.5, 'sawtooth', 0.08), 300); },
+  win:     () => { beep(523, 0.1, 'triangle', 0.06); setTimeout(() => beep(659, 0.1, 'triangle', 0.06), 100); setTimeout(() => beep(784, 0.2, 'triangle', 0.06), 200); haptic([20, 30, 40]); },
+  lose:    () => { beep(180, 0.3, 'sawtooth', 0.08); setTimeout(() => beep(120, 0.3, 'sawtooth', 0.08), 150); setTimeout(() => beep(80, 0.5, 'sawtooth', 0.08), 300); haptic([100, 50, 200]); },
 };
+
+function haptic(pattern) {
+  if (navigator.vibrate) navigator.vibrate(pattern);
+}
+
+// ─── Música procedural ───
+let musicTimer = null;
+let musicStep = 0;
+function startMusic(planetIdx) {
+  stopMusic();
+  if (!audioCtx) return;
+  const planet = PLANETS[planetIdx];
+  const scale = planet.music.scale;
+  const baseHz = planet.music.base;
+  const tempo = planet.music.tempo;
+  const stepMs = 60000 / tempo / 4;
+  musicStep = 0;
+  musicTimer = setInterval(() => {
+    if (muted) return;
+    const beat = musicStep % 16;
+    // Bass cada 4 steps
+    if (beat % 4 === 0) {
+      const note = scale[(musicStep >> 2) % scale.length];
+      playNote(baseHz / 2 * Math.pow(2, note / 12), 0.4, 'triangle', 0.15);
+    }
+    // Lead
+    if (beat % 2 === 0 || Math.random() < 0.3) {
+      const note = scale[Math.floor(Math.random() * scale.length)];
+      const oct = Math.random() < 0.4 ? 2 : 1;
+      playNote(baseHz * oct * Math.pow(2, note / 12), 0.2, 'square', 0.04);
+    }
+    // Hi (sparkle)
+    if (beat === 8 || beat === 12) {
+      const note = scale[Math.floor(Math.random() * scale.length)];
+      playNote(baseHz * 4 * Math.pow(2, note / 12), 0.08, 'sine', 0.03);
+    }
+    musicStep++;
+  }, stepMs);
+}
+function playNote(freq, dur, type, vol) {
+  if (!audioCtx || muted) return;
+  const o = audioCtx.createOscillator(), g = audioCtx.createGain();
+  o.type = type; o.frequency.value = freq;
+  g.gain.setValueAtTime(0, audioCtx.currentTime);
+  g.gain.linearRampToValueAtTime(vol, audioCtx.currentTime + 0.01);
+  g.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + dur);
+  o.connect(g); g.connect(musicGain);
+  o.start(); o.stop(audioCtx.currentTime + dur);
+}
+function stopMusic() {
+  if (musicTimer) { clearInterval(musicTimer); musicTimer = null; }
+}
 
 // ═══ Naves ═══
 const SHIPS = {
@@ -299,22 +539,42 @@ const SHIPS = {
   },
 };
 
-// ═══ Sectores ═══
-const SECTORS = [
-  { name: 'α', label: 'ESPACIO PROFUNDO', bg: 'space',    tint: '#000010', accent: '#0ff' },
-  { name: 'β', label: 'NEBULOSA CARMÍN',  bg: 'nebula',   tint: '#1a0210', accent: '#f48' },
-  { name: 'γ', label: 'CINTURÓN ROTO',    bg: 'asteroid', tint: '#181208', accent: '#f80' },
-  { name: 'δ', label: 'ESTACIÓN CAÍDA',   bg: 'station',  tint: '#100a18', accent: '#a4f' },
-  { name: 'Ω', label: 'SINGULARIDAD',     bg: 'void',     tint: '#000000', accent: '#fff' },
+// ═══ Dificultad ═══
+const DIFFICULTIES = {
+  facil:   { vidaMult: 1.8, dmgMult: 0.5, spawnMult: 1.6, regenMult: 1.6, scoreMult: 0.7 },
+  medio:   { vidaMult: 1.0, dmgMult: 1.0, spawnMult: 1.0, regenMult: 1.0, scoreMult: 1.0 },
+  dificil: { vidaMult: 0.7, dmgMult: 1.5, spawnMult: 0.7, regenMult: 0.75, scoreMult: 1.5 },
+};
+
+// ═══ Planetas (sectores) ═══
+const PLANETS = [
+  { name: 'TIERRA',  emoji: '🌍', dist: 'CASA',         color: '#4af', tint: '#000a18',
+    fact: 'Tu hogar. Único planeta conocido con vida. Tiene 1 luna.',
+    bg: 'earth',   music: { base: 220, scale: [0,2,4,7,9], tempo: 95 } },
+  { name: 'LUNA',    emoji: '🌕', dist: '384.000 KM',   color: '#ccc', tint: '#0a0a14',
+    fact: 'Único satélite natural de la Tierra. Sin atmósfera. Sin sonido.',
+    bg: 'moon',    music: { base: 196, scale: [0,2,3,5,7,10], tempo: 80 } },
+  { name: 'MARTE',   emoji: '🔴', dist: '78M KM',       color: '#f64', tint: '#1a0808',
+    fact: 'El Planeta Rojo. Tiene el volcán más grande: Olympus Mons (22 km).',
+    bg: 'mars',    music: { base: 247, scale: [0,2,3,5,7,8,11], tempo: 105 } },
+  { name: 'JÚPITER', emoji: '🪐', dist: '628M KM',      color: '#fa4', tint: '#1a1408',
+    fact: 'Gigante gaseoso. Tiene 95 lunas. Su tormenta dura 350 años.',
+    bg: 'jupiter', music: { base: 174, scale: [0,1,3,5,7,8,10], tempo: 115 } },
+  { name: 'SATURNO', emoji: '💫', dist: '1.4B KM',      color: '#fc8', tint: '#181208',
+    fact: 'Famoso por sus anillos de hielo y roca. 146 lunas.',
+    bg: 'saturn',  music: { base: 208, scale: [0,2,4,6,7,9,11], tempo: 100 } },
+  { name: 'SOL',     emoji: '☀️', dist: 'EL CORAZÓN',  color: '#ff4', tint: '#1a1000',
+    fact: 'La estrella del sistema. 99,86% de toda la masa. 5.500°C en la superficie.',
+    bg: 'sun',     music: { base: 277, scale: [0,1,4,5,7,8,11], tempo: 135 } },
 ];
 
-// ═══ Tipos de enemigo ═══
+// ═══ Enemigos ═══
 const ENEMY_TYPES = {
-  drone:      { vida: 1, vel: 0.7, color: '#f44', glow: '#f00', size: 13, score: 10, intro: 1, draw: drawDrone },
-  caza:       { vida: 2, vel: 1.1, color: '#f80', glow: '#f40', size: 15, score: 25, intro: 3, draw: drawCaza, shoots: true, shootRate: 2400 },
-  bombardero: { vida: 3, vel: 0.4, color: '#a0f', glow: '#80f', size: 20, score: 50, intro: 5, draw: drawBombardero, bombs: true, bombRate: 2800 },
-  cañonero:   { vida: 2, vel: 0.5, color: '#f08', glow: '#f04', size: 17, score: 40, intro: 7, draw: drawCañonero, shoots: true, shootRate: 1700 },
-  acechador:  { vida: 4, vel: 1.4, color: '#f04', glow: '#a00', size: 17, score: 70, intro: 11, draw: drawAcechador },
+  drone:      { vida: 1, vel: 0.7, color: '#f44', size: 14, score: 10, intro: 1, draw: drawDrone, mood: 'angry' },
+  caza:       { vida: 2, vel: 1.1, color: '#f80', size: 16, score: 25, intro: 3, draw: drawCaza, shoots: true, shootRate: 2400 },
+  bombardero: { vida: 3, vel: 0.4, color: '#a0f', size: 22, score: 50, intro: 5, draw: drawBombardero, bombs: true, bombRate: 2800 },
+  cañonero:   { vida: 2, vel: 0.5, color: '#f08', size: 18, score: 40, intro: 7, draw: drawCañonero, shoots: true, shootRate: 1700 },
+  acechador:  { vida: 4, vel: 1.4, color: '#f04', size: 18, score: 70, intro: 11, draw: drawAcechador },
 };
 
 // ═══ Estado ═══
@@ -322,7 +582,8 @@ const game = {
   state: 'menu',
   level: 1, sector: 0,
   score: 0, combo: 1, maxCombo: 1,
-  shipType: 'eco',
+  shipType: localStorage.getItem('nexo_ship') || 'eco',
+  difficulty: localStorage.getItem('nexo_diff') || 'medio',
   vida: 100, energia: 100,
   mission: null, missionTime: 0,
   enemies: [], cristales: [], projectiles: [], bombs: [],
@@ -330,6 +591,7 @@ const game = {
   shake: 0, spawnTimer: 0, cristalTimer: 0,
   spawnInterval: 1200, cristalInterval: 600,
   comboTimer: 0,
+  endless: false,
 };
 
 let mouseX = innerWidth / 2, mouseY = innerHeight / 2;
@@ -337,6 +599,8 @@ let shipX = mouseX, shipY = mouseY;
 let shipAngle = 0;
 let lastTime = performance.now();
 let pulseCooldown = 0;
+let lastTouchPulse = 0;
+let tutorialShown = localStorage.getItem('nexo_tut') === '1';
 
 const records = {
   high: +localStorage.getItem('nexo_high2') || 0,
@@ -360,8 +624,24 @@ function initStars() {
 initStars();
 
 // ═══════════════════════════════════════════
-//  DIBUJO (todas reciben ctx)
+//  DIBUJO DE NAVES
 // ═══════════════════════════════════════════
+
+function drawSmile(c, x, y, size, color = '#000', happy = true) {
+  // Cara cute: dos ojos + boca
+  c.fillStyle = color;
+  const eyeR = size * 0.12;
+  c.beginPath(); c.arc(x - size * 0.25, y - size * 0.1, eyeR, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(x + size * 0.25, y - size * 0.1, eyeR, 0, Math.PI * 2); c.fill();
+  c.strokeStyle = color; c.lineWidth = Math.max(1, size * 0.06);
+  c.beginPath();
+  if (happy) {
+    c.arc(x, y + size * 0.1, size * 0.25, 0.15 * Math.PI, 0.85 * Math.PI);
+  } else {
+    c.arc(x, y + size * 0.35, size * 0.25, 1.15 * Math.PI, 1.85 * Math.PI);
+  }
+  c.stroke();
+}
 
 function drawShipSaeta(c, x, y, angle, color, glow, size = 18) {
   c.save();
@@ -375,8 +655,13 @@ function drawShipSaeta(c, x, y, angle, color, glow, size = 18) {
   c.lineTo(-size * 0.6, size * 0.7);
   c.closePath(); c.fill();
   c.shadowBlur = 0;
+  // Ventanita feliz
+  c.rotate(-angle);
   c.fillStyle = '#fff';
-  c.beginPath(); c.arc(size * 0.2, 0, size * 0.25, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(0, 0, size * 0.4, 0, Math.PI * 2); c.fill();
+  drawSmile(c, 0, 0, size * 0.7, '#000');
+  c.rotate(angle);
+  // Llama del motor
   c.fillStyle = '#ff8'; c.globalAlpha = 0.75;
   c.beginPath();
   c.moveTo(-size * 0.5, -size * 0.3);
@@ -400,21 +685,23 @@ function drawShipCoraza(c, x, y, angle, color, glow, size = 20) {
   }
   c.closePath(); c.fill();
   c.shadowBlur = 0;
-  c.fillStyle = '#fff';
-  c.beginPath(); c.arc(0, 0, size * 0.45, 0, Math.PI * 2); c.fill();
-  c.fillStyle = color;
-  c.beginPath(); c.arc(0, 0, size * 0.22, 0, Math.PI * 2); c.fill();
   c.fillStyle = color;
   c.fillRect(size * 0.4, -size * 0.18, size * 0.55, size * 0.36);
+  // Cara
+  c.rotate(-angle);
+  c.fillStyle = '#fff';
+  c.beginPath(); c.arc(0, 0, size * 0.55, 0, Math.PI * 2); c.fill();
+  drawSmile(c, 0, 0, size * 0.9, '#003');
   c.restore();
 }
 
 function drawShipEco(c, x, y, angle, color, glow, size = 16) {
   c.save();
-  c.translate(x, y); c.rotate(angle);
+  c.translate(x, y);
   c.shadowBlur = 20; c.shadowColor = glow;
   c.fillStyle = '#fff';
-  c.beginPath(); c.arc(0, 0, size * 0.55, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(0, 0, size * 0.75, 0, Math.PI * 2); c.fill();
+  drawSmile(c, 0, 0, size * 1.2, '#024');
   c.shadowBlur = 0;
   c.strokeStyle = color; c.lineWidth = 3;
   c.beginPath(); c.arc(0, 0, size, 0, Math.PI * 2); c.stroke();
@@ -423,8 +710,8 @@ function drawShipEco(c, x, y, angle, color, glow, size = 16) {
   for (let i = 0; i < 3; i++) {
     const ang = a + (i / 3) * Math.PI * 2;
     c.beginPath();
-    c.moveTo(Math.cos(ang) * size * 0.7, Math.sin(ang) * size * 0.7);
-    c.lineTo(Math.cos(ang + 0.4) * size * 1.15, Math.sin(ang + 0.4) * size * 1.15);
+    c.moveTo(Math.cos(ang) * size * 0.95, Math.sin(ang) * size * 0.95);
+    c.lineTo(Math.cos(ang + 0.4) * size * 1.25, Math.sin(ang + 0.4) * size * 1.25);
     c.stroke();
   }
   c.restore();
@@ -437,52 +724,63 @@ function drawShip(type, x, y, angle, size) {
   else drawShipEco(ctx, x, y, angle, s.color, s.glow, size);
 }
 
-// ─── Cristal verde ───
-function drawCristal(c, x, y, t, size = 9) {
+// ─── Estrellita (cristal) ───
+function drawCristal(c, x, y, t, size = 11) {
   c.save();
   c.translate(x, y);
-  c.rotate(t * 0.0015);
-  c.shadowBlur = 18; c.shadowColor = '#4f8';
-  c.fillStyle = '#4f8';
+  c.rotate(Math.sin(t * 0.002) * 0.2);
+  // Glow
+  c.shadowBlur = 22; c.shadowColor = '#ff8';
+  // Estrella de 5 puntas
+  c.fillStyle = '#ff8';
   c.beginPath();
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * Math.PI * 2;
-    const px = Math.cos(a) * size, py = Math.sin(a) * size;
-    if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
-  }
-  c.closePath(); c.fill();
-  c.shadowBlur = 0;
-  c.fillStyle = '#fff'; c.globalAlpha = 0.9;
-  c.beginPath(); c.arc(0, 0, size * 0.45, 0, Math.PI * 2); c.fill();
-  c.globalAlpha = 1;
-  c.restore();
-}
-
-// ─── Enemigos ───
-function drawDrone(c, x, y, angle, t, size = 13) {
-  c.save(); c.translate(x, y); c.rotate(angle);
-  c.shadowBlur = 12; c.shadowColor = '#f00';
-  c.fillStyle = '#f44';
-  c.beginPath();
-  for (let i = 0; i < 6; i++) {
-    const a = (i / 6) * Math.PI * 2;
-    const r = i % 2 === 0 ? size : size * 0.7;
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2 - Math.PI / 2;
+    const r = i % 2 === 0 ? size * 1.2 : size * 0.5;
     const px = Math.cos(a) * r, py = Math.sin(a) * r;
     if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
   }
   c.closePath(); c.fill();
   c.shadowBlur = 0;
-  c.fillStyle = '#fff';
-  c.beginPath(); c.arc(0, 0, size * 0.4, 0, Math.PI * 2); c.fill();
-  c.fillStyle = '#f00';
-  c.beginPath(); c.arc(0, 0, size * 0.2, 0, Math.PI * 2); c.fill();
+  // Carita feliz
+  drawSmile(c, 0, 0, size * 0.9, '#840');
   c.restore();
 }
 
-function drawCaza(c, x, y, angle, t, size = 15) {
+// ─── Enemigos (monstruitos enojados pero cute) ───
+function drawDrone(c, x, y, angle, t, size = 14) {
+  // Meteorito enojado
+  c.save(); c.translate(x, y);
+  c.shadowBlur = 12; c.shadowColor = '#f00';
+  c.fillStyle = '#f55';
+  c.beginPath();
+  const wobble = (i) => 1 + Math.sin(t * 0.005 + i) * 0.15;
+  for (let i = 0; i < 10; i++) {
+    const a = (i / 10) * Math.PI * 2;
+    const r = size * wobble(i);
+    const px = Math.cos(a) * r, py = Math.sin(a) * r;
+    if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
+  }
+  c.closePath(); c.fill();
+  c.shadowBlur = 0;
+  // Cara enojada
+  drawSmile(c, 0, 0, size * 1.1, '#400', false);
+  // Cejas enojadas
+  c.strokeStyle = '#400'; c.lineWidth = size * 0.1;
+  c.beginPath();
+  c.moveTo(-size * 0.45, -size * 0.35);
+  c.lineTo(-size * 0.1, -size * 0.18);
+  c.moveTo(size * 0.45, -size * 0.35);
+  c.lineTo(size * 0.1, -size * 0.18);
+  c.stroke();
+  c.restore();
+}
+
+function drawCaza(c, x, y, angle, t, size = 16) {
+  // Cohetito malvado
   c.save(); c.translate(x, y); c.rotate(angle);
   c.shadowBlur = 14; c.shadowColor = '#f40';
-  c.fillStyle = '#f80';
+  c.fillStyle = '#f93';
   c.beginPath();
   c.moveTo(size, 0);
   c.lineTo(-size * 0.7, -size * 0.9);
@@ -490,34 +788,52 @@ function drawCaza(c, x, y, angle, t, size = 15) {
   c.lineTo(-size * 0.7, size * 0.9);
   c.closePath(); c.fill();
   c.shadowBlur = 0;
-  c.fillStyle = '#f00';
-  c.beginPath(); c.arc(size * 0.2, 0, size * 0.25, 0, Math.PI * 2); c.fill();
   c.fillStyle = '#fa0';
   c.fillRect(-size * 0.3, -size * 0.95, size * 0.15, size * 0.3);
   c.fillRect(-size * 0.3, size * 0.65, size * 0.15, size * 0.3);
+  // Cara
+  c.rotate(-angle);
+  c.fillStyle = '#fff';
+  c.beginPath(); c.arc(0, 0, size * 0.4, 0, Math.PI * 2); c.fill();
+  drawSmile(c, 0, 0, size * 0.65, '#600', false);
   c.restore();
 }
 
-function drawBombardero(c, x, y, angle, t, size = 20) {
-  c.save(); c.translate(x, y); c.rotate(angle);
+function drawBombardero(c, x, y, angle, t, size = 22) {
+  // Slime morado
+  c.save(); c.translate(x, y);
   c.shadowBlur = 20; c.shadowColor = '#80f';
   c.fillStyle = '#a0f';
-  c.beginPath(); c.arc(0, 0, size, 0, Math.PI * 2); c.fill();
+  const sq = 1 + Math.sin(t * 0.006) * 0.08;
+  c.beginPath();
+  c.ellipse(0, 0, size * sq, size / sq, 0, 0, Math.PI * 2);
+  c.fill();
   c.shadowBlur = 0;
   c.strokeStyle = '#f0f'; c.lineWidth = 3;
   c.beginPath(); c.arc(0, 0, size * 0.7, 0, Math.PI * 2); c.stroke();
-  const pulseAmt = 0.7 + Math.sin(t * 0.008) * 0.3;
-  c.fillStyle = '#fff'; c.shadowBlur = 12; c.shadowColor = '#f0f';
+  // Cara malvada
+  drawSmile(c, 0, 0, size * 1.0, '#208', false);
+  // Cejas
+  c.strokeStyle = '#208'; c.lineWidth = size * 0.08;
+  c.beginPath();
+  c.moveTo(-size * 0.45, -size * 0.32);
+  c.lineTo(-size * 0.1, -size * 0.22);
+  c.moveTo(size * 0.45, -size * 0.32);
+  c.lineTo(size * 0.1, -size * 0.22);
+  c.stroke();
+  // Bombas orbitando
+  c.fillStyle = '#ff8';
   for (let i = 0; i < 3; i++) {
     const a = (i / 3) * Math.PI * 2 + t * 0.001;
     c.beginPath();
-    c.arc(Math.cos(a) * size * 0.5, Math.sin(a) * size * 0.5, 3 * pulseAmt, 0, Math.PI * 2);
+    c.arc(Math.cos(a) * size * 1.1, Math.sin(a) * size * 1.1, 3, 0, Math.PI * 2);
     c.fill();
   }
   c.restore();
 }
 
-function drawCañonero(c, x, y, angle, t, size = 17) {
+function drawCañonero(c, x, y, angle, t, size = 18) {
+  // Robotito con cañón
   c.save(); c.translate(x, y); c.rotate(angle);
   c.shadowBlur = 16; c.shadowColor = '#f04';
   c.fillStyle = '#f08';
@@ -531,12 +847,15 @@ function drawCañonero(c, x, y, angle, t, size = 17) {
   c.shadowBlur = 0;
   c.fillStyle = '#fff';
   c.fillRect(size * 0.5, -size * 0.2, size * 0.6, size * 0.4);
-  c.fillStyle = '#f44';
-  c.beginPath(); c.arc(0, 0, size * 0.35, 0, Math.PI * 2); c.fill();
+  c.rotate(-angle);
+  c.fillStyle = '#fff';
+  c.beginPath(); c.arc(0, 0, size * 0.5, 0, Math.PI * 2); c.fill();
+  drawSmile(c, 0, 0, size * 0.85, '#600', false);
   c.restore();
 }
 
-function drawAcechador(c, x, y, angle, t, size = 17) {
+function drawAcechador(c, x, y, angle, t, size = 18) {
+  // Pulpito con muchos ojos
   c.save(); c.translate(x, y); c.rotate(angle + t * 0.003);
   c.shadowBlur = 18; c.shadowColor = '#a00';
   c.fillStyle = '#f04';
@@ -552,17 +871,21 @@ function drawAcechador(c, x, y, angle, t, size = 17) {
     c.restore();
   }
   c.shadowBlur = 0;
+  c.rotate(-(angle + t * 0.003));
   c.fillStyle = '#fff';
-  c.beginPath(); c.arc(0, 0, size * 0.45, 0, Math.PI * 2); c.fill();
-  c.fillStyle = '#f00';
-  c.beginPath(); c.arc(0, 0, size * 0.25, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(0, 0, size * 0.55, 0, Math.PI * 2); c.fill();
+  // 3 ojitos enojados
+  c.fillStyle = '#400';
+  c.beginPath(); c.arc(-size * 0.2, -size * 0.1, size * 0.1, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(size * 0.2, -size * 0.1, size * 0.1, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(0, size * 0.15, size * 0.08, 0, Math.PI * 2); c.fill();
   c.restore();
 }
 
 // ─── Boss ───
 function drawBoss(c, boss, t) {
   c.save(); c.translate(boss.x, boss.y); c.rotate(boss.angle);
-  c.shadowBlur = 35; c.shadowColor = boss.color;
+  c.shadowBlur = 40; c.shadowColor = boss.color;
   c.fillStyle = boss.color;
   c.beginPath();
   for (let i = 0; i < 12; i++) {
@@ -575,11 +898,19 @@ function drawBoss(c, boss, t) {
   c.shadowBlur = 0;
   c.strokeStyle = '#fff'; c.lineWidth = 4;
   c.beginPath(); c.arc(0, 0, boss.size * 0.55, 0, Math.PI * 2); c.stroke();
+  c.rotate(-boss.angle);
+  // Cara enojada grande
   c.fillStyle = '#fff';
-  c.beginPath(); c.arc(0, 0, boss.size * 0.4, 0, Math.PI * 2); c.fill();
-  c.fillStyle = boss.color;
-  const pupil = 0.22 + Math.sin(t * 0.005) * 0.05;
-  c.beginPath(); c.arc(0, 0, boss.size * pupil, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(0, 0, boss.size * 0.45, 0, Math.PI * 2); c.fill();
+  drawSmile(c, 0, 0, boss.size * 0.8, '#200', false);
+  // Cejas enojadas
+  c.strokeStyle = '#200'; c.lineWidth = boss.size * 0.07;
+  c.beginPath();
+  c.moveTo(-boss.size * 0.42, -boss.size * 0.28);
+  c.lineTo(-boss.size * 0.12, -boss.size * 0.12);
+  c.moveTo(boss.size * 0.42, -boss.size * 0.28);
+  c.lineTo(boss.size * 0.12, -boss.size * 0.12);
+  c.stroke();
   c.restore();
 }
 
@@ -591,31 +922,28 @@ function renderShipPreview(canvasEl, type) {
   const s = SHIPS[type];
   const w = canvasEl.width, h = canvasEl.height;
   c.clearRect(0, 0, w, h);
-  // fondo estrellado mini
   c.fillStyle = '#000a18';
   c.fillRect(0, 0, w, h);
-  for (let i = 0; i < 12; i++) {
+  for (let i = 0; i < 14; i++) {
     c.fillStyle = `rgba(255,255,255,${Math.random() * 0.4 + 0.1})`;
     c.fillRect(Math.random() * w, Math.random() * h, 1, 1);
   }
   const cx = w / 2, cy = h / 2;
-  if (type === 'saeta') drawShipSaeta(c, cx, cy, 0, s.color, s.glow, 28);
-  else if (type === 'coraza') drawShipCoraza(c, cx, cy, 0, s.color, s.glow, 30);
-  else drawShipEco(c, cx, cy, 0, s.color, s.glow, 28);
+  if (type === 'saeta') drawShipSaeta(c, cx, cy, 0, s.color, s.glow, 24);
+  else if (type === 'coraza') drawShipCoraza(c, cx, cy, 0, s.color, s.glow, 26);
+  else drawShipEco(c, cx, cy, 0, s.color, s.glow, 24);
 }
 function animateShipPreviews() {
-  document.querySelectorAll('.shipcard canvas').forEach(c => {
-    renderShipPreview(c, c.dataset.ship);
-  });
+  document.querySelectorAll('.shipcard canvas').forEach(c => renderShipPreview(c, c.dataset.ship));
   if (game.state === 'shipSelect') requestAnimationFrame(animateShipPreviews);
 }
 
 // ═══════════════════════════════════════════
-//  FONDOS
+//  FONDOS POR PLANETA
 // ═══════════════════════════════════════════
 function drawBackground(t) {
-  const sec = SECTORS[game.sector];
-  ctx.fillStyle = sec.tint;
+  const p = PLANETS[Math.min(game.sector, PLANETS.length - 1)];
+  ctx.fillStyle = p.tint;
   ctx.fillRect(0, 0, W, H);
 
   for (let s of game.stars) {
@@ -626,47 +954,89 @@ function drawBackground(t) {
     ctx.fillRect(s.x, s.y, s.r, s.r);
   }
 
-  if (sec.bg === 'nebula') {
-    for (let i = 0; i < 4; i++) {
-      const cx = (Math.sin(t * 0.0001 + i) * 0.5 + 0.5) * W;
-      const cy = (Math.cos(t * 0.00013 + i * 2) * 0.5 + 0.5) * H;
-      const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, 350);
-      g.addColorStop(0, `rgba(255,80,160,0.18)`);
-      g.addColorStop(1, 'transparent');
-      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+  if (p.bg === 'earth') {
+    // Tierra debajo
+    const eY = H + 200 - Math.sin(t * 0.0001) * 30;
+    const grad = ctx.createRadialGradient(W/2, eY, 50, W/2, eY, 400);
+    grad.addColorStop(0, 'rgba(70,150,250,0.5)');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.beginPath(); ctx.arc(W/2, eY, 350, 0, Math.PI * 2); ctx.fill();
+    // Continentes verdes
+    ctx.fillStyle = 'rgba(80,180,100,0.3)';
+    ctx.beginPath(); ctx.arc(W/2 - 100, eY - 100, 60, 0, Math.PI * 2); ctx.fill();
+    ctx.beginPath(); ctx.arc(W/2 + 80, eY - 80, 40, 0, Math.PI * 2); ctx.fill();
+  } else if (p.bg === 'moon') {
+    // Luna gris con cráteres
+    const mY = H + 150;
+    ctx.fillStyle = 'rgba(180,180,200,0.3)';
+    ctx.beginPath(); ctx.arc(W/2, mY, 300, 0, Math.PI * 2); ctx.fill();
+    ctx.fillStyle = 'rgba(120,120,140,0.5)';
+    for (let i = 0; i < 8; i++) {
+      const cx = W/2 + Math.cos(i) * 200;
+      const cy = mY - 30 + Math.sin(i * 2) * 60;
+      ctx.beginPath(); ctx.arc(cx, cy, 15 + (i % 3) * 8, 0, Math.PI * 2); ctx.fill();
     }
-  } else if (sec.bg === 'asteroid') {
-    for (let i = 0; i < 10; i++) {
-      const ax = ((t * 0.03 + i * 200) % (W + 200)) - 100;
-      const ay = (Math.sin(t * 0.0003 + i) * 0.5 + 0.5) * H;
-      ctx.fillStyle = `rgba(140,100,60,0.45)`;
-      ctx.beginPath();
-      ctx.arc(ax, ay, 16 + i * 3, 0, Math.PI * 2);
-      ctx.fill();
+  } else if (p.bg === 'mars') {
+    // Marte rojizo + tormenta de polvo
+    const mY = H + 180;
+    const grad = ctx.createRadialGradient(W/2, mY, 50, W/2, mY, 400);
+    grad.addColorStop(0, 'rgba(220,80,40,0.6)');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.beginPath(); ctx.arc(W/2, mY, 380, 0, Math.PI * 2); ctx.fill();
+    // Tormenta de polvo
+    ctx.fillStyle = 'rgba(220,140,80,0.05)';
+    for (let i = 0; i < 60; i++) {
+      const x = ((t * 0.05 + i * 80) % (W + 100)) - 50;
+      const y = (Math.sin(t * 0.0005 + i) * 0.5 + 0.5) * H;
+      ctx.fillRect(x, y, 30, 2);
     }
-  } else if (sec.bg === 'station') {
-    ctx.strokeStyle = 'rgba(160,80,255,0.22)';
-    ctx.lineWidth = 1;
-    for (let i = 0; i < 14; i++) {
-      const x1 = (i * 90 + t * 0.06) % W;
-      ctx.beginPath();
-      ctx.moveTo(x1, 0); ctx.lineTo(x1 + 30, H);
-      ctx.stroke();
+  } else if (p.bg === 'jupiter') {
+    // Bandas horizontales gigantes
+    for (let i = 0; i < 6; i++) {
+      const y = (i / 6) * H + Math.sin(t * 0.0003 + i) * 20;
+      const grad = ctx.createLinearGradient(0, y, 0, y + H/6);
+      const c1 = i % 2 === 0 ? 'rgba(220,150,80,0.18)' : 'rgba(160,100,50,0.18)';
+      grad.addColorStop(0, c1);
+      grad.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, y, W, H/6);
     }
-  } else if (sec.bg === 'void') {
+    // Tormenta (ojo)
+    const ex = W * 0.7 + Math.sin(t * 0.0005) * 40;
+    const ey = H * 0.5;
+    const eg = ctx.createRadialGradient(ex, ey, 0, ex, ey, 80);
+    eg.addColorStop(0, 'rgba(255,180,100,0.4)');
+    eg.addColorStop(1, 'transparent');
+    ctx.fillStyle = eg;
+    ctx.beginPath(); ctx.arc(ex, ey, 80, 0, Math.PI * 2); ctx.fill();
+  } else if (p.bg === 'saturn') {
+    // Anillos pasando
     ctx.save();
-    ctx.translate(W / 2, H / 2);
-    ctx.rotate(t * 0.0002);
-    for (let i = 0; i < 20; i++) {
-      const a = (i / 20) * Math.PI * 2;
-      const r = 200 + i * 30;
-      ctx.strokeStyle = `rgba(255,255,255,${0.1 - i * 0.004})`;
-      ctx.lineWidth = 2;
+    ctx.translate(W/2, H/2);
+    ctx.rotate(0.3);
+    for (let i = 0; i < 5; i++) {
+      ctx.strokeStyle = `rgba(255,200,140,${0.15 - i * 0.02})`;
+      ctx.lineWidth = 30 + i * 8;
       ctx.beginPath();
-      ctx.arc(Math.cos(a) * r * 0.2, Math.sin(a) * r * 0.2, r, 0, Math.PI * 2);
+      ctx.ellipse(0, 0, 400 + i * 30, 100 + i * 8, 0, 0, Math.PI * 2);
       ctx.stroke();
     }
     ctx.restore();
+  } else if (p.bg === 'sun') {
+    // Llamaradas solares pulsantes
+    const cx = W/2, cy = H/2;
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2 + t * 0.0005;
+      const r = 300 + Math.sin(t * 0.002 + i) * 100;
+      const grad = ctx.createRadialGradient(cx + Math.cos(a) * r, cy + Math.sin(a) * r, 0,
+                                            cx + Math.cos(a) * r, cy + Math.sin(a) * r, 200);
+      grad.addColorStop(0, `rgba(255,200,80,${0.3 + Math.sin(t * 0.003 + i) * 0.1})`);
+      grad.addColorStop(1, 'transparent');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, W, H);
+    }
   }
 }
 
@@ -689,20 +1059,14 @@ function spawnCristal() {
   const d = Math.hypot(dx, dy) || 1;
   game.cristales.push({
     x: pos.x, y: pos.y,
-    vx: (dx / d) * 0.6,
-    vy: (dy / d) * 0.6,
-    born: performance.now(),
-    life: 10000,
+    vx: (dx / d) * 0.6, vy: (dy / d) * 0.6,
+    born: performance.now(), life: 10000,
   });
 }
 
 function spawnEnemy() {
   const avail = Object.entries(ENEMY_TYPES).filter(([k, v]) => v.intro <= game.level);
-  // pesos: tipos más recientes son menos frecuentes
-  const weights = avail.map(([k, v]) => {
-    const age = game.level - v.intro;
-    return 1 / Math.max(1, 3 - Math.min(3, age * 0.3));
-  });
+  const weights = avail.map(([k, v]) => 1 / Math.max(1, 3 - Math.min(3, (game.level - v.intro) * 0.3)));
   const total = weights.reduce((a, b) => a + b, 0);
   let r = Math.random() * total;
   let chosen = avail[0];
@@ -723,11 +1087,11 @@ function spawnEnemy() {
 }
 
 function spawnBoss() {
-  const sec = SECTORS[game.sector];
+  const p = PLANETS[Math.min(game.sector, PLANETS.length - 1)];
   game.boss = {
     x: W / 2, y: -100, targetY: 150,
     size: 65,
-    color: sec.accent,
+    color: p.color,
     hp: 80 + game.level * 14,
     maxHp: 80 + game.level * 14,
     angle: 0,
@@ -735,10 +1099,9 @@ function spawnBoss() {
     lastShoot: 0, lastBomb: 0, lastSpawn: 0,
   };
   document.getElementById('bossbar').style.display = 'block';
-  document.getElementById('bossName').textContent = 'GUARDIÁN · ' + sec.label;
+  document.getElementById('bossName').textContent = 'GUARDIÁN · ' + p.name;
 }
 
-// ─── Efectos ───
 function burst(x, y, color, n = 14) {
   for (let i = 0; i < n; i++) {
     const a = Math.random() * Math.PI * 2;
@@ -756,11 +1119,7 @@ function firePulse() {
   if (pulseCooldown > 0) return;
   game.energia -= ship.pulseCost;
   pulseCooldown = 180;
-  game.waves.push({
-    x: shipX, y: shipY,
-    r: 15, maxR: ship.pulseRadius,
-    damage: 1, life: 1, id: Math.random(),
-  });
+  game.waves.push({ x: shipX, y: shipY, r: 15, maxR: ship.pulseRadius, damage: 1, life: 1, id: Math.random() });
   if (ship.doubleShot) {
     setTimeout(() => {
       if (game.state === 'playing') {
@@ -791,6 +1150,7 @@ function comboFlash(text, color = '#ff8') {
 function update(dt) {
   if (game.state !== 'playing') return;
   const ship = SHIPS[game.shipType];
+  const diff = DIFFICULTIES[game.difficulty];
   const now = performance.now();
 
   shipX += (mouseX - shipX) * ship.followSpeed;
@@ -799,12 +1159,9 @@ function update(dt) {
   if (!isNaN(ang)) shipAngle = ang;
 
   if (pulseCooldown > 0) pulseCooldown -= dt;
-  game.energia = Math.min(100, game.energia + dt * ship.energiaRegen);
-
-  // mission timer (para survive)
+  game.energia = Math.min(100, game.energia + dt * ship.energiaRegen * diff.regenMult);
   game.missionTime += dt;
 
-  // Spawn cristales
   if (!game.boss) {
     game.cristalTimer += dt;
     if (game.cristalTimer > game.cristalInterval && game.cristales.length < 8) {
@@ -818,9 +1175,8 @@ function update(dt) {
     }
   }
 
-  // ─── Cristales ───
+  // Cristales
   for (let cr of game.cristales) {
-    // atracción suave a la nave
     const dx = shipX - cr.x, dy = shipY - cr.y, d = Math.hypot(dx, dy) || 1;
     if (d < 220) {
       const f = 0.03 * (1 - d / 220);
@@ -831,16 +1187,15 @@ function update(dt) {
     cr.x += cr.vx * dt * 0.08;
     cr.y += cr.vy * dt * 0.08;
     cr.life -= dt;
-
-    if (Math.hypot(cr.x - shipX, cr.y - shipY) < 22) {
+    if (Math.hypot(cr.x - shipX, cr.y - shipY) < 24) {
       cr.dead = true;
       game.combo = Math.min(50, game.combo + 1);
       game.maxCombo = Math.max(game.maxCombo, game.combo);
       game.comboTimer = 2500;
-      game.score += 10 * game.combo;
-      game.vida = Math.min(SHIPS[game.shipType].vidaMax, game.vida + 4);
+      game.score += Math.round(10 * game.combo * diff.scoreMult);
+      game.vida = Math.min(SHIPS[game.shipType].vidaMax * diff.vidaMult, game.vida + 4);
       game.energia = Math.min(100, game.energia + 8);
-      burst(cr.x, cr.y, '#4f8', 14);
+      burst(cr.x, cr.y, '#ff8', 14);
       sfx.collect();
       if (game.mission?.type === 'collect') {
         game.mission.progress++;
@@ -851,16 +1206,14 @@ function update(dt) {
   }
   game.cristales = game.cristales.filter(c => !c.dead && c.life > 0);
 
-  // ─── Enemigos ───
+  // Enemigos
   for (let e of game.enemies) {
     let tx, ty;
     if (e.type === 'bombardero' && Math.hypot(e.x - shipX, e.y - shipY) < 250) {
       tx = e.x + (e.x - shipX); ty = e.y + (e.y - shipY);
     } else if (e.type === 'cañonero' && Math.hypot(e.x - shipX, e.y - shipY) < 320) {
       tx = e.x; ty = e.y;
-    } else {
-      tx = shipX; ty = shipY;
-    }
+    } else { tx = shipX; ty = shipY; }
     const dx = tx - e.x, dy = ty - e.y, d = Math.hypot(dx, dy) || 1;
     e.vx += (dx / d) * e.vel * 0.025;
     e.vy += (dy / d) * e.vel * 0.025;
@@ -871,36 +1224,24 @@ function update(dt) {
 
     if (e.shoots && now - e.lastShoot > (e.shootRate || 2000) - game.level * 25) {
       const adx = shipX - e.x, ady = shipY - e.y, ad = Math.hypot(adx, ady) || 1;
-      game.projectiles.push({
-        x: e.x, y: e.y,
-        vx: (adx / ad) * 4, vy: (ady / ad) * 4,
-        color: e.color, enemy: true,
-      });
+      game.projectiles.push({ x: e.x, y: e.y, vx: (adx / ad) * 4, vy: (ady / ad) * 4, color: e.color, enemy: true });
       e.lastShoot = now;
       sfx.laser();
     }
     if (e.bombs && now - e.lastBomb > (e.bombRate || 3000) && Math.hypot(e.x - shipX, e.y - shipY) < 380) {
-      game.bombs.push({
-        x: e.x, y: e.y,
-        vx: (shipX - e.x) * 0.005,
-        vy: (shipY - e.y) * 0.005,
-        timer: 1500, maxTimer: 1500, radius: 80,
-      });
+      game.bombs.push({ x: e.x, y: e.y, vx: (shipX - e.x) * 0.005, vy: (shipY - e.y) * 0.005, timer: 1500, maxTimer: 1500, radius: 80 });
       e.lastBomb = now;
     }
-
-    // colisión con nave
     if (Math.hypot(e.x - shipX, e.y - shipY) < e.size + 14) {
-      damage(14);
+      damage(14 * diff.dmgMult);
       e.hp = 0;
       burst(e.x, e.y, e.color, 18);
       sfx.kill();
     }
   }
 
-  // ─── Waves vs todo ───
+  // Waves
   for (let w of game.waves) {
-    // enemigos
     for (let e of game.enemies) {
       if (e.hp <= 0) continue;
       const ed = Math.hypot(e.x - w.x, e.y - w.y);
@@ -912,7 +1253,7 @@ function update(dt) {
         e.vy += (e.y - w.y) / (ed || 1) * 6;
         burst(e.x, e.y, e.color, 6);
         if (e.hp <= 0) {
-          game.score += e.score * game.combo;
+          game.score += Math.round(e.score * game.combo * diff.scoreMult);
           game.combo = Math.min(50, game.combo + 1);
           game.maxCombo = Math.max(game.maxCombo, game.combo);
           game.comboTimer = 2500;
@@ -925,25 +1266,16 @@ function update(dt) {
         }
       }
     }
-    // bombas (las desactiva)
     game.bombs = game.bombs.filter(b => {
       const bd = Math.hypot(b.x - w.x, b.y - w.y);
-      if (Math.abs(bd - w.r) < 25) {
-        burst(b.x, b.y, '#fff', 8);
-        return false;
-      }
+      if (Math.abs(bd - w.r) < 25) { burst(b.x, b.y, '#fff', 8); return false; }
       return true;
     });
-    // proyectiles
     game.projectiles = game.projectiles.filter(p => {
       const pd = Math.hypot(p.x - w.x, p.y - w.y);
-      if (Math.abs(pd - w.r) < 18 && p.enemy) {
-        burst(p.x, p.y, p.color, 4);
-        return false;
-      }
+      if (Math.abs(pd - w.r) < 18 && p.enemy) { burst(p.x, p.y, p.color, 4); return false; }
       return true;
     });
-    // boss
     if (game.boss && !(game.boss._waveHit && game.boss._waveHit[w.id])) {
       const bd = Math.hypot(game.boss.x - w.x, game.boss.y - w.y);
       if (Math.abs(bd - w.r) < game.boss.size + 12) {
@@ -957,21 +1289,19 @@ function update(dt) {
   }
   game.enemies = game.enemies.filter(e => e.hp > 0);
 
-  // ─── Proyectiles ───
+  // Proyectiles
   for (let p of game.projectiles) {
     p.x += p.vx * dt * 0.1;
     p.y += p.vy * dt * 0.1;
     if (p.enemy && Math.hypot(p.x - shipX, p.y - shipY) < 14) {
-      damage(8);
+      damage(8 * diff.dmgMult);
       p.dead = true;
       burst(p.x, p.y, p.color, 6);
     }
   }
-  game.projectiles = game.projectiles.filter(p =>
-    !p.dead && p.x > -60 && p.x < W + 60 && p.y > -60 && p.y < H + 60
-  );
+  game.projectiles = game.projectiles.filter(p => !p.dead && p.x > -60 && p.x < W + 60 && p.y > -60 && p.y < H + 60);
 
-  // ─── Bombas ───
+  // Bombas
   for (let b of game.bombs) {
     b.x += b.vx * dt * 0.05;
     b.y += b.vy * dt * 0.05;
@@ -979,7 +1309,7 @@ function update(dt) {
     if (b.timer <= 0) {
       burst(b.x, b.y, '#fa0', 30);
       const pd = Math.hypot(b.x - shipX, b.y - shipY);
-      if (pd < b.radius) damage(22 * (1 - pd / b.radius));
+      if (pd < b.radius) damage(22 * diff.dmgMult * (1 - pd / b.radius));
       sfx.bomb();
       game.shake = 18;
       b.dead = true;
@@ -987,7 +1317,7 @@ function update(dt) {
   }
   game.bombs = game.bombs.filter(b => !b.dead);
 
-  // ─── Boss ───
+  // Boss
   if (game.boss) {
     const b = game.boss;
     if (b.state === 'entering') {
@@ -1000,21 +1330,13 @@ function update(dt) {
       if (now - b.lastShoot > 900) {
         for (let i = 0; i < 6; i++) {
           const a = (i / 6) * Math.PI * 2 + now * 0.001;
-          game.projectiles.push({
-            x: b.x, y: b.y,
-            vx: Math.cos(a) * 3, vy: Math.sin(a) * 3,
-            color: b.color, enemy: true,
-          });
+          game.projectiles.push({ x: b.x, y: b.y, vx: Math.cos(a) * 3, vy: Math.sin(a) * 3, color: b.color, enemy: true });
         }
         b.lastShoot = now;
         sfx.laser();
       }
       if (now - b.lastBomb > 3200) {
-        game.bombs.push({
-          x: b.x, y: b.y + 30,
-          vx: (shipX - b.x) * 0.003, vy: 1,
-          timer: 1800, maxTimer: 1800, radius: 100,
-        });
+        game.bombs.push({ x: b.x, y: b.y + 30, vx: (shipX - b.x) * 0.003, vy: 1, timer: 1800, maxTimer: 1800, radius: 100 });
         b.lastBomb = now;
       }
       if (now - b.lastSpawn > 4000 && game.enemies.length < 4) {
@@ -1022,17 +1344,15 @@ function update(dt) {
         b.lastSpawn = now;
       }
     }
-    if (Math.hypot(b.x - shipX, b.y - shipY) < b.size + 14) damage(20);
+    if (Math.hypot(b.x - shipX, b.y - shipY) < b.size + 14) damage(20 * diff.dmgMult);
     if (b.hp <= 0) bossDefeated();
   }
 
-  // ─── Misión "survive" ───
   if (game.mission?.type === 'survive') {
     game.mission.progress = Math.min(game.mission.target, game.missionTime / 1000);
     if (game.mission.progress >= game.mission.target) levelComplete();
   }
 
-  // Update bursts
   for (let bs of game.bursts) {
     bs.x += bs.vx; bs.y += bs.vy;
     bs.vx *= 0.93; bs.vy *= 0.93;
@@ -1040,14 +1360,12 @@ function update(dt) {
   }
   game.bursts = game.bursts.filter(b => b.life > 0);
 
-  // Update waves
   for (let w of game.waves) {
     w.r += 9;
     w.life = 1 - w.r / w.maxR;
   }
   game.waves = game.waves.filter(w => w.r < w.maxR);
 
-  // Combo timer
   if (game.comboTimer > 0) {
     game.comboTimer -= dt;
     if (game.comboTimer <= 0) game.combo = 1;
@@ -1079,7 +1397,6 @@ function render(t) {
     ctx.translate((Math.random() - 0.5) * game.shake, (Math.random() - 0.5) * game.shake);
   }
 
-  // waves
   for (let w of game.waves) {
     ctx.beginPath();
     ctx.strokeStyle = `rgba(0,255,255,${w.life * 0.9})`;
@@ -1093,7 +1410,6 @@ function render(t) {
     ctx.stroke();
   }
 
-  // bombas
   for (let b of game.bombs) {
     const r = 12 + Math.sin(t * 0.02) * 3;
     ctx.shadowBlur = 25; ctx.shadowColor = '#fa0';
@@ -1108,17 +1424,15 @@ function render(t) {
     ctx.stroke();
   }
 
-  // cristales
   for (let cr of game.cristales) {
     drawCristal(ctx, cr.x, cr.y, t);
-    ctx.strokeStyle = `rgba(80,255,150,${cr.life / 10000 * 0.4})`;
+    ctx.strokeStyle = `rgba(255,220,100,${cr.life / 10000 * 0.4})`;
     ctx.lineWidth = 1;
     ctx.beginPath();
-    ctx.arc(cr.x, cr.y, 14, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (cr.life / 10000));
+    ctx.arc(cr.x, cr.y, 18, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * (cr.life / 10000));
     ctx.stroke();
   }
 
-  // enemigos
   for (let e of game.enemies) {
     e.draw(ctx, e.x, e.y, e.angle, t, e.size);
     if (e.maxHp > 1) {
@@ -1129,7 +1443,6 @@ function render(t) {
     }
   }
 
-  // proyectiles
   for (let p of game.projectiles) {
     ctx.shadowBlur = 10; ctx.shadowColor = p.color;
     ctx.fillStyle = p.color;
@@ -1144,7 +1457,6 @@ function render(t) {
   }
   ctx.shadowBlur = 0;
 
-  // bursts
   for (let b of game.bursts) {
     ctx.globalAlpha = b.life;
     ctx.fillStyle = b.color;
@@ -1155,7 +1467,6 @@ function render(t) {
 
   if (game.boss) drawBoss(ctx, game.boss, t);
 
-  // nave
   drawShip(game.shipType, shipX, shipY, shipAngle);
 
   ctx.restore();
@@ -1174,7 +1485,7 @@ function generateMission() {
   const inSec = (lvl - 1) % 5;
   if (inSec === 0) {
     const t = 8 + Math.floor(lvl * 1.2);
-    game.mission = { type: 'collect', target: t, progress: 0, label: `ABSORBÉ ${t} CRISTALES` };
+    game.mission = { type: 'collect', target: t, progress: 0, label: `RECOLECTÁ ${t} ESTRELLITAS` };
   } else if (inSec === 1) {
     const t = 8 + Math.floor(lvl * 1);
     game.mission = { type: 'kill', target: t, progress: 0, label: `ELIMINÁ ${t} ENEMIGOS` };
@@ -1183,55 +1494,54 @@ function generateMission() {
     game.mission = { type: 'survive', target: t, progress: 0, label: `SOBREVIVÍ ${t}s` };
   } else {
     const t = 12 + Math.floor(lvl * 1.3);
-    game.mission = { type: 'collect', target: t, progress: 0, label: `ABSORBÉ ${t} CRISTALES` };
+    game.mission = { type: 'collect', target: t, progress: 0, label: `RECOLECTÁ ${t} ESTRELLITAS` };
   }
 }
 
 function startLevel(lvl) {
   game.level = lvl;
-  game.sector = Math.min(SECTORS.length - 1, Math.floor((lvl - 1) / 5));
-  game.enemies = [];
-  game.cristales = [];
-  game.projectiles = [];
-  game.bombs = [];
-  game.bursts = [];
-  game.waves = [];
-  game.boss = null;
+  game.sector = Math.min(PLANETS.length - 1, Math.floor((lvl - 1) / 5));
+  game.enemies = []; game.cristales = []; game.projectiles = [];
+  game.bombs = []; game.bursts = []; game.waves = []; game.boss = null;
   game.missionTime = 0;
-  game.spawnInterval = Math.max(380, 1200 - lvl * 45);
+  game.spawnInterval = Math.max(380, 1200 - lvl * 45) / DIFFICULTIES[game.difficulty].spawnMult;
   game.cristalInterval = Math.max(300, 600 - lvl * 15);
   document.getElementById('bossbar').style.display = 'none';
   generateMission();
-  // spawn inicial inmediato
   if (game.mission.type !== 'boss') {
     for (let i = 0; i < 4; i++) spawnCristal();
     setTimeout(() => spawnEnemy(), 600);
   }
-  showSectorIntro();
+  showPlanetIntro();
+  // música del planeta si es nuevo sector o primer nivel
+  if ((lvl - 1) % 5 === 0 || lvl === 1) startMusic(game.sector);
   updateHUD();
 }
 
-function showSectorIntro() {
-  const sec = SECTORS[game.sector];
-  const el = document.getElementById('sectorIntro');
-  document.getElementById('siName').textContent = 'SECTOR ' + sec.name;
-  document.getElementById('siLabel').textContent = sec.label;
-  document.getElementById('siMission').textContent = game.mission.label;
+function showPlanetIntro() {
+  const p = PLANETS[Math.min(game.sector, PLANETS.length - 1)];
+  const el = document.getElementById('planetIntro');
+  document.getElementById('piEmoji').textContent = p.emoji;
+  document.getElementById('piEmoji').style.color = p.color;
+  document.getElementById('piName').textContent = p.name;
+  document.getElementById('piName').style.color = p.color;
+  document.getElementById('piDist').textContent = 'DISTANCIA: ' + p.dist;
+  document.getElementById('piFact').textContent = p.fact;
+  document.getElementById('piMission').textContent = game.mission.label;
   el.style.display = 'flex';
   el.style.opacity = 1;
   setTimeout(() => {
     el.style.transition = 'opacity 0.7s';
     el.style.opacity = 0;
     setTimeout(() => { el.style.display = 'none'; el.style.transition = ''; }, 700);
-  }, 1500);
+  }, 2200);
 }
 
 function saveCheckpoint() {
   checkpoint = {
-    level: game.level + 1,
-    score: game.score,
-    shipType: game.shipType,
-    maxCombo: game.maxCombo,
+    level: game.level + 1, score: game.score,
+    shipType: game.shipType, difficulty: game.difficulty,
+    maxCombo: game.maxCombo, endless: game.endless,
   };
   localStorage.setItem('nexo_cp', JSON.stringify(checkpoint));
   if (game.level > records.maxLevel) {
@@ -1261,15 +1571,35 @@ function bossDefeated() {
   burst(W / 2, H / 2, '#ff8', 100);
   document.getElementById('bossbar').style.display = 'none';
   saveCheckpoint();
-  document.getElementById('bdSub').textContent = 'SECTOR ' + SECTORS[game.sector].name + ' SUPERADO';
-  document.getElementById('bdScore').textContent = game.score;
-  document.getElementById('bossDefeat').style.display = 'flex';
+  const nextSector = game.sector + 1;
+  // ¿llegó al sol?
+  if (nextSector >= PLANETS.length && !game.endless) {
+    showVictory();
+    return;
+  }
+  const p = PLANETS[Math.min(nextSector, PLANETS.length - 1)];
+  document.getElementById('prEmoji').textContent = p.emoji;
+  document.getElementById('prTitle').textContent = '¡LLEGASTE A ' + p.name + '!';
+  document.getElementById('prTitle').style.color = p.color;
+  document.getElementById('prFact').textContent = p.fact;
+  document.getElementById('prScore').textContent = game.score;
+  document.getElementById('planetReached').style.display = 'flex';
   sfx.win();
+}
+
+function showVictory() {
+  game.state = 'victory';
+  saveCheckpoint();
+  document.getElementById('vScore').textContent = game.score;
+  document.getElementById('victory').style.display = 'flex';
+  sfx.win();
+  setTimeout(() => sfx.win(), 400);
+  setTimeout(() => sfx.win(), 800);
 }
 
 function nextLevel() {
   document.getElementById('levelComplete').style.display = 'none';
-  document.getElementById('bossDefeat').style.display = 'none';
+  document.getElementById('planetReached').style.display = 'none';
   game.state = 'playing';
   startLevel(game.level + 1);
 }
@@ -1279,24 +1609,44 @@ function nextLevel() {
 // ═══════════════════════════════════════════
 function showMenu() {
   game.state = 'menu';
-  document.getElementById('menu').style.display = 'flex';
-  document.getElementById('shipSelect').style.display = 'none';
-  document.getElementById('gameover').style.display = 'none';
-  document.getElementById('levelComplete').style.display = 'none';
-  document.getElementById('bossDefeat').style.display = 'none';
-  document.getElementById('paused').style.display = 'none';
+  stopMusic();
+  ['menu','diffSelect','shipSelect','howInstall','tutorial','gameover','levelComplete','planetReached','victory','paused'].forEach(id => {
+    document.getElementById(id).style.display = id === 'menu' ? 'flex' : 'none';
+  });
   document.getElementById('hud').style.display = 'none';
   document.getElementById('bars').style.display = 'none';
   document.getElementById('bossbar').style.display = 'none';
+  document.getElementById('btnMute').style.display = 'none';
+  document.getElementById('btnPauseTop').style.display = 'none';
   document.getElementById('mRecord').textContent = records.high;
   document.getElementById('mMaxLevel').textContent = records.maxLevel;
   document.getElementById('btnContinue').style.display = checkpoint ? 'inline-block' : 'none';
 }
 
+function showDifficulty(continueFromCp) {
+  game.state = 'diffSelect';
+  document.getElementById('menu').style.display = 'none';
+  document.getElementById('diffSelect').style.display = 'flex';
+  // si continúa, salta directo
+  if (continueFromCp && checkpoint) {
+    game.difficulty = checkpoint.difficulty || 'medio';
+    game.shipType = checkpoint.shipType || 'eco';
+    document.getElementById('diffSelect').style.display = 'none';
+    startGame(true);
+    return;
+  }
+  document.querySelectorAll('.diffcard').forEach(card => {
+    card.onclick = () => {
+      game.difficulty = card.dataset.diff;
+      localStorage.setItem('nexo_diff', game.difficulty);
+      showShipSelect(false);
+    };
+  });
+}
+
 function showShipSelect(continueFromCp) {
   game.state = 'shipSelect';
-  document.getElementById('menu').style.display = 'none';
-  document.getElementById('gameover').style.display = 'none';
+  document.getElementById('diffSelect').style.display = 'none';
   document.getElementById('shipSelect').style.display = 'flex';
   const container = document.getElementById('ships');
   container.innerHTML = '';
@@ -1304,10 +1654,10 @@ function showShipSelect(continueFromCp) {
     const card = document.createElement('div');
     card.className = 'shipcard';
     card.innerHTML = `
-      <canvas width="174" height="90" data-ship="${key}"></canvas>
+      <canvas width="150" height="80" data-ship="${key}"></canvas>
       <h3 style="color:${ship.color}">${ship.name}</h3>
       <div class="stats">
-        <div class="s"><span>VELOCIDAD</span><b>${'■'.repeat(ship.stats.vel)}${'□'.repeat(5 - ship.stats.vel)}</b></div>
+        <div class="s"><span>VEL</span><b>${'■'.repeat(ship.stats.vel)}${'□'.repeat(5 - ship.stats.vel)}</b></div>
         <div class="s"><span>VIDA</span><b>${'■'.repeat(ship.stats.vida)}${'□'.repeat(5 - ship.stats.vida)}</b></div>
         <div class="s"><span>PULSO</span><b>${'■'.repeat(ship.stats.pulso)}${'□'.repeat(5 - ship.stats.pulso)}</b></div>
       </div>
@@ -1315,28 +1665,39 @@ function showShipSelect(continueFromCp) {
     `;
     card.addEventListener('click', () => {
       game.shipType = key;
+      localStorage.setItem('nexo_ship', key);
       document.getElementById('shipSelect').style.display = 'none';
-      startGame(continueFromCp);
+      if (!tutorialShown) {
+        document.getElementById('tutorial').style.display = 'flex';
+      } else {
+        startGame(continueFromCp);
+      }
     });
     container.appendChild(card);
   });
-  // arrancar animación de previews
   requestAnimationFrame(animateShipPreviews);
 }
 
 function startGame(continueFromCp) {
   initAudio();
+  if (audioCtx && audioCtx.state === 'suspended') audioCtx.resume();
+  document.getElementById('tutorial').style.display = 'none';
   document.getElementById('hud').style.display = 'flex';
   document.getElementById('bars').style.display = 'flex';
+  document.getElementById('btnMute').style.display = 'flex';
+  document.getElementById('btnPauseTop').style.display = 'flex';
   document.getElementById('gameover').style.display = 'none';
   game.state = 'playing';
-  game.vida = SHIPS[game.shipType].vidaMax;
+  game.endless = false;
+  const diff = DIFFICULTIES[game.difficulty];
+  game.vida = SHIPS[game.shipType].vidaMax * diff.vidaMult;
   game.energia = 100;
   game.combo = 1; game.maxCombo = 1;
   if (continueFromCp && checkpoint) {
     game.level = checkpoint.level;
     game.score = checkpoint.score;
     game.maxCombo = checkpoint.maxCombo || 1;
+    game.endless = checkpoint.endless || false;
   } else {
     game.level = 1;
     game.score = 0;
@@ -1348,6 +1709,7 @@ function startGame(continueFromCp) {
 
 function gameOver() {
   game.state = 'gameOver';
+  stopMusic();
   document.getElementById('gameover').style.display = 'flex';
   document.getElementById('goScore').textContent = game.score;
   document.getElementById('goLevel').textContent = game.level;
@@ -1374,11 +1736,13 @@ function resume() {
 
 function updateHUD() {
   if (game.state !== 'playing') return;
+  const diff = DIFFICULTIES[game.difficulty];
+  const p = PLANETS[Math.min(game.sector, PLANETS.length - 1)];
   document.getElementById('hScore').textContent = game.score;
   document.getElementById('hCombo').textContent = 'x' + game.combo;
   document.getElementById('hCombo').style.color = game.combo > 10 ? '#ff0' : '#ff8';
   document.getElementById('hLevel').textContent = game.level;
-  document.getElementById('hSector').textContent = SECTORS[game.sector].name;
+  document.getElementById('hPlanet').textContent = p.emoji;
   if (game.mission) {
     document.getElementById('hMission').textContent = game.mission.label;
     const pct = game.mission.type === 'boss' && game.boss
@@ -1386,7 +1750,8 @@ function updateHUD() {
       : (game.mission.progress / game.mission.target) * 100;
     document.getElementById('hProgress').style.width = Math.min(100, pct) + '%';
   }
-  document.getElementById('bLife').style.width = Math.max(0, (game.vida / SHIPS[game.shipType].vidaMax) * 100) + '%';
+  const vidaMax = SHIPS[game.shipType].vidaMax * diff.vidaMult;
+  document.getElementById('bLife').style.width = Math.max(0, (game.vida / vidaMax) * 100) + '%';
   document.getElementById('bEnergy').style.width = game.energia + '%';
   if (game.boss) {
     document.getElementById('bossFill').style.width = (game.boss.hp / game.boss.maxHp) * 100 + '%';
@@ -1410,7 +1775,7 @@ function loop(now) {
 // ═══════════════════════════════════════════
 addEventListener('mousemove', e => { mouseX = e.clientX; mouseY = e.clientY; });
 addEventListener('mousedown', e => {
-  if (e.button === 0 && game.state === 'playing') firePulse();
+  if (e.button === 0 && game.state === 'playing' && e.target === canvas) firePulse();
 });
 addEventListener('keydown', e => {
   if (e.code === 'Space' && game.state === 'playing') { e.preventDefault(); firePulse(); }
@@ -1420,8 +1785,6 @@ addEventListener('keydown', e => {
   }
 });
 
-// Touch solo sobre el canvas — no interfiere con botones del UI
-let lastTouchPulse = 0;
 canvas.addEventListener('touchmove', e => {
   if (game.state !== 'playing') return;
   if (e.touches.length > 0) {
@@ -1437,18 +1800,19 @@ canvas.addEventListener('touchstart', e => {
     mouseY = e.touches[0].clientY;
   }
   if (e.touches.length >= 2) firePulse();
-  // Doble tap = pulso (alternativa al 2-dedos)
   const now = performance.now();
   if (now - lastTouchPulse < 300) firePulse();
   lastTouchPulse = now;
   e.preventDefault();
 }, { passive: false });
 
-document.getElementById('btnStart').addEventListener('click', () => showShipSelect(false));
-document.getElementById('btnContinue').addEventListener('click', () => showShipSelect(true));
-document.getElementById('btnBack').addEventListener('click', showMenu);
+// Botones
+document.getElementById('btnStart').addEventListener('click', () => showDifficulty(false));
+document.getElementById('btnContinue').addEventListener('click', () => showDifficulty(true));
+document.getElementById('btnBackDiff').addEventListener('click', showMenu);
+document.getElementById('btnBackShip').addEventListener('click', () => { document.getElementById('shipSelect').style.display = 'none'; showDifficulty(false); });
 document.getElementById('btnNext').addEventListener('click', nextLevel);
-document.getElementById('btnNextSector').addEventListener('click', nextLevel);
+document.getElementById('btnNextPlanet').addEventListener('click', nextLevel);
 document.getElementById('btnRestart').addEventListener('click', showMenu);
 document.getElementById('btnContinueFromCp').addEventListener('click', () => {
   document.getElementById('gameover').style.display = 'none';
@@ -1459,11 +1823,80 @@ document.getElementById('btnQuit').addEventListener('click', () => {
   document.getElementById('paused').style.display = 'none';
   showMenu();
 });
+document.getElementById('btnPauseTop').addEventListener('click', () => {
+  if (game.state === 'playing') pause();
+  else if (game.state === 'paused') resume();
+});
+document.getElementById('btnMute').addEventListener('click', () => setMuted(!muted));
+document.getElementById('btnHowInstall').addEventListener('click', () => {
+  document.getElementById('menu').style.display = 'none';
+  document.getElementById('howInstall').style.display = 'flex';
+});
+document.getElementById('btnBackHow').addEventListener('click', () => {
+  document.getElementById('howInstall').style.display = 'none';
+  document.getElementById('menu').style.display = 'flex';
+});
+document.getElementById('btnTutorialOk').addEventListener('click', () => {
+  tutorialShown = true;
+  localStorage.setItem('nexo_tut', '1');
+  startGame(false);
+});
+document.getElementById('btnEndless').addEventListener('click', () => {
+  document.getElementById('victory').style.display = 'none';
+  game.endless = true;
+  game.state = 'playing';
+  startLevel(game.level + 1);
+});
+document.getElementById('btnVictoryMenu').addEventListener('click', showMenu);
+
+// ═══════════════════════════════════════════
+//  PWA INSTALL
+// ═══════════════════════════════════════════
+let deferredPrompt = null;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  document.getElementById('btnInstall').style.display = 'inline-block';
+  // Banner solo si no fue dismissed
+  if (localStorage.getItem('nexo_install_dismissed') !== '1' &&
+      !window.matchMedia('(display-mode: standalone)').matches) {
+    setTimeout(() => {
+      if (game.state === 'menu') {
+        document.getElementById('installBanner').style.display = 'block';
+      }
+    }, 3000);
+  }
+});
+async function promptInstall() {
+  if (!deferredPrompt) {
+    document.getElementById('menu').style.display = 'none';
+    document.getElementById('howInstall').style.display = 'flex';
+    return;
+  }
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  document.getElementById('btnInstall').style.display = 'none';
+  document.getElementById('installBanner').style.display = 'none';
+}
+document.getElementById('btnInstall').addEventListener('click', promptInstall);
+document.getElementById('btnInstallBanner').addEventListener('click', promptInstall);
+document.getElementById('btnDismissBanner').addEventListener('click', () => {
+  document.getElementById('installBanner').style.display = 'none';
+  localStorage.setItem('nexo_install_dismissed', '1');
+});
+window.addEventListener('appinstalled', () => {
+  document.getElementById('btnInstall').style.display = 'none';
+  document.getElementById('installBanner').style.display = 'none';
+});
+
+// Mute inicial
+document.getElementById('btnMute').textContent = muted ? '🔇' : '♪';
 
 showMenu();
 requestAnimationFrame(loop);
 
-// PWA: registro de service worker
+// Service worker
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js').catch(err => console.warn('SW error', err));

@@ -1,5 +1,5 @@
 // NEXO service worker — cache offline
-const CACHE = 'nexo-v6';
+const CACHE = 'nexo-v7';
 const ASSETS = [
   './',
   './index.html',
@@ -8,6 +8,8 @@ const ASSETS = [
   './icon-512.png',
   './icon-512-maskable.png',
   './icon-180.png',
+  './ship-1.png',
+  './ship-3.png',
 ];
 
 self.addEventListener('install', e => {

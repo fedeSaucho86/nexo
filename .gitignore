@@ -1,0 +1,7 @@
+# Imágenes de referencia / assets locales que NO van al repo público
+ships-pack.png
+*.psd
+*.ai
+*.sketch
+.DS_Store
+Thumbs.db

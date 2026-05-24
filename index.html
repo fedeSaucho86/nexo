@@ -279,7 +279,8 @@
     <button id="btnContinue" class="secondary" style="display:none">CONTINUAR</button>
   </div>
   <div style="margin-top:8px">
-    <button id="btnInstall" class="green" style="display:none;font-size:11px;padding:10px 24px;min-height:auto;min-width:auto">📲 INSTALAR APP</button>
+    <button id="btnStory" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff8;border-color:#ff8">📖 LA MISIÓN</button>
+    <button id="btnInstall" class="green" style="display:none;font-size:11px;padding:10px 22px;min-height:auto;min-width:auto">📲 INSTALAR APP</button>
     <button id="btnHowInstall" class="secondary" style="font-size:10px;padding:8px 18px;min-height:auto;min-width:auto">¿CÓMO INSTALAR?</button>
   </div>
   <p style="margin-top:18px;font-size:10px;opacity:0.5">RÉCORD: <span id="mRecord">0</span> · MÁX NIVEL: <span id="mMaxLevel">1</span></p>
@@ -313,6 +314,23 @@
   <h1 style="font-size:38px">ELEGÍ TU NAVE</h1>
   <div id="ships"></div>
   <button id="btnBackShip" class="secondary">VOLVER</button>
+</div>
+
+<!-- HISTORIA -->
+<div id="story" class="overlay" style="display:none">
+  <h1 style="font-size:36px;letter-spacing:8px;color:#ff8;text-shadow:0 0 30px #ff0">LA MISIÓN</h1>
+  <div style="max-width:560px;text-align:left;line-height:1.9;font-size:13px;letter-spacing:1px;margin:20px 0">
+    <p style="color:#ff8;font-size:15px;letter-spacing:3px"><b>AÑO 2199.</b></p>
+    <p>El Sol se está apagando. Su luz se debilita día a día.</p>
+    <p>La Tierra se enfría. Los océanos se congelan. Las cosechas mueren. La humanidad agoniza.</p>
+    <p style="color:#0ff;margin-top:14px"><b>Pero hay una última esperanza:</b></p>
+    <p style="color:#4f8;font-size:15px;letter-spacing:2px"><b>LA SEMILLA SOLAR.</b></p>
+    <p>Un fragmento de plasma puro escondido en el corazón del Sol, capaz de reencender la estrella.</p>
+    <p>Para llegar hay que cruzar el sistema solar planeta por planeta. Cada planeta tiene un <span style="color:#f44"><b>Guardián antiguo</b></span> que custodia el camino. Custodian la verdad: que ya muchos lo intentaron antes. Ninguno volvió.</p>
+    <p style="color:#ff8;margin-top:18px">Vos sos el último piloto. La Tierra te eligió.</p>
+    <p style="text-align:center;margin-top:22px;font-size:16px;letter-spacing:6px"><b>NO FALLES.</b></p>
+  </div>
+  <button id="btnStoryBack" class="secondary">VOLVER</button>
 </div>
 
 <!-- HOW TO INSTALL -->
@@ -363,17 +381,24 @@
 <!-- PLANET REACHED -->
 <div id="planetReached" class="overlay" style="display:none">
   <div style="font-size:96px" id="prEmoji">🌕</div>
-  <h1 style="font-size:42px;color:#ff8;text-shadow:0 0 40px #ff0;letter-spacing:8px" id="prTitle">¡LLEGASTE A LA LUNA!</h1>
-  <p id="prFact" style="margin:18px 0;max-width:500px"></p>
+  <h1 style="font-size:38px;color:#ff8;text-shadow:0 0 40px #ff0;letter-spacing:6px" id="prTitle">¡LLEGASTE A LA LUNA!</h1>
+  <p id="prNarrative" style="color:#ff8;font-style:italic;margin:14px 0;max-width:500px;font-size:13px;line-height:1.7">"..."</p>
+  <p id="prFact" style="margin:14px 0;max-width:500px;font-size:11px;opacity:0.7"></p>
   <div class="stat">SCORE: <span class="num" id="prScore">0</span></div>
   <button id="btnNextPlanet">SEGUIR VIAJE</button>
 </div>
 
-<!-- VICTORY (sol alcanzado) -->
+<!-- VICTORY (semilla recuperada) -->
 <div id="victory" class="overlay" style="display:none">
   <div style="font-size:120px;animation:spin 4s linear infinite">☀️</div>
-  <h1 style="font-size:42px;color:#ff8;text-shadow:0 0 50px #ff0;letter-spacing:6px">¡LLEGASTE AL SOL!</h1>
-  <p>Viajaste de la Tierra al corazón del sistema solar.</p>
+  <h1 style="font-size:38px;color:#ff8;text-shadow:0 0 50px #ff0;letter-spacing:6px">¡SEMILLA RECUPERADA!</h1>
+  <p style="font-size:13px;line-height:1.9;max-width:520px;margin:16px 0">
+    La <b style="color:#4f8">Semilla Solar</b> pulsa en tus manos.<br>
+    Volás de regreso. El Sol vuelve a brillar.<br>
+    La Tierra se calienta. Los océanos respiran.<br>
+    <b style="color:#4f8">La humanidad vive.</b><br><br>
+    <span style="color:#ff8;font-style:italic">Sos el último piloto. Sos un héroe.</span>
+  </p>
   <div class="stat">SCORE FINAL: <span class="num" id="vScore">0</span></div>
   <button id="btnEndless" class="green">MODO INFINITO</button>
   <button id="btnVictoryMenu" class="secondary">MENÚ</button>
@@ -545,6 +570,16 @@ const DIFFICULTIES = {
   medio:   { vidaMult: 1.0, dmgMult: 1.0, spawnMult: 1.0, regenMult: 1.0, scoreMult: 1.0 },
   dificil: { vidaMult: 0.7, dmgMult: 1.5, spawnMult: 0.7, regenMult: 0.75, scoreMult: 1.5 },
 };
+
+// ═══ Frases narrativas al llegar a cada planeta ═══
+const PLANET_STORIES = [
+  'Despegás. La órbita queda atrás. Tu hogar se encoge en el espejo retrovisor.',
+  'Primera escala. La Luna te observa silenciosa. Algo se mueve en sus cráteres.',
+  'El Planeta Rojo. Cementerio de antiguas flotas. Ya muchos lo intentaron. Ninguno volvió.',
+  'El gigante gaseoso. Su gravedad podría destrozarte. Sus tormentas duran siglos. No mires abajo.',
+  'Anillos de hielo y roca. Cada partícula puede atravesarte. Pero ya casi llegás.',
+  'El núcleo de la estrella. La Semilla Solar pulsa. El último Guardián te espera.',
+];
 
 // ═══ Planetas (sectores) ═══
 const PLANETS = [
@@ -1522,6 +1557,7 @@ function bossDefeated() {
   document.getElementById('prEmoji').textContent = p.emoji;
   document.getElementById('prTitle').textContent = '¡LLEGASTE A ' + p.name + '!';
   document.getElementById('prTitle').style.color = p.color;
+  document.getElementById('prNarrative').textContent = '"' + (PLANET_STORIES[nextSector] || '') + '"';
   document.getElementById('prFact').textContent = p.fact;
   document.getElementById('prScore').textContent = game.score;
   document.getElementById('planetReached').style.display = 'flex';
@@ -1551,7 +1587,7 @@ function nextLevel() {
 function showMenu() {
   game.state = 'menu';
   stopMusic();
-  ['menu','diffSelect','shipSelect','howInstall','tutorial','gameover','levelComplete','planetReached','victory','paused'].forEach(id => {
+  ['menu','diffSelect','shipSelect','howInstall','story','tutorial','gameover','levelComplete','planetReached','victory','paused'].forEach(id => {
     document.getElementById(id).style.display = id === 'menu' ? 'flex' : 'none';
   });
   document.getElementById('hud').style.display = 'none';
@@ -1775,6 +1811,14 @@ document.getElementById('btnHowInstall').addEventListener('click', () => {
 });
 document.getElementById('btnBackHow').addEventListener('click', () => {
   document.getElementById('howInstall').style.display = 'none';
+  document.getElementById('menu').style.display = 'flex';
+});
+document.getElementById('btnStory').addEventListener('click', () => {
+  document.getElementById('menu').style.display = 'none';
+  document.getElementById('story').style.display = 'flex';
+});
+document.getElementById('btnStoryBack').addEventListener('click', () => {
+  document.getElementById('story').style.display = 'none';
   document.getElementById('menu').style.display = 'flex';
 });
 document.getElementById('btnTutorialOk').addEventListener('click', () => {

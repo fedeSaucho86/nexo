@@ -1,5 +1,5 @@
 // NEXO service worker — cache offline
-const CACHE = 'nexo-v7';
+const CACHE = 'nexo-v8';
 const ASSETS = [
   './',
   './index.html',

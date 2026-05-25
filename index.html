@@ -274,6 +274,13 @@
   <div class="sub">VIAJE AL SOL</div>
   <p>Recolectá estrellitas. Esquivá monstruitos espaciales.<br>
      Viajá de la Tierra al Sol aprendiendo el sistema solar.</p>
+  <div style="margin-bottom:14px">
+    <input id="inputName" type="text" placeholder="TU NOMBRE" maxlength="16" autocomplete="off"
+           style="background:rgba(0,30,60,0.6);border:1px solid #0ff8;color:#0ff;
+                  padding:11px 16px;font-family:inherit;font-size:14px;letter-spacing:4px;
+                  text-align:center;text-transform:uppercase;width:230px;outline:none;
+                  text-shadow:0 0 8px #0ff;border-radius:0">
+  </div>
   <div>
     <button id="btnStart">EMPEZAR</button>
     <button id="btnContinue" class="secondary" style="display:none">CONTINUAR</button>
@@ -327,7 +334,7 @@
     <p style="color:#4f8;font-size:15px;letter-spacing:2px"><b>LA SEMILLA SOLAR.</b></p>
     <p>Un fragmento de plasma puro escondido en el corazón del Sol, capaz de reencender la estrella.</p>
     <p>Para llegar hay que cruzar el sistema solar planeta por planeta. Cada planeta tiene un <span style="color:#f44"><b>Guardián antiguo</b></span> que custodia el camino. Custodian la verdad: que ya muchos lo intentaron antes. Ninguno volvió.</p>
-    <p style="color:#ff8;margin-top:18px">Vos sos el último piloto. La Tierra te eligió.</p>
+    <p style="color:#ff8;margin-top:18px">Vos sos el último piloto, <span id="storyHero" style="color:#0ff;font-weight:bold">PILOTO</span>. La Tierra te eligió.</p>
     <p style="text-align:center;margin-top:22px;font-size:16px;letter-spacing:6px"><b>NO FALLES.</b></p>
   </div>
   <button id="btnStoryBack" class="secondary">VOLVER</button>
@@ -397,7 +404,7 @@
     Volás de regreso. El Sol vuelve a brillar.<br>
     La Tierra se calienta. Los océanos respiran.<br>
     <b style="color:#4f8">La humanidad vive.</b><br><br>
-    <span style="color:#ff8;font-style:italic">Sos el último piloto. Sos un héroe.</span>
+    <span style="color:#ff8;font-style:italic">Sos el último piloto. Sos un héroe, <span id="victoryHero" style="color:#4f8;font-weight:bold">PILOTO</span>.</span>
   </p>
   <div class="stat">SCORE FINAL: <span class="num" id="vScore">0</span></div>
   <button id="btnEndless" class="green">MODO INFINITO</button>
@@ -566,7 +573,7 @@ const SHIPS = {
 
 // ═══ Dificultad ═══
 const DIFFICULTIES = {
-  facil:   { vidaMult: 1.8, dmgMult: 0.5, spawnMult: 1.6, regenMult: 1.6, scoreMult: 0.7 },
+  facil:   { vidaMult: 2.4, dmgMult: 0.3, spawnMult: 0.45, regenMult: 2.0, scoreMult: 0.55 },
   medio:   { vidaMult: 1.0, dmgMult: 1.0, spawnMult: 1.0, regenMult: 1.0, scoreMult: 1.0 },
   dificil: { vidaMult: 0.7, dmgMult: 1.5, spawnMult: 0.7, regenMult: 0.75, scoreMult: 1.5 },
 };
@@ -629,6 +636,7 @@ const game = {
   endless: false,
 };
 
+let playerName = (localStorage.getItem('nexo_name') || 'PILOTO').toUpperCase();
 let mouseX = innerWidth / 2, mouseY = innerHeight / 2;
 let shipX = mouseX, shipY = mouseY;
 let shipAngle = 0;
@@ -1667,6 +1675,17 @@ function showMenu() {
   document.getElementById('mRecord').textContent = records.high;
   document.getElementById('mMaxLevel').textContent = records.maxLevel;
   document.getElementById('btnContinue').style.display = checkpoint ? 'inline-block' : 'none';
+  const inp = document.getElementById('inputName');
+  if (inp) inp.value = playerName !== 'PILOTO' ? playerName : '';
+}
+
+function commitPlayerName() {
+  const v = (document.getElementById('inputName')?.value || '').trim().toUpperCase();
+  playerName = v || 'PILOTO';
+  localStorage.setItem('nexo_name', playerName);
+  // Actualizar todos los placeholders donde se usa el nombre
+  const sh = document.getElementById('storyHero'); if (sh) sh.textContent = playerName;
+  const vh = document.getElementById('victoryHero'); if (vh) vh.textContent = playerName;
 }
 
 function showDifficulty(continueFromCp) {
@@ -1883,6 +1902,7 @@ document.getElementById('btnBackHow').addEventListener('click', () => {
   document.getElementById('menu').style.display = 'flex';
 });
 document.getElementById('btnStory').addEventListener('click', () => {
+  commitPlayerName();
   document.getElementById('menu').style.display = 'none';
   document.getElementById('story').style.display = 'flex';
 });

@@ -1,5 +1,13 @@
 # Imágenes de referencia / assets locales que NO van al repo público
 ships-pack.png
+ship-2.png
+ship-4.png
+ship-5.png
+ship-6.png
+ship-7.png
+ship-8.png
+ship-9.png
+crazygames/
 *.psd
 *.ai
 *.sketch

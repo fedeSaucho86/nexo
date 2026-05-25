@@ -1738,11 +1738,16 @@ function spawnEnemy() {
   }
   const [type, data] = chosen;
   const pos = spawnAtEdge();
+  // Escalado por nivel: enemigos más rápidos y resistentes en niveles altos
+  const lvlBonus = (game.level - 1) * 0.045;       // +4.5% velocidad por nivel
+  const hpBonus = Math.floor((game.level - 1) / 4); // +1 HP cada 4 niveles
   game.enemies.push({
     type, ...data,
     x: pos.x, y: pos.y,
     vx: 0, vy: 0, angle: 0,
-    hp: data.vida, maxHp: data.vida,
+    vel: data.vel * (1 + lvlBonus),
+    hp: data.vida + hpBonus,
+    maxHp: data.vida + hpBonus,
     lastShoot: performance.now() + Math.random() * 1000,
     lastBomb: performance.now() + Math.random() * 2000,
   });
@@ -1802,10 +1807,11 @@ function burst(x, y, color, n = 14) {
 
 function firePulse() {
   const ship = SHIPS[game.shipType];
-  if (game.energia < ship.pulseCost) return;
+  const isEasy = game.difficulty === 'facil';
+  if (!isEasy && game.energia < ship.pulseCost) return;
   if (pulseCooldown > 0) return;
-  game.energia -= ship.pulseCost;
-  pulseCooldown = 180;
+  if (!isEasy) game.energia -= ship.pulseCost;
+  pulseCooldown = isEasy ? 140 : 180;
   game.waves.push({ x: shipX, y: shipY, r: 15, maxR: ship.pulseRadius, damage: 1, life: 1, id: Math.random() });
   if (ship.doubleShot) {
     setTimeout(() => {

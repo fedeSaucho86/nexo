@@ -343,6 +343,7 @@
     <button id="btnContinue" class="secondary" style="display:none">CONTINUAR</button>
   </div>
   <div style="margin-top:8px">
+    <button id="btnShop" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff0;border-color:#ff0">🛒 TIENDA · <span id="menuCoins">0</span> 💰</button>
     <button id="btnStory" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff8;border-color:#ff8">📖 LA MISIÓN</button>
     <button id="btnShareMenu" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#4f8;border-color:#4f8">📣 COMPARTIR</button>
     <button id="btnInstall" class="green" style="display:none;font-size:11px;padding:10px 22px;min-height:auto;min-width:auto">📲 INSTALAR APP</button>
@@ -415,6 +416,20 @@
   <button id="btnBackHow" class="secondary">VOLVER</button>
 </div>
 
+<!-- TIENDA / SHOP (meta-progresión permanente) -->
+<div id="shop" class="overlay" style="display:none">
+  <h1 style="font-size:32px;letter-spacing:6px">🛒 TIENDA</h1>
+  <div style="font-size:13px;color:#ff8;letter-spacing:3px;margin-bottom:18px">
+    💰 <span id="shopCoins" style="font-size:22px;color:#ff0">0</span> MONEDAS
+  </div>
+  <div id="upgradeCards" style="display:flex;flex-direction:column;gap:12px;width:360px;max-width:92vw"></div>
+  <button id="btnShopBack" class="secondary" style="margin-top:18px">VOLVER</button>
+  <p style="font-size:10px;opacity:0.55;margin-top:14px;max-width:380px;line-height:1.7">
+    Las mejoras son permanentes. Se aplican apenas empezás una partida nueva.<br>
+    Las monedas se ganan cazando enemigos, recolectando estrellitas y completando niveles.
+  </p>
+</div>
+
 <!-- TUTORIAL -->
 <div id="tutorial">
   <h1 style="font-size:32px;letter-spacing:8px">CÓMO JUGAR</h1>
@@ -439,6 +454,7 @@
   <h1 style="font-size:44px;color:#4f8;text-shadow:0 0 40px #4f8" id="lcTitle">NIVEL SUPERADO</h1>
   <div class="stat">SCORE: <span class="num" id="lcScore">0</span></div>
   <div class="stat">COMBO MÁX: <span class="num" id="lcMaxCombo">x1</span></div>
+  <div class="stat" style="color:#ff0">BONUS: <span class="num" id="lcCoinBonus" style="color:#ff0">+0 💰</span></div>
   <div class="stat" style="font-size:10px;margin-top:14px;color:#0ff;letter-spacing:3px">CHECKPOINT GUARDADO</div>
   <button id="btnNext">SIGUIENTE</button>
 </div>
@@ -715,6 +731,22 @@ const records = {
 };
 let checkpoint = null;
 try { const cp = localStorage.getItem('nexo_cp'); if (cp) checkpoint = JSON.parse(cp); } catch(e) {}
+
+// ─── Meta-progresión (monedas + upgrades permanentes) ───
+let coins = parseInt(localStorage.getItem('nexo_coins') || '0', 10);
+let upgrades = { hull: 0, pulse: 0, reactor: 0 };
+try {
+  const u = localStorage.getItem('nexo_upgrades');
+  if (u) upgrades = { ...upgrades, ...JSON.parse(u) };
+} catch (e) {}
+const UPGRADE_DEFS = {
+  hull:    { name: 'CASCO',   color: '#4f8', icon: '🛡', desc: '+15% vida máxima por nivel',     max: 5 },
+  pulse:   { name: 'PULSO',   color: '#f8f', icon: '⚡', desc: '+12% daño del pulso por nivel',  max: 5 },
+  reactor: { name: 'REACTOR', color: '#0ff', icon: '🔋', desc: '+20% regeneración de energía',   max: 5 },
+};
+function upgradeCost(key) { return Math.floor(100 * Math.pow(2.0, upgrades[key])); }
+function saveCoins() { localStorage.setItem('nexo_coins', String(coins)); }
+function saveUpgrades() { localStorage.setItem('nexo_upgrades', JSON.stringify(upgrades)); }
 
 // ─── Estrellas ───
 function initStars() {
@@ -1812,11 +1844,12 @@ function firePulse() {
   if (pulseCooldown > 0) return;
   if (!isEasy) game.energia -= ship.pulseCost;
   pulseCooldown = isEasy ? 140 : 180;
-  game.waves.push({ x: shipX, y: shipY, r: 15, maxR: ship.pulseRadius, damage: 1, life: 1, id: Math.random() });
+  const pMult = (game.upMult && game.upMult.pulse) || 1;
+  game.waves.push({ x: shipX, y: shipY, r: 15, maxR: ship.pulseRadius, damage: 1 * pMult, life: 1, id: Math.random() });
   if (ship.doubleShot) {
     setTimeout(() => {
       if (game.state === 'playing') {
-        game.waves.push({ x: shipX, y: shipY, r: 15, maxR: ship.pulseRadius * 0.85, damage: 0.5, life: 1, id: Math.random() });
+        game.waves.push({ x: shipX, y: shipY, r: 15, maxR: ship.pulseRadius * 0.85, damage: 0.5 * pMult, life: 1, id: Math.random() });
       }
     }, 110);
   }
@@ -1852,7 +1885,8 @@ function update(dt) {
   if (!isNaN(ang)) shipAngle = ang;
 
   if (pulseCooldown > 0) pulseCooldown -= dt;
-  game.energia = Math.min(100, game.energia + dt * ship.energiaRegen * diff.regenMult);
+  const rMult = (game.upMult && game.upMult.reactor) || 1;
+  game.energia = Math.min(100, game.energia + dt * ship.energiaRegen * diff.regenMult * rMult);
   game.missionTime += dt;
 
   if (!game.boss) {
@@ -1869,7 +1903,7 @@ function update(dt) {
   }
 
   // Power-up de vida: aparece si vida está bajo el 75% y no hay otro powerup
-  const maxV = SHIPS[game.shipType].vidaMax * diff.vidaMult;
+  const maxV = game.maxVida || SHIPS[game.shipType].vidaMax * diff.vidaMult;
   if (game.vida < maxV * 0.75 && game.powerups.length === 0) {
     game.powerupTimer += dt;
     if (game.powerupTimer > game.powerupInterval) {
@@ -1911,8 +1945,9 @@ function update(dt) {
       game.maxCombo = Math.max(game.maxCombo, game.combo);
       game.comboTimer = 2500;
       game.score += Math.round(10 * game.combo * diff.scoreMult);
-      game.vida = Math.min(SHIPS[game.shipType].vidaMax * diff.vidaMult, game.vida + 4);
+      game.vida = Math.min(game.maxVida || SHIPS[game.shipType].vidaMax * diff.vidaMult, game.vida + 4);
       game.energia = Math.min(100, game.energia + 8);
+      coins += 1; saveCoins();
       burst(cr.x, cr.y, '#ff8', 14);
       sfx.collect();
       if (game.mission?.type === 'collect') {
@@ -1975,6 +2010,11 @@ function update(dt) {
           game.combo = Math.min(50, game.combo + 1);
           game.maxCombo = Math.max(game.maxCombo, game.combo);
           game.comboTimer = 2500;
+          // Drop de monedas: 35% chance, +1 normal o +2 si enemigo grande
+          if (Math.random() < 0.35) {
+            coins += (e.score >= 30) ? 2 : 1;
+            saveCoins();
+          }
           burst(e.x, e.y, e.color, 20);
           sfx.kill();
           if (game.mission?.type === 'kill') {
@@ -2314,10 +2354,17 @@ function saveCheckpoint() {
 function levelComplete() {
   if (game.state !== 'playing') return;
   game.state = 'levelComplete';
+  // Bonus de monedas por terminar nivel (escala con nivel)
+  const lvlBonus = 20 + game.level * 5;
+  coins += lvlBonus;
+  saveCoins();
   saveCheckpoint();
   document.getElementById('lcScore').textContent = game.score;
   document.getElementById('lcMaxCombo').textContent = 'x' + game.maxCombo;
   document.getElementById('lcTitle').textContent = (game.level + 1) % 5 === 0 ? 'GUARDIÁN ESPERA' : 'NIVEL SUPERADO';
+  // Mostrar bonus de monedas si existe el span (compatible si no está)
+  const lcCoinSpan = document.getElementById('lcCoinBonus');
+  if (lcCoinSpan) lcCoinSpan.textContent = '+' + lvlBonus + ' 💰';
   document.getElementById('levelComplete').style.display = 'flex';
   sfx.win();
 }
@@ -2389,8 +2436,9 @@ function nextLevel() {
 function showMenu() {
   game.state = 'menu';
   stopMusic();
-  ['menu','diffSelect','shipSelect','howInstall','story','tutorial','gameover','levelComplete','planetReached','victory','paused'].forEach(id => {
-    document.getElementById(id).style.display = id === 'menu' ? 'flex' : 'none';
+  ['menu','diffSelect','shipSelect','howInstall','story','shop','tutorial','gameover','levelComplete','planetReached','victory','paused'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.style.display = id === 'menu' ? 'flex' : 'none';
   });
   document.getElementById('hud').style.display = 'none';
   document.getElementById('bars').style.display = 'none';
@@ -2400,8 +2448,72 @@ function showMenu() {
   document.getElementById('mRecord').textContent = records.high;
   document.getElementById('mMaxLevel').textContent = records.maxLevel;
   document.getElementById('btnContinue').style.display = checkpoint ? 'inline-block' : 'none';
+  const cm = document.getElementById('menuCoins');
+  if (cm) cm.textContent = coins;
   const inp = document.getElementById('inputName');
   if (inp) inp.value = playerName !== 'PILOTO' ? playerName : '';
+}
+
+// ═══════════════════════════════════════════
+//  TIENDA / META-PROGRESIÓN
+// ═══════════════════════════════════════════
+function showShop() {
+  document.getElementById('menu').style.display = 'none';
+  document.getElementById('shop').style.display = 'flex';
+  renderShop();
+}
+
+function renderShop() {
+  document.getElementById('shopCoins').textContent = coins;
+  const container = document.getElementById('upgradeCards');
+  container.innerHTML = '';
+  for (const [key, def] of Object.entries(UPGRADE_DEFS)) {
+    const lvl = upgrades[key];
+    const maxed = lvl >= def.max;
+    const cost = upgradeCost(key);
+    const canBuy = !maxed && coins >= cost;
+    const stars = '★'.repeat(lvl) + '☆'.repeat(def.max - lvl);
+    const card = document.createElement('div');
+    card.style.cssText = `
+      background:rgba(0,15,30,0.6);
+      border:1px solid ${def.color}66;
+      padding:12px 16px;
+      display:flex;align-items:center;gap:12px;
+      box-shadow:0 0 16px ${def.color}22;`;
+    card.innerHTML = `
+      <div style="font-size:32px;text-shadow:0 0 14px ${def.color}">${def.icon}</div>
+      <div style="flex:1;text-align:left">
+        <div style="font-size:13px;letter-spacing:3px;color:${def.color}">${def.name}</div>
+        <div style="font-size:10px;opacity:0.7;letter-spacing:1px;margin-top:2px">${def.desc}</div>
+        <div style="font-size:14px;color:${def.color};margin-top:4px;letter-spacing:2px">${stars}</div>
+      </div>
+      <button data-buy="${key}" class="secondary" style="
+        font-size:11px;padding:9px 14px;min-height:auto;min-width:auto;
+        color:${maxed ? '#666' : (canBuy ? def.color : '#888')};
+        border-color:${maxed ? '#444' : (canBuy ? def.color : '#666')};
+        ${maxed || !canBuy ? 'cursor:not-allowed;opacity:0.6' : ''}">
+        ${maxed ? 'MÁX' : `${cost} 💰`}
+      </button>`;
+    container.appendChild(card);
+  }
+  container.querySelectorAll('button[data-buy]').forEach(btn => {
+    btn.addEventListener('click', () => buyUpgrade(btn.dataset.buy));
+  });
+}
+
+function buyUpgrade(key) {
+  const def = UPGRADE_DEFS[key];
+  if (upgrades[key] >= def.max) return;
+  const cost = upgradeCost(key);
+  if (coins < cost) return;
+  coins -= cost;
+  upgrades[key]++;
+  saveCoins();
+  saveUpgrades();
+  renderShop();
+  // Feedback visual breve
+  comboFlash('+1 ' + def.name, def.color);
+  sfx.collect();
 }
 
 async function shareRecord() {
@@ -2500,7 +2612,14 @@ function startGame(continueFromCp) {
   game.state = 'playing';
   game.endless = false;
   const diff = DIFFICULTIES[game.difficulty];
-  game.vida = SHIPS[game.shipType].vidaMax * diff.vidaMult;
+  // Aplicar upgrades permanentes
+  game.upMult = {
+    hull:    1 + upgrades.hull * 0.15,
+    pulse:   1 + upgrades.pulse * 0.12,
+    reactor: 1 + upgrades.reactor * 0.20,
+  };
+  game.maxVida = SHIPS[game.shipType].vidaMax * game.upMult.hull * diff.vidaMult;
+  game.vida = game.maxVida;
   game.energia = 100;
   game.combo = 1; game.maxCombo = 1;
   if (continueFromCp && checkpoint) {
@@ -2560,7 +2679,7 @@ function updateHUD() {
       : (game.mission.progress / game.mission.target) * 100;
     document.getElementById('hProgress').style.width = Math.min(100, pct) + '%';
   }
-  const vidaMax = SHIPS[game.shipType].vidaMax * diff.vidaMult;
+  const vidaMax = game.maxVida || SHIPS[game.shipType].vidaMax * diff.vidaMult;
   document.getElementById('bLife').style.width = Math.max(0, (game.vida / vidaMax) * 100) + '%';
   document.getElementById('bEnergy').style.width = game.energia + '%';
   if (game.boss) {
@@ -2667,6 +2786,13 @@ document.getElementById('btnStory').addEventListener('click', () => {
 document.getElementById('btnStoryBack').addEventListener('click', () => {
   document.getElementById('story').style.display = 'none';
   document.getElementById('menu').style.display = 'flex';
+});
+document.getElementById('btnShop').addEventListener('click', showShop);
+document.getElementById('btnShopBack').addEventListener('click', () => {
+  document.getElementById('shop').style.display = 'none';
+  document.getElementById('menu').style.display = 'flex';
+  const cm = document.getElementById('menuCoins');
+  if (cm) cm.textContent = coins;
 });
 document.getElementById('btnTutorialOk').addEventListener('click', () => {
   tutorialShown = true;

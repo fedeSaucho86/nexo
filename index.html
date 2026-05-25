@@ -2595,6 +2595,19 @@ addEventListener('keydown', e => {
   }
 });
 
+// Pausar al perder foco del tab/ventana. No reanudamos auto al volver:
+// el jugador decide con Resume (evita muerte instantánea al regresar).
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden && game.state === 'playing') pause();
+});
+addEventListener('blur', () => {
+  if (game.state === 'playing') pause();
+});
+// iOS/Safari dispara pagehide en vez de visibilitychange al minimizar app.
+addEventListener('pagehide', () => {
+  if (game.state === 'playing') pause();
+});
+
 canvas.addEventListener('touchmove', e => {
   if (game.state !== 'playing') return;
   if (e.touches.length > 0) {

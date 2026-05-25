@@ -234,6 +234,51 @@
     font-size: 9px; opacity: 0.35; letter-spacing: 1px; z-index: 10;
     pointer-events: none;
   }
+
+  /* Boss Warning */
+  #bossWarning {
+    position: fixed; inset: 0; z-index: 60;
+    background: radial-gradient(circle at center, rgba(120,0,0,0.4), rgba(20,0,0,0.85));
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    pointer-events: none; text-align: center; padding: 20px;
+  }
+  #bossWarning .bw-warn {
+    font-size: 26px; color: #f44; font-weight: bold;
+    letter-spacing: 12px; text-shadow: 0 0 24px #f00, 0 0 40px #f00;
+    animation: bwBlink 0.45s infinite;
+  }
+  #bossWarning .bw-name {
+    font-size: 64px; font-weight: bold; color: #fff;
+    letter-spacing: 8px; text-shadow: 0 0 30px #f44, 0 0 70px #f00;
+    margin: 18px 0 8px;
+  }
+  #bossWarning .bw-sub {
+    font-size: 13px; color: #ff8;
+    letter-spacing: 5px; opacity: 0.9;
+    margin-bottom: 24px;
+  }
+  #bossWarning .bw-intro {
+    font-size: 15px; color: #f88;
+    font-style: italic; letter-spacing: 2px;
+    max-width: 540px;
+  }
+  @keyframes bwBlink {
+    0%, 50%, 100% { opacity: 1; }
+    25%, 75% { opacity: 0.25; }
+  }
+  @keyframes bossWarningAnim {
+    0%   { opacity: 0; transform: scale(1.5); }
+    15%  { opacity: 1; transform: scale(1); }
+    85%  { opacity: 1; transform: scale(1); }
+    100% { opacity: 0; transform: scale(0.85); }
+  }
+  @media (max-width: 600px) {
+    #bossWarning .bw-name { font-size: 38px; letter-spacing: 5px; }
+    #bossWarning .bw-warn { font-size: 18px; letter-spacing: 7px; }
+    #bossWarning .bw-sub { font-size: 11px; letter-spacing: 3px; }
+    #bossWarning .bw-intro { font-size: 12px; }
+  }
 </style>
 </head>
 <body>
@@ -267,6 +312,14 @@
 <div id="bossbar"><div class="nm" id="bossName">GUARDIÁN</div><div class="b"><div class="f" id="bossFill"></div></div></div>
 
 <div id="comboflash"></div>
+
+<!-- BOSS WARNING -->
+<div id="bossWarning" style="display:none">
+  <div class="bw-warn">⚠ ALERTA ⚠</div>
+  <div class="bw-name" id="bwName">JEFE</div>
+  <div class="bw-sub" id="bwSub">SUBTÍTULO</div>
+  <div class="bw-intro" id="bwIntro">"..."</div>
+</div>
 
 <!-- MENU -->
 <div id="menu" class="overlay">
@@ -942,27 +995,447 @@ function drawAcechador(c, x, y, angle, t, size = 18) {
 }
 
 // ─── Boss ───
-function drawBoss(c, boss, t) {
-  c.save(); c.translate(boss.x, boss.y); c.rotate(boss.angle);
-  c.shadowBlur = 40; c.shadowColor = boss.color;
-  c.fillStyle = boss.color;
+// ═══════════════════════════════════════════
+//  JEFES POR PLANETA — uno único por sector
+// ═══════════════════════════════════════════
+
+const BOSSES = [
+  { name: 'SATÉLITE CORRUPTO', sub: 'CENTINELA OXIDADO DE LA ÓRBITA',
+    intro: '"Te esperaba, %NAME%."',
+    size: 60, hpMult: 1.0, color: '#4af', glow: '#08f',
+    draw: drawBossSatelite, update: updateBossSatelite },
+  { name: 'CAZADOR LUNAR', sub: 'EL QUE ACECHA EN LOS CRÁTERES',
+    intro: '"Ya nadie pasa de aquí, %NAME%."',
+    size: 55, hpMult: 1.2, color: '#ccc', glow: '#aaf',
+    draw: drawBossCazador, update: updateBossCazador },
+  { name: 'REINA DE POLVO', sub: 'MADRE DE LAS TORMENTAS ROJAS',
+    intro: '"Marte se cobra a sus visitantes."',
+    size: 70, hpMult: 1.35, color: '#f64', glow: '#f40',
+    draw: drawBossReina, update: updateBossReina },
+  { name: 'OJO DE TORMENTA', sub: 'EL VÓRTICE QUE TODO LO TRAGA',
+    intro: '"La gravedad te traga."',
+    size: 85, hpMult: 1.5, color: '#fa4', glow: '#f80',
+    draw: drawBossTormenta, update: updateBossTormenta },
+  { name: 'DEVORADOR DE ANILLOS', sub: 'MAESTRO DEL HIELO Y LA ROCA',
+    intro: '"Mis anillos te cortarán."',
+    size: 75, hpMult: 1.7, color: '#fc8', glow: '#fa0',
+    draw: drawBossDevorador, update: updateBossDevorador },
+  { name: 'NÚCLEO SOLAR', sub: 'EL CORAZÓN DE LA ESTRELLA',
+    intro: '"Vienes por la Semilla. Morirás aquí."',
+    size: 95, hpMult: 2.2, color: '#ff4', glow: '#f80',
+    draw: drawBossSolar, update: updateBossSolar },
+];
+
+// ── Dibujos de jefes ──
+function drawBossSatelite(c, b, t) {
+  c.save(); c.translate(b.x, b.y); c.rotate(b.angle * 0.4);
+  c.shadowBlur = 28; c.shadowColor = b.color;
+  // Paneles solares
+  c.fillStyle = '#1a4';
+  c.fillRect(-b.size * 1.85, -b.size * 0.32, b.size * 0.75, b.size * 0.64);
+  c.fillRect(b.size * 1.1, -b.size * 0.32, b.size * 0.75, b.size * 0.64);
+  c.strokeStyle = '#022'; c.lineWidth = 1.5;
+  for (let i = 1; i < 4; i++) {
+    const o1 = -b.size * 1.85 + i * b.size * 0.19;
+    const o2 = b.size * 1.1 + i * b.size * 0.19;
+    c.beginPath(); c.moveTo(o1, -b.size * 0.32); c.lineTo(o1, b.size * 0.32); c.stroke();
+    c.beginPath(); c.moveTo(o2, -b.size * 0.32); c.lineTo(o2, b.size * 0.32); c.stroke();
+  }
+  // Soportes
+  c.fillStyle = '#666';
+  c.fillRect(-b.size * 1.1, -b.size * 0.08, b.size * 0.3, b.size * 0.16);
+  c.fillRect(b.size * 0.8, -b.size * 0.08, b.size * 0.3, b.size * 0.16);
+  // Cuerpo cúbico
+  c.fillStyle = b.color;
+  c.fillRect(-b.size * 0.75, -b.size * 0.75, b.size * 1.5, b.size * 1.5);
+  c.shadowBlur = 0;
+  c.strokeStyle = '#fff'; c.lineWidth = 2;
+  c.strokeRect(-b.size * 0.55, -b.size * 0.55, b.size * 1.1, b.size * 1.1);
+  // Antena con luz pulsante
+  c.strokeStyle = '#aaa'; c.lineWidth = 3;
+  c.beginPath(); c.moveTo(0, -b.size * 0.75); c.lineTo(0, -b.size * 1.35); c.stroke();
+  const blink = (Math.sin(t * 0.012) > 0) ? '#f00' : '#400';
+  c.fillStyle = blink; c.shadowBlur = 10; c.shadowColor = '#f00';
+  c.beginPath(); c.arc(0, -b.size * 1.35, b.size * 0.09, 0, Math.PI * 2); c.fill();
+  c.shadowBlur = 0;
+  // Ojo
+  c.fillStyle = '#000';
+  c.beginPath(); c.arc(0, 0, b.size * 0.32, 0, Math.PI * 2); c.fill();
+  c.fillStyle = '#f44';
+  c.beginPath(); c.arc(0, 0, b.size * (0.16 + Math.sin(t * 0.005) * 0.05), 0, Math.PI * 2); c.fill();
+  c.restore();
+}
+
+function drawBossCazador(c, b, t) {
+  c.save(); c.translate(b.x, b.y);
+  const alpha = b.phaseAlpha !== undefined ? b.phaseAlpha : 1;
+  c.globalAlpha = alpha;
+  c.shadowBlur = 35; c.shadowColor = b.color;
+  c.fillStyle = b.color;
   c.beginPath();
-  for (let i = 0; i < 12; i++) {
-    const a = (i / 12) * Math.PI * 2;
-    const r = i % 2 === 0 ? boss.size : boss.size * 0.65;
+  for (let i = 0; i < 14; i++) {
+    const a = (i / 14) * Math.PI * 2;
+    const r = b.size * (0.85 + Math.sin(t * 0.003 + i * 1.2) * 0.15);
     const px = Math.cos(a) * r, py = Math.sin(a) * r;
     if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
   }
   c.closePath(); c.fill();
   c.shadowBlur = 0;
-  c.strokeStyle = '#fff'; c.lineWidth = 4;
-  c.beginPath(); c.arc(0, 0, boss.size * 0.55, 0, Math.PI * 2); c.stroke();
-  // Ojo central tipo HAL 9000
+  // 7 ojos rojos
+  for (let i = 0; i < 7; i++) {
+    const a = (i / 7) * Math.PI * 2 + t * 0.0003;
+    const ex = Math.cos(a) * b.size * 0.55, ey = Math.sin(a) * b.size * 0.55;
+    const blnk = (Math.sin(t * 0.008 + i * 2) > 0.7);
+    c.fillStyle = blnk ? '#300' : '#f00';
+    c.shadowBlur = 8; c.shadowColor = '#f00';
+    c.beginPath(); c.arc(ex, ey, b.size * 0.13, 0, Math.PI * 2); c.fill();
+    if (!blnk) { c.fillStyle = '#fff'; c.beginPath(); c.arc(ex, ey, b.size * 0.05, 0, Math.PI * 2); c.fill(); }
+  }
+  c.shadowBlur = 0; c.globalAlpha = 1;
+  c.restore();
+}
+
+function drawBossReina(c, b, t) {
+  c.save(); c.translate(b.x, b.y); c.rotate(b.angle);
+  c.shadowBlur = 30; c.shadowColor = b.color;
+  // 6 patas animadas
+  c.strokeStyle = '#622'; c.lineWidth = 6;
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2;
+    const wave = Math.sin(t * 0.005 + i) * 0.2;
+    c.beginPath();
+    c.moveTo(Math.cos(a) * b.size * 0.5, Math.sin(a) * b.size * 0.5);
+    c.lineTo(Math.cos(a + wave) * b.size * 1.3, Math.sin(a + wave) * b.size * 1.3);
+    c.stroke();
+  }
+  // Caparazón hexagonal
+  c.fillStyle = b.color;
+  c.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2 + Math.PI / 6;
+    const px = Math.cos(a) * b.size, py = Math.sin(a) * b.size;
+    if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
+  }
+  c.closePath(); c.fill();
+  c.shadowBlur = 0;
+  c.strokeStyle = '#400'; c.lineWidth = 2;
+  for (let i = 0; i < 6; i++) {
+    const a = (i / 6) * Math.PI * 2 + Math.PI / 6;
+    c.beginPath(); c.moveTo(0, 0); c.lineTo(Math.cos(a) * b.size * 0.85, Math.sin(a) * b.size * 0.85); c.stroke();
+  }
+  // Ojo
+  c.fillStyle = '#000';
+  c.beginPath(); c.arc(0, 0, b.size * 0.32, 0, Math.PI * 2); c.fill();
+  c.fillStyle = '#ff0';
+  c.beginPath(); c.arc(0, 0, b.size * (0.18 + Math.sin(t * 0.006) * 0.05), 0, Math.PI * 2); c.fill();
+  // Mandíbulas frontales
+  c.strokeStyle = '#822'; c.lineWidth = 4;
+  c.beginPath();
+  c.moveTo(b.size * 0.7, -b.size * 0.15);
+  c.lineTo(b.size * 1.15, 0);
+  c.lineTo(b.size * 0.7, b.size * 0.15);
+  c.stroke();
+  c.restore();
+}
+
+function drawBossTormenta(c, b, t) {
+  c.save(); c.translate(b.x, b.y); c.rotate(b.angle);
+  c.shadowBlur = 50; c.shadowColor = b.color;
+  // Brazos espirales
+  for (let arm = 0; arm < 4; arm++) {
+    c.fillStyle = b.color; c.globalAlpha = 0.5;
+    c.beginPath();
+    const armAng = (arm / 4) * Math.PI * 2;
+    for (let i = 0; i <= 30; i++) {
+      const tt = i / 30, r = b.size * tt * 1.4;
+      const a = armAng + tt * Math.PI * 1.5;
+      if (i === 0) c.moveTo(Math.cos(a) * r, Math.sin(a) * r);
+      else c.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+    }
+    for (let i = 30; i >= 0; i--) {
+      const tt = i / 30, r = b.size * tt * 1.4;
+      const a = armAng + tt * Math.PI * 1.5 + 0.25;
+      c.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+    }
+    c.closePath(); c.fill();
+  }
+  c.globalAlpha = 1;
+  c.shadowBlur = 0;
+  // Ojo de tormenta (centro oscuro)
+  c.fillStyle = '#000';
+  c.beginPath(); c.arc(0, 0, b.size * 0.45, 0, Math.PI * 2); c.fill();
+  // Núcleo brillante
+  const pulse = 0.7 + Math.sin(t * 0.008) * 0.3;
+  c.shadowBlur = 30; c.shadowColor = '#ff0';
   c.fillStyle = '#fff';
-  c.beginPath(); c.arc(0, 0, boss.size * 0.4, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(0, 0, b.size * 0.25 * pulse, 0, Math.PI * 2); c.fill();
+  c.fillStyle = '#ff8';
+  c.beginPath(); c.arc(0, 0, b.size * 0.13 * pulse, 0, Math.PI * 2); c.fill();
+  c.restore();
+}
+
+function drawBossDevorador(c, b, t) {
+  c.save(); c.translate(b.x, b.y);
+  c.shadowBlur = 35; c.shadowColor = b.color;
+  c.fillStyle = b.color;
+  c.beginPath(); c.arc(0, 0, b.size, 0, Math.PI * 2); c.fill();
+  c.shadowBlur = 0;
+  c.strokeStyle = '#fff'; c.lineWidth = 2;
+  c.beginPath(); c.arc(0, 0, b.size * 0.6, 0, Math.PI * 2); c.stroke();
+  c.beginPath(); c.arc(0, 0, b.size * 0.85, 0, Math.PI * 2); c.stroke();
+  // 3 anillos
+  for (let i = 0; i < 3; i++) {
+    c.save();
+    c.rotate((t * 0.001 * (i + 1)) + i * 0.5);
+    c.strokeStyle = `rgba(255, 220, 140, ${0.8 - i * 0.15})`;
+    c.lineWidth = 4;
+    c.beginPath();
+    c.ellipse(0, 0, b.size * (1.3 + i * 0.25), b.size * 0.3, 0, 0, Math.PI * 2);
+    c.stroke();
+    c.fillStyle = '#fa0'; c.shadowBlur = 6; c.shadowColor = '#f80';
+    for (let p = 0; p < 6; p++) {
+      const pa = (p / 6) * Math.PI * 2;
+      c.beginPath();
+      c.arc(Math.cos(pa) * b.size * (1.3 + i * 0.25), Math.sin(pa) * b.size * 0.3, 3, 0, Math.PI * 2);
+      c.fill();
+    }
+    c.shadowBlur = 0;
+    c.restore();
+  }
+  // Ojo
+  c.fillStyle = '#000';
+  c.beginPath(); c.arc(0, 0, b.size * 0.28, 0, Math.PI * 2); c.fill();
+  c.fillStyle = '#fa0';
+  c.beginPath(); c.arc(0, 0, b.size * (0.16 + Math.sin(t * 0.005) * 0.04), 0, Math.PI * 2); c.fill();
+  c.restore();
+}
+
+function drawBossSolar(c, b, t) {
+  c.save(); c.translate(b.x, b.y); c.rotate(b.angle);
+  // Corona solar (llamaradas)
+  c.shadowBlur = 60; c.shadowColor = '#ff8';
+  for (let i = 0; i < 18; i++) {
+    const a = (i / 18) * Math.PI * 2;
+    const wave = Math.sin(t * 0.003 + i * 0.7) * 0.4;
+    const r = b.size * (1.5 + wave);
+    c.fillStyle = `rgba(255, ${Math.floor(180 + Math.sin(t * 0.005 + i) * 50)}, 0, 0.65)`;
+    c.beginPath();
+    c.moveTo(Math.cos(a - 0.08) * b.size * 1.1, Math.sin(a - 0.08) * b.size * 1.1);
+    c.lineTo(Math.cos(a) * r, Math.sin(a) * r);
+    c.lineTo(Math.cos(a + 0.08) * b.size * 1.1, Math.sin(a + 0.08) * b.size * 1.1);
+    c.closePath(); c.fill();
+  }
+  // Estrella central
+  const pulse = 1 + Math.sin(t * 0.006) * 0.1;
+  c.shadowBlur = 60; c.shadowColor = '#ff0';
+  c.fillStyle = '#ff8';
+  c.beginPath();
+  for (let i = 0; i < 16; i++) {
+    const a = (i / 16) * Math.PI * 2;
+    const r = i % 2 === 0 ? b.size * pulse : b.size * 0.75 * pulse;
+    const px = Math.cos(a) * r, py = Math.sin(a) * r;
+    if (i === 0) c.moveTo(px, py); else c.lineTo(px, py);
+  }
+  c.closePath(); c.fill();
+  // Núcleo
+  c.shadowBlur = 40; c.shadowColor = '#fff';
+  c.fillStyle = '#fff';
+  c.beginPath(); c.arc(0, 0, b.size * 0.4, 0, Math.PI * 2); c.fill();
+  c.shadowBlur = 0;
+  c.fillStyle = '#ff8';
+  c.beginPath(); c.arc(0, 0, b.size * 0.28, 0, Math.PI * 2); c.fill();
+  c.fillStyle = '#f80';
+  c.beginPath(); c.arc(0, 0, b.size * (0.16 + Math.sin(t * 0.004) * 0.05), 0, Math.PI * 2); c.fill();
+  c.restore();
+}
+
+// ── Comportamientos ──
+function updateBossSatelite(b, now) {
+  b.x = W / 2 + Math.sin(now * 0.0006) * (W * 0.35);
+  b.y = b.targetY + Math.sin(now * 0.0009) * 25;
+  b.angle += 0.006;
+  if (now - b.lastSpawn > 5500 && game.enemies.length < 5) { spawnEnemy(); b.lastSpawn = now; }
+  if (now - b.lastShoot > 2200) {
+    for (let i = -1; i <= 1; i++) {
+      const adx = shipX - b.x, ady = shipY - b.y;
+      const ang = Math.atan2(ady, adx) + i * 0.25;
+      game.projectiles.push({
+        x: b.x, y: b.y, vx: Math.cos(ang) * 3.5, vy: Math.sin(ang) * 3.5,
+        color: b.color, enemy: true, homing: 0.04, life: 4000
+      });
+    }
+    b.lastShoot = now; sfx.laser();
+  }
+  if (now - b.lastBomb > 4500) {
+    game.bombs.push({ x: b.x, y: b.y + 40, vx: 0, vy: 1.5, timer: 2200, maxTimer: 2200, radius: 110 });
+    b.lastBomb = now;
+  }
+}
+
+function updateBossCazador(b, now) {
+  if (b.phaseAlpha === undefined) b.phaseAlpha = 1;
+  if (b.lastTeleport === undefined) b.lastTeleport = now;
+  const since = now - b.lastTeleport;
+  if (since > 3500) {
+    if (since < 4200) b.phaseAlpha = Math.max(0, b.phaseAlpha - 0.04);
+    else if (since < 4400) {
+      b.x = W * (0.2 + Math.random() * 0.6);
+      b.y = H * (0.18 + Math.random() * 0.35);
+    } else if (since < 5000) b.phaseAlpha = Math.min(1, b.phaseAlpha + 0.04);
+    else b.lastTeleport = now;
+  } else b.phaseAlpha = 1;
+  b.x += Math.sin(now * 0.002) * 0.3;
+  b.y += Math.cos(now * 0.0015) * 0.2;
+  if (b.phaseAlpha > 0.9) {
+    if (now - b.lastShoot > 1800) {
+      const ang = Math.atan2(shipY - b.y, shipX - b.x);
+      for (let i = -2; i <= 2; i++) {
+        const a = ang + i * 0.18;
+        game.projectiles.push({ x: b.x, y: b.y, vx: Math.cos(a) * 4, vy: Math.sin(a) * 4, color: b.color, enemy: true });
+      }
+      b.lastShoot = now; sfx.laser();
+    }
+    if (now - b.lastBomb > 3200) {
+      const adx = shipX - b.x, ady = shipY - b.y, ad = Math.hypot(adx, ady) || 1;
+      game.projectiles.push({
+        x: b.x, y: b.y, vx: (adx / ad) * 2, vy: (ady / ad) * 2,
+        color: '#f88', enemy: true, homing: 0.06, life: 5000
+      });
+      b.lastBomb = now;
+    }
+  }
+}
+
+function updateBossReina(b, now) {
+  if (b.embistiendo === undefined) { b.embistiendo = false; b.lastEmbestida = now; }
+  if (!b.embistiendo && now - b.lastEmbestida > 7000) {
+    b.embistiendo = true;
+    b.embestidaUntil = now + 900;
+    b.embestidaTX = shipX; b.embestidaTY = shipY;
+    sfx.bomb(); game.shake = 12;
+  }
+  if (b.embistiendo) {
+    if (now < b.embestidaUntil) {
+      const dx = b.embestidaTX - b.x, dy = b.embestidaTY - b.y;
+      const d = Math.hypot(dx, dy) || 1;
+      b.x += (dx / d) * 14; b.y += (dy / d) * 14;
+    } else { b.embistiendo = false; b.lastEmbestida = now; }
+  } else {
+    const dx = shipX - b.x, dy = shipY - b.y, d = Math.hypot(dx, dy) || 1;
+    const sp = d > 200 ? 1.4 : 0.4;
+    b.x += (dx / d) * sp; b.y += (dy / d) * sp;
+  }
+  b.angle += 0.008;
+  if (now - b.lastShoot > 1400) {
+    for (let i = 0; i < 4; i++) {
+      game.projectiles.push({
+        x: Math.random() * W, y: -20,
+        vx: (Math.random() - 0.5) * 1.5, vy: 4 + Math.random() * 2,
+        color: '#f60', enemy: true
+      });
+    }
+    b.lastShoot = now; sfx.laser();
+  }
+  if (now - b.lastSpawn > 4500 && game.enemies.length < 5) { spawnEnemy(); b.lastSpawn = now; }
+}
+
+function updateBossTormenta(b, now) {
+  b.x = W / 2; b.y = H * 0.45; b.angle += 0.018;
+  // Gravity well: arrastra al jugador hacia el centro
+  const dx = b.x - shipX, dy = b.y - shipY, d = Math.hypot(dx, dy) || 1;
+  if (d < 500 && d > 80) {
+    const pull = 0.7 * (1 - d / 500);
+    shipX += (dx / d) * pull; shipY += (dy / d) * pull;
+    mouseX += (dx / d) * pull * 0.6; mouseY += (dy / d) * pull * 0.6;
+  }
+  if (now - b.lastShoot > 1000) {
+    for (let i = 0; i < 8; i++) {
+      const a = (i / 8) * Math.PI * 2 + now * 0.001;
+      game.projectiles.push({ x: b.x, y: b.y, vx: Math.cos(a) * 3, vy: Math.sin(a) * 3, color: b.color, enemy: true });
+    }
+    b.lastShoot = now; sfx.laser();
+  }
+  if (now - b.lastBomb > 3500) {
+    const a = Math.random() * Math.PI * 2;
+    game.bombs.push({
+      x: b.x + Math.cos(a) * 200, y: b.y + Math.sin(a) * 200,
+      vx: 0, vy: 0, timer: 1800, maxTimer: 1800, radius: 90
+    });
+    b.lastBomb = now;
+  }
+}
+
+function updateBossDevorador(b, now) {
+  if (b.orbitAng === undefined) b.orbitAng = 0;
+  b.orbitAng += 0.0008;
+  b.x = W / 2 + Math.cos(b.orbitAng) * (W * 0.2);
+  b.y = H * 0.4 + Math.sin(b.orbitAng * 1.3) * 60;
+  b.angle += 0.01;
+  if (now - b.lastShoot > 700) {
+    if (b.spiralStep === undefined) b.spiralStep = 0;
+    const baseA = b.spiralStep * 0.4;
+    for (let i = 0; i < 4; i++) {
+      const ang = baseA + (i / 4) * Math.PI * 2;
+      game.projectiles.push({ x: b.x, y: b.y, vx: Math.cos(ang) * 2.8, vy: Math.sin(ang) * 2.8, color: b.color, enemy: true });
+    }
+    b.spiralStep++;
+    b.lastShoot = now; sfx.laser();
+  }
+  if (now - b.lastBomb > 4800) {
+    for (let i = 0; i < 4; i++) {
+      const a = (i / 4) * Math.PI * 2 + Math.PI / 4;
+      game.bombs.push({
+        x: b.x + Math.cos(a) * 220, y: b.y + Math.sin(a) * 220,
+        vx: 0, vy: 0, timer: 2400, maxTimer: 2400, radius: 80
+      });
+    }
+    b.lastBomb = now;
+  }
+}
+
+function updateBossSolar(b, now) {
+  const phase2 = b.hp < b.maxHp * 0.5;
+  if (phase2 && !b.phase2Triggered) {
+    b.phase2Triggered = true;
+    game.shake = 35; sfx.win();
+    burst(b.x, b.y, '#ff0', 60);
+    comboFlash('FASE 2', '#f80');
+  }
+  b.x = W / 2 + Math.sin(now * 0.0005) * (W * 0.25);
+  b.y = H * 0.42 + Math.sin(now * 0.0008) * 50;
+  b.angle += phase2 ? 0.025 : 0.015;
+  const shootInterval = phase2 ? 600 : 950;
+  if (now - b.lastShoot > shootInterval) {
+    const n = phase2 ? 14 : 10;
+    for (let i = 0; i < n; i++) {
+      const a = (i / n) * Math.PI * 2 + now * 0.001;
+      game.projectiles.push({ x: b.x, y: b.y, vx: Math.cos(a) * 3.2, vy: Math.sin(a) * 3.2, color: '#ff8', enemy: true });
+    }
+    b.lastShoot = now; sfx.laser();
+  }
+  if (now - b.lastBomb > (phase2 ? 1500 : 2400)) {
+    for (let i = 0; i < (phase2 ? 4 : 2); i++) {
+      game.projectiles.push({
+        x: Math.random() * W, y: -20,
+        vx: (Math.random() - 0.5) * 2, vy: 4 + Math.random() * 2,
+        color: '#fa0', enemy: true
+      });
+    }
+    b.lastBomb = now;
+  }
+  if (phase2 && now - b.lastSpawn > 5500 && game.enemies.length < 4) {
+    spawnEnemy(); b.lastSpawn = now;
+  }
+}
+
+// Dispatcher
+function drawBoss(c, boss, t) {
+  if (boss.type && boss.type.draw) { boss.type.draw(c, boss, t); return; }
+  // Fallback (no debería usarse)
+  c.save(); c.translate(boss.x, boss.y); c.rotate(boss.angle);
+  c.shadowBlur = 40; c.shadowColor = boss.color;
   c.fillStyle = boss.color;
-  const pupil = 0.22 + Math.sin(t * 0.005) * 0.05;
-  c.beginPath(); c.arc(0, 0, boss.size * pupil, 0, Math.PI * 2); c.fill();
+  c.beginPath(); c.arc(0, 0, boss.size, 0, Math.PI * 2); c.fill();
   c.restore();
 }
 
@@ -1140,19 +1613,44 @@ function spawnEnemy() {
 }
 
 function spawnBoss() {
-  const p = PLANETS[Math.min(game.sector, PLANETS.length - 1)];
+  const idx = Math.min(game.sector, BOSSES.length - 1);
+  const bt = BOSSES[idx];
+  const baseHp = 80 + game.level * 14;
   game.boss = {
+    type: bt,
     x: W / 2, y: -100, targetY: 150,
-    size: 65,
-    color: p.color,
-    hp: 80 + game.level * 14,
-    maxHp: 80 + game.level * 14,
+    size: bt.size,
+    color: bt.color,
+    glow: bt.glow,
+    hp: baseHp * bt.hpMult,
+    maxHp: baseHp * bt.hpMult,
     angle: 0,
     state: 'entering',
     lastShoot: 0, lastBomb: 0, lastSpawn: 0,
   };
   document.getElementById('bossbar').style.display = 'block';
-  document.getElementById('bossName').textContent = 'GUARDIÁN · ' + p.name;
+  document.getElementById('bossName').textContent = bt.name;
+  showBossWarning(bt);
+}
+
+function showBossWarning(bt) {
+  const el = document.getElementById('bossWarning');
+  if (!el) return;
+  document.getElementById('bwName').textContent = bt.name;
+  document.getElementById('bwSub').textContent = bt.sub;
+  document.getElementById('bwIntro').textContent = bt.intro.replace('%NAME%', playerName);
+  el.style.display = 'flex';
+  el.style.animation = 'none';
+  void el.offsetWidth; // reflow para reiniciar animación
+  el.style.animation = 'bossWarningAnim 2.6s forwards';
+  game.shake = 28;
+  if (audioCtx) {
+    beep(80, 0.5, 'sawtooth', 0.1);
+    setTimeout(() => beep(60, 0.5, 'sawtooth', 0.1), 200);
+    setTimeout(() => beep(45, 0.8, 'sawtooth', 0.1), 400);
+  }
+  haptic([120, 80, 200]);
+  setTimeout(() => { el.style.display = 'none'; }, 2600);
 }
 
 function burst(x, y, color, n = 14) {
@@ -1344,8 +1842,22 @@ function update(dt) {
 
   // Proyectiles
   for (let p of game.projectiles) {
+    // Homing: ajusta velocidad hacia el jugador
+    if (p.homing && p.enemy) {
+      const adx = shipX - p.x, ady = shipY - p.y, ad = Math.hypot(adx, ady) || 1;
+      p.vx += (adx / ad) * p.homing;
+      p.vy += (ady / ad) * p.homing;
+      const sp = Math.hypot(p.vx, p.vy);
+      const maxSp = 5;
+      if (sp > maxSp) { p.vx = p.vx / sp * maxSp; p.vy = p.vy / sp * maxSp; }
+    }
     p.x += p.vx * dt * 0.1;
     p.y += p.vy * dt * 0.1;
+    // Lifetime
+    if (p.life !== undefined) {
+      p.life -= dt;
+      if (p.life <= 0) p.dead = true;
+    }
     if (p.enemy && Math.hypot(p.x - shipX, p.y - shipY) < 14) {
       damage(8 * diff.dmgMult);
       p.dead = true;
@@ -1376,26 +1888,8 @@ function update(dt) {
     if (b.state === 'entering') {
       b.y += (b.targetY - b.y) * 0.05;
       if (Math.abs(b.y - b.targetY) < 5) b.state = 'fighting';
-    } else {
-      b.x = W / 2 + Math.sin(now * 0.0008) * (W * 0.3);
-      b.y = b.targetY + Math.sin(now * 0.0012) * 40;
-      b.angle += 0.012;
-      if (now - b.lastShoot > 900) {
-        for (let i = 0; i < 6; i++) {
-          const a = (i / 6) * Math.PI * 2 + now * 0.001;
-          game.projectiles.push({ x: b.x, y: b.y, vx: Math.cos(a) * 3, vy: Math.sin(a) * 3, color: b.color, enemy: true });
-        }
-        b.lastShoot = now;
-        sfx.laser();
-      }
-      if (now - b.lastBomb > 3200) {
-        game.bombs.push({ x: b.x, y: b.y + 30, vx: (shipX - b.x) * 0.003, vy: 1, timer: 1800, maxTimer: 1800, radius: 100 });
-        b.lastBomb = now;
-      }
-      if (now - b.lastSpawn > 4000 && game.enemies.length < 4) {
-        spawnEnemy();
-        b.lastSpawn = now;
-      }
+    } else if (b.type && b.type.update) {
+      b.type.update(b, now, dt);
     }
     if (Math.hypot(b.x - shipX, b.y - shipY) < b.size + 14) damage(20 * diff.dmgMult);
     if (b.hp <= 0) bossDefeated();

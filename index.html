@@ -1872,8 +1872,8 @@ canvas.addEventListener('touchstart', e => {
 }, { passive: false });
 
 // Botones
-document.getElementById('btnStart').addEventListener('click', () => showDifficulty(false));
-document.getElementById('btnContinue').addEventListener('click', () => showDifficulty(true));
+document.getElementById('btnStart').addEventListener('click', () => { commitPlayerName(); showDifficulty(false); });
+document.getElementById('btnContinue').addEventListener('click', () => { commitPlayerName(); showDifficulty(true); });
 document.getElementById('btnBackDiff').addEventListener('click', showMenu);
 document.getElementById('btnBackShip').addEventListener('click', () => { document.getElementById('shipSelect').style.display = 'none'; showDifficulty(false); });
 document.getElementById('btnNext').addEventListener('click', nextLevel);

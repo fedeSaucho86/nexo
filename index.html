@@ -297,6 +297,10 @@
   <div class="hud-left">
     <div class="panel"><div class="lbl">SCORE</div><span class="v" id="hScore">0</span></div>
     <div class="panel"><div class="lbl">COMBO</div><span class="v" id="hCombo" style="color:#ff8">x1</span></div>
+    <div class="panel" id="hCoinsPanel" style="border-color:rgba(255,200,40,0.5)">
+      <div class="lbl" style="color:#ff8">💰</div>
+      <span class="v" id="hCoins" style="color:#ff0;text-shadow:0 0 10px #ff8">0</span>
+    </div>
   </div>
   <div class="hud-center panel">
     <div class="mission" id="hMission">ABSORBÉ 8</div>
@@ -573,6 +577,9 @@ const sfx = {
   laser:   () => beep(800, 0.04, 'sawtooth', 0.025),
   win:     () => { beep(523, 0.1, 'triangle', 0.06); setTimeout(() => beep(659, 0.1, 'triangle', 0.06), 100); setTimeout(() => beep(784, 0.2, 'triangle', 0.06), 200); haptic([20, 30, 40]); },
   lose:    () => { beep(180, 0.3, 'sawtooth', 0.08); setTimeout(() => beep(120, 0.3, 'sawtooth', 0.08), 150); setTimeout(() => beep(80, 0.5, 'sawtooth', 0.08), 300); haptic([100, 50, 200]); },
+  // Coin: dos beeps cortos en intervalo de octava (efecto "ka-ching" arcade clásico)
+  coin:    () => { beep(988, 0.05, 'square', 0.035); setTimeout(() => beep(1568, 0.08, 'square', 0.04), 35); },
+  bigCoin: () => { beep(988, 0.06, 'square', 0.04); setTimeout(() => beep(1318, 0.06, 'square', 0.04), 40); setTimeout(() => beep(1976, 0.12, 'square', 0.05), 80); },
 };
 
 function haptic(pattern) {
@@ -745,7 +752,18 @@ const UPGRADE_DEFS = {
   reactor: { name: 'REACTOR', color: '#0ff', icon: '🔋', desc: '+20% regeneración de energía',   max: 5 },
 };
 function upgradeCost(key) { return Math.floor(100 * Math.pow(2.0, upgrades[key])); }
-function saveCoins() { localStorage.setItem('nexo_coins', String(coins)); }
+function saveCoins() {
+  localStorage.setItem('nexo_coins', String(coins));
+  const el = document.getElementById('hCoins');
+  if (el) {
+    el.textContent = coins;
+    // Pulse visual breve para feedback
+    el.style.transform = 'scale(1.35)';
+    el.style.transition = 'transform 0.18s cubic-bezier(.34,1.56,.64,1)';
+    clearTimeout(saveCoins._t);
+    saveCoins._t = setTimeout(() => { el.style.transform = 'scale(1)'; }, 180);
+  }
+}
 function saveUpgrades() { localStorage.setItem('nexo_upgrades', JSON.stringify(upgrades)); }
 
 // ─── Estrellas ───
@@ -2012,8 +2030,12 @@ function update(dt) {
           game.comboTimer = 2500;
           // Drop de monedas: 35% chance, +1 normal o +2 si enemigo grande
           if (Math.random() < 0.35) {
-            coins += (e.score >= 30) ? 2 : 1;
+            const drop = (e.score >= 30) ? 2 : 1;
+            coins += drop;
             saveCoins();
+            sfx.coin();
+            // Partícula amarilla extra para visualizar el drop
+            burst(e.x, e.y, '#ff0', drop * 6);
           }
           burst(e.x, e.y, e.color, 20);
           sfx.kill();
@@ -2367,6 +2389,7 @@ function levelComplete() {
   if (lcCoinSpan) lcCoinSpan.textContent = '+' + lvlBonus + ' 💰';
   document.getElementById('levelComplete').style.display = 'flex';
   sfx.win();
+  setTimeout(() => sfx.bigCoin(), 250);
 }
 
 function bossDefeated() {
@@ -2639,6 +2662,8 @@ function startGame(continueFromCp) {
 function gameOver() {
   game.state = 'gameOver';
   stopMusic();
+  // Analytics: registrar muerte por nivel para rebalanceo futuro
+  trackDeath(game.level);
   document.getElementById('gameover').style.display = 'flex';
   document.getElementById('goScore').textContent = game.score;
   document.getElementById('goLevel').textContent = game.level;
@@ -2651,6 +2676,20 @@ function gameOver() {
   burst(shipX, shipY, '#f44', 60);
   game.shake = 30;
   sfx.lose();
+}
+
+// Analytics: nexo_deaths = { "1": 3, "2": 5, ... } + total y last10
+function trackDeath(lvl) {
+  try {
+    const raw = localStorage.getItem('nexo_deaths');
+    const data = raw ? JSON.parse(raw) : { byLevel: {}, total: 0, last10: [] };
+    data.byLevel[lvl] = (data.byLevel[lvl] || 0) + 1;
+    data.total = (data.total || 0) + 1;
+    data.last10 = data.last10 || [];
+    data.last10.push({ lvl, score: game.score, ts: Date.now(), diff: game.difficulty, ship: game.shipType });
+    if (data.last10.length > 10) data.last10.shift();
+    localStorage.setItem('nexo_deaths', JSON.stringify(data));
+  } catch (e) { /* silencioso, analytics no debe romper el game */ }
 }
 
 function pause() {
@@ -2672,6 +2711,9 @@ function updateHUD() {
   document.getElementById('hCombo').style.color = game.combo > 10 ? '#ff0' : '#ff8';
   document.getElementById('hLevel').textContent = game.level;
   document.getElementById('hPlanet').textContent = p.emoji;
+  // Coin counter — usa el valor actual sin animación (saveCoins se encarga del pulse)
+  const hc = document.getElementById('hCoins');
+  if (hc && hc.textContent !== String(coins)) hc.textContent = coins;
   if (game.mission) {
     document.getElementById('hMission').textContent = game.mission.label;
     const pct = game.mission.type === 'boss' && game.boss

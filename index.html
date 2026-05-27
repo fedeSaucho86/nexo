@@ -323,7 +323,7 @@
 
 <!-- BOSS WARNING -->
 <div id="bossWarning" style="display:none">
-  <div class="bw-warn">⚠ ALERTA ⚠</div>
+  <div class="bw-warn" data-i18n="boss.alert">⚠ ALERTA ⚠</div>
   <div class="bw-name" id="bwName">JEFE</div>
   <div class="bw-sub" id="bwSub">SUBTÍTULO</div>
   <div class="bw-intro" id="bwIntro">"..."</div>
@@ -392,25 +392,25 @@
 
 <!-- HISTORIA -->
 <div id="story" class="overlay" style="display:none">
-  <h1 style="font-size:36px;letter-spacing:8px;color:#ff8;text-shadow:0 0 30px #ff0">LA MISIÓN</h1>
+  <h1 style="font-size:36px;letter-spacing:8px;color:#ff8;text-shadow:0 0 30px #ff0" data-i18n="story.title">LA MISIÓN</h1>
   <div style="max-width:560px;text-align:left;line-height:1.9;font-size:13px;letter-spacing:1px;margin:20px 0">
-    <p style="color:#ff8;font-size:15px;letter-spacing:3px"><b>AÑO 2199.</b></p>
-    <p>El Sol se está apagando. Su luz se debilita día a día.</p>
-    <p>La Tierra se enfría. Los océanos se congelan. Las cosechas mueren. La humanidad agoniza.</p>
-    <p style="color:#0ff;margin-top:14px"><b>Pero hay una última esperanza:</b></p>
-    <p style="color:#4f8;font-size:15px;letter-spacing:2px"><b>LA SEMILLA SOLAR.</b></p>
-    <p>Un fragmento de plasma puro escondido en el corazón del Sol, capaz de reencender la estrella.</p>
-    <p>Para llegar hay que cruzar el sistema solar planeta por planeta. Cada planeta tiene un <span style="color:#f44"><b>Guardián antiguo</b></span> que custodia el camino. Custodian la verdad: que ya muchos lo intentaron antes. Ninguno volvió.</p>
-    <p style="color:#ff8;margin-top:18px">Vos sos el último piloto, <span id="storyHero" style="color:#0ff;font-weight:bold">PILOTO</span>. La Tierra te eligió.</p>
-    <p style="text-align:center;margin-top:22px;font-size:16px;letter-spacing:6px"><b>NO FALLES.</b></p>
+    <p style="color:#ff8;font-size:15px;letter-spacing:3px"><b data-i18n="story.year">AÑO 2199.</b></p>
+    <p data-i18n="story.p1">El Sol se está apagando. Su luz se debilita día a día.</p>
+    <p data-i18n="story.p2">La Tierra se enfría. Los océanos se congelan. Las cosechas mueren. La humanidad agoniza.</p>
+    <p style="color:#0ff;margin-top:14px"><b data-i18n="story.hope">Pero hay una última esperanza:</b></p>
+    <p style="color:#4f8;font-size:15px;letter-spacing:2px"><b data-i18n="story.seed">LA SEMILLA SOLAR.</b></p>
+    <p data-i18n="story.p3">Un fragmento de plasma puro escondido en el corazón del Sol, capaz de reencender la estrella.</p>
+    <p data-i18n="story.p5">Para llegar hay que cruzar el sistema solar planeta por planeta. Cada planeta tiene un Guardián antiguo que custodia el camino. Custodian la verdad: que ya muchos lo intentaron antes. Ninguno volvió.</p>
+    <p style="color:#ff8;margin-top:18px"><span data-i18n="story.chosen">Vos sos el último piloto. La Tierra te eligió.</span></p>
+    <p style="text-align:center;margin-top:22px;font-size:16px;letter-spacing:6px"><b data-i18n="story.dontFail">NO FALLES.</b></p>
   </div>
-  <button id="btnStoryBack" class="secondary">VOLVER</button>
+  <button id="btnStoryBack" class="secondary" data-i18n="story.back">VOLVER</button>
 </div>
 
 <!-- HOW TO INSTALL -->
 <div id="howInstall" class="overlay" style="display:none">
-  <h1 style="font-size:34px">CÓMO INSTALAR</h1>
-  <p style="text-align:left;line-height:2">
+  <h1 style="font-size:34px" data-i18n="how.title">CÓMO INSTALAR</h1>
+  <p style="text-align:left;line-height:2" data-i18n-html="how.body">
     <b style="color:#4f8">📱 ANDROID (Chrome):</b><br>
     1. Tocá el menú ⋮ arriba a la derecha<br>
     2. Tocá "Instalar aplicación" o "Agregar a inicio"<br>
@@ -481,19 +481,19 @@
 <!-- VICTORY (semilla recuperada) -->
 <div id="victory" class="overlay" style="display:none">
   <div style="font-size:120px;animation:spin 4s linear infinite">☀️</div>
-  <h1 style="font-size:38px;color:#ff8;text-shadow:0 0 50px #ff0;letter-spacing:6px">¡SEMILLA RECUPERADA!</h1>
+  <h1 style="font-size:38px;color:#ff8;text-shadow:0 0 50px #ff0;letter-spacing:6px" data-i18n="victory.title">¡SEMILLA RECUPERADA!</h1>
   <p style="font-size:13px;line-height:1.9;max-width:520px;margin:16px 0">
-    La <b style="color:#4f8">Semilla Solar</b> pulsa en tus manos.<br>
-    Volás de regreso. El Sol vuelve a brillar.<br>
-    La Tierra se calienta. Los océanos respiran.<br>
-    <b style="color:#4f8">La humanidad vive.</b><br><br>
-    <span style="color:#ff8;font-style:italic">Sos el último piloto. Sos un héroe, <span id="victoryHero" style="color:#4f8;font-weight:bold">PILOTO</span>.</span>
+    <span data-i18n="victory.p1">La Semilla Solar pulsa en tus manos.</span><br>
+    <span data-i18n="victory.p2">Volás de regreso. El Sol vuelve a brillar.</span><br>
+    <span data-i18n="victory.p3">La Tierra se calienta. Los océanos respiran.</span><br>
+    <b style="color:#4f8" data-i18n="victory.p4">La humanidad vive.</b><br><br>
+    <span style="color:#ff8;font-style:italic" data-i18n="victory.hero">Sos el último piloto. Sos un héroe.</span>
   </p>
-  <div class="stat">SCORE FINAL: <span class="num" id="vScore">0</span></div>
-  <button id="btnShareVictory" style="color:#4f8;border-color:#4f8">📣 COMPARTIR HAZAÑA</button>
+  <div class="stat"><span data-i18n="victory.score">SCORE FINAL</span>: <span class="num" id="vScore">0</span></div>
+  <button id="btnShareVictory" data-i18n="victory.share" style="color:#4f8;border-color:#4f8">📣 COMPARTIR HAZAÑA</button>
   <div style="margin-top:8px">
-    <button id="btnEndless" class="green">MODO INFINITO</button>
-    <button id="btnVictoryMenu" class="secondary">MENÚ</button>
+    <button id="btnEndless" class="green" data-i18n="victory.endless">MODO INFINITO</button>
+    <button id="btnVictoryMenu" class="secondary" data-i18n="victory.menu">MENÚ</button>
   </div>
 </div>
 
@@ -860,22 +860,38 @@ const LANGS = {
     'level.next':        'SIGUIENTE',
     'planet.reached':    '¡LLEGASTE A',
     'planet.next':       'SIGUIENTE',
-    'victory.title':     '¡VICTORIA!',
+    'victory.title':     '¡SEMILLA RECUPERADA!',
     'victory.sub':       'ALCANZASTE LA SEMILLA SOLAR',
+    'victory.p1':        'La Semilla Solar pulsa en tus manos.',
+    'victory.p2':        'Volás de regreso. El Sol vuelve a brillar.',
+    'victory.p3':        'La Tierra se calienta. Los océanos respiran.',
+    'victory.p4':        'La humanidad vive.',
+    'victory.hero':      'Sos el último piloto. Sos un héroe.',
     'victory.score':     'SCORE FINAL',
     'victory.endless':   'MODO INFINITO',
     'victory.menu':      'MENÚ',
+    'victory.share':     '📣 COMPARTIR HAZAÑA',
     'story.title':       'LA MISIÓN',
     'story.year':        'AÑO 2199.',
     'story.p1':          'El Sol se está apagando. Su luz se debilita día a día.',
-    'story.p2':          'La Tierra se congela. Los océanos se vuelven hielo. La humanidad se prepara para morir.',
-    'story.p3':          'Pero un viejo astrónomo descubre algo: en el núcleo del Sol late una Semilla Solar — la fuente original. Si alguien la trae de vuelta, el Sol puede reencenderse.',
-    'story.p4':          'Te eligen a vos. La última misión. Atravesar el sistema solar entero. Llegar al corazón del Sol. Traer la Semilla.',
-    'story.p5':          'Seis Guardianes ancestrales te esperan en cada planeta. Ninguno volvió antes.',
-    'story.p6':          'Pero alguien tiene que intentarlo.',
+    'story.p2':          'La Tierra se enfría. Los océanos se congelan. Las cosechas mueren. La humanidad agoniza.',
+    'story.hope':        'Pero hay una última esperanza:',
+    'story.seed':        'LA SEMILLA SOLAR.',
+    'story.p3':          'Un fragmento de plasma puro escondido en el corazón del Sol, capaz de reencender la estrella.',
+    'story.p5':          'Para llegar hay que cruzar el sistema solar planeta por planeta. Cada planeta tiene un Guardián antiguo que custodia el camino. Custodian la verdad: que ya muchos lo intentaron antes. Ninguno volvió.',
+    'story.chosen':      'Vos sos el último piloto. La Tierra te eligió.',
+    'story.dontFail':    'NO FALLES.',
     'story.back':        'VOLVER',
     'how.title':         'CÓMO INSTALAR',
     'how.back':          'VOLVER',
+    'how.body':          '<b style="color:#4f8">📱 ANDROID (Chrome):</b><br>1. Tocá el menú ⋮ arriba a la derecha<br>2. Tocá "Instalar aplicación" o "Agregar a inicio"<br>3. Confirmá<br><br><b style="color:#0ff">🍎 IPHONE (Safari):</b><br>1. Tocá el botón compartir ⎙ (abajo en el centro)<br>2. Scrolleá y tocá "Agregar a inicio"<br>3. Confirmá<br><br><span style="color:#ff8;font-size:11px">⚠️ No funciona desde WhatsApp/Instagram.<br>Abrí el link en Chrome o Safari directo.</span>',
+    'boss.alert':        '⚠ ALERTA ⚠',
+    'fx.phase2':         'FASE 2',
+    'fx.heal':           '+VIDA',
+    'fx.fury':           '¡FURIA!',
+    'fx.shared':         '¡COMPARTIDO!',
+    'fx.copied':         'COPIADO ✓',
+    'fx.copyPrompt':     'Copiá este texto:',
     'common.score':      'SCORE',
     'common.combo':      'COMBO',
     'common.distance':   'DISTANCIA',
@@ -959,22 +975,38 @@ const LANGS = {
     'level.next':        'NEXT',
     'planet.reached':    'YOU REACHED',
     'planet.next':       'CONTINUE',
-    'victory.title':     'VICTORY!',
+    'victory.title':     'SEED RECOVERED!',
     'victory.sub':       'YOU REACHED THE SOLAR SEED',
+    'victory.p1':        'The Solar Seed pulses in your hands.',
+    'victory.p2':        'You fly back. The Sun shines again.',
+    'victory.p3':        'Earth warms up. The oceans breathe.',
+    'victory.p4':        'Humanity lives.',
+    'victory.hero':      'You are the last pilot. You are a hero.',
     'victory.score':     'FINAL SCORE',
     'victory.endless':   'ENDLESS MODE',
     'victory.menu':      'MENU',
+    'victory.share':     '📣 SHARE THE FEAT',
     'story.title':       'THE MISSION',
     'story.year':        'YEAR 2199.',
     'story.p1':          'The Sun is dying. Its light fades day by day.',
-    'story.p2':          'Earth is freezing. The oceans turn to ice. Humanity prepares to die.',
-    'story.p3':          'But an old astronomer discovers something: deep in the Sun\'s core beats a Solar Seed — the original spark. If someone brings it back, the Sun can reignite.',
-    'story.p4':          'They chose you. The last mission. Cross the entire solar system. Reach the heart of the Sun. Bring back the Seed.',
-    'story.p5':          'Six ancient Guardians wait at each planet. None have ever returned.',
-    'story.p6':          'But someone has to try.',
+    'story.p2':          'Earth is cooling. The oceans freeze. Crops die. Humanity is fading.',
+    'story.hope':        'But there is one last hope:',
+    'story.seed':        'THE SOLAR SEED.',
+    'story.p3':          'A shard of pure plasma hidden in the heart of the Sun — capable of reigniting the star.',
+    'story.p5':          'To reach it, you must cross the solar system planet by planet. Each planet has an ancient Guardian protecting the way. They guard a truth: many tried before. None returned.',
+    'story.chosen':      'You are the last pilot. Earth chose you.',
+    'story.dontFail':    'DO NOT FAIL.',
     'story.back':        'BACK',
     'how.title':         'HOW TO INSTALL',
     'how.back':          'BACK',
+    'how.body':          '<b style="color:#4f8">📱 ANDROID (Chrome):</b><br>1. Tap the ⋮ menu top-right<br>2. Tap "Install app" or "Add to Home Screen"<br>3. Confirm<br><br><b style="color:#0ff">🍎 IPHONE (Safari):</b><br>1. Tap the share button ⎙ (bottom center)<br>2. Scroll and tap "Add to Home Screen"<br>3. Confirm<br><br><span style="color:#ff8;font-size:11px">⚠️ Doesn\'t work from WhatsApp/Instagram.<br>Open the link in Chrome or Safari directly.</span>',
+    'boss.alert':        '⚠ ALERT ⚠',
+    'fx.phase2':         'PHASE 2',
+    'fx.heal':           '+HP',
+    'fx.fury':           'FURY!',
+    'fx.shared':         'SHARED!',
+    'fx.copied':         'COPIED ✓',
+    'fx.copyPrompt':     'Copy this text:',
     'common.score':      'SCORE',
     'common.combo':      'COMBO',
     'common.distance':   'DISTANCE',
@@ -997,10 +1029,13 @@ function applyTranslations() {
   document.querySelectorAll('[data-i18n]').forEach(el => {
     el.textContent = t(el.dataset.i18n);
   });
+  document.querySelectorAll('[data-i18n-html]').forEach(el => {
+    el.innerHTML = t(el.dataset.i18nHtml);
+  });
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
     el.placeholder = t(el.dataset.i18nPlaceholder);
   });
-  // Refresh dinámicos
+  // Refresh dinámicos seteados imperativamente por JS
   const cm = document.getElementById('menuCoins');
   if (cm) cm.textContent = coins;
   if (document.getElementById('shop')?.style.display === 'flex') renderShop();
@@ -1009,6 +1044,45 @@ function applyTranslations() {
     game.mission.label = lbl;
     const hm = document.getElementById('hMission');
     if (hm) hm.textContent = lbl;
+  }
+  // Boss name (HUD bar) si hay boss activo
+  if (typeof BOSSES !== 'undefined' && game.boss) {
+    const bossIdx = Math.min(game.sector, BOSSES.length - 1);
+    const bt = BOSSES[bossIdx];
+    if (bt) {
+      const bn = document.getElementById('bossName');
+      if (bn) bn.textContent = L(bt.name);
+    }
+  }
+  // Planet intro overlay si está visible
+  const pintro = document.getElementById('planetIntro');
+  if (pintro && pintro.style.display === 'flex' && typeof PLANETS !== 'undefined') {
+    const p = PLANETS[Math.min(game.sector, PLANETS.length - 1)];
+    const piN = document.getElementById('piName');
+    const piD = document.getElementById('piDist');
+    const piF = document.getElementById('piFact');
+    if (piN) piN.textContent = L(p.name);
+    if (piD) piD.textContent = t('planet.distLabel') + ' ' + L(p.dist);
+    if (piF) piF.textContent = L(p.fact);
+  }
+  // Level complete title si está visible
+  const lc = document.getElementById('levelComplete');
+  if (lc && lc.style.display === 'flex') {
+    const lcT = document.getElementById('lcTitle');
+    if (lcT) lcT.textContent = (game.level + 1) % 5 === 0 ? t('level.titleBoss') : t('level.title');
+  }
+  // Planet reached overlay si está visible
+  const pr = document.getElementById('planetReached');
+  if (pr && pr.style.display === 'flex' && typeof PLANETS !== 'undefined') {
+    const nextSector = Math.min(game.sector + 1, PLANETS.length - 1);
+    const p = PLANETS[nextSector];
+    const prT = document.getElementById('prTitle');
+    const prF = document.getElementById('prFact');
+    const prN = document.getElementById('prNarrative');
+    if (prT) prT.textContent = t('planet.reached') + ' ' + L(p.name) + '!';
+    if (prF) prF.textContent = L(p.fact);
+    const story = PLANET_STORIES[nextSector];
+    if (prN) prN.textContent = '"' + (story ? L(story) : '') + '"';
   }
 }
 function missionLabel(m) {
@@ -1737,7 +1811,7 @@ function updateBossSolar(b, now) {
     b.phase2Triggered = true;
     game.shake = 35; sfx.win();
     burst(b.x, b.y, '#ff0', 60);
-    comboFlash('FASE 2', '#f80');
+    comboFlash(t('fx.phase2'), '#f80');
   }
   b.x = W / 2 + Math.sin(now * 0.0005) * (W * 0.25);
   b.y = H * 0.42 + Math.sin(now * 0.0008) * 50;
@@ -2211,7 +2285,7 @@ function update(dt) {
       game.energia = Math.min(100, game.energia + 25);
       burst(p.x, p.y, '#4f8', 30);
       sfx.collect(); setTimeout(() => sfx.collect(), 80);
-      comboFlash('+VIDA', '#4f8');
+      comboFlash(t('fx.heal'), '#4f8');
     }
   }
   game.powerups = game.powerups.filter(p => !p.dead && p.life > 0);
@@ -2395,7 +2469,7 @@ function update(dt) {
         b.rageTriggered = true;
         game.shake = 22;
         sfx.bomb();
-        comboFlash('¡FURIA!', '#f44');
+        comboFlash(t('fx.fury'), '#f44');
       }
       b.type.update(b, now, dt);
       // Ataque extra en rage: bursts circulares de proyectiles rojos
@@ -2652,7 +2726,7 @@ function levelComplete() {
   saveCheckpoint();
   document.getElementById('lcScore').textContent = game.score;
   document.getElementById('lcMaxCombo').textContent = 'x' + game.maxCombo;
-  document.getElementById('lcTitle').textContent = (game.level + 1) % 5 === 0 ? 'GUARDIÁN ESPERA' : 'NIVEL SUPERADO';
+  document.getElementById('lcTitle').textContent = (game.level + 1) % 5 === 0 ? t('level.titleBoss') : t('level.title');
   // Mostrar bonus de monedas si existe el span (compatible si no está)
   const lcCoinSpan = document.getElementById('lcCoinBonus');
   if (lcCoinSpan) lcCoinSpan.textContent = '+' + lvlBonus + ' 💰';
@@ -2817,15 +2891,15 @@ async function shareRecord() {
   if (navigator.share) {
     try {
       await navigator.share({ title: 'NEXO — Viaje al Sol', text, url });
-      comboFlash('¡COMPARTIDO!', '#4f8');
+      comboFlash(t('fx.shared'), '#4f8');
       return;
     } catch (e) { /* cancelado */ }
   }
   try {
     await navigator.clipboard.writeText(text + ' ' + url);
-    comboFlash('COPIADO ✓', '#4f8');
+    comboFlash(t('fx.copied'), '#4f8');
   } catch (e) {
-    prompt('Copiá este texto:', text + ' ' + url);
+    prompt(t('fx.copyPrompt'), text + ' ' + url);
   }
 }
 

@@ -295,8 +295,8 @@
 
 <div id="hud" style="display:none">
   <div class="hud-left">
-    <div class="panel"><div class="lbl">SCORE</div><span class="v" id="hScore">0</span></div>
-    <div class="panel"><div class="lbl">COMBO</div><span class="v" id="hCombo" style="color:#ff8">x1</span></div>
+    <div class="panel"><div class="lbl" data-i18n="hud.scoreLbl">SCORE</div><span class="v" id="hScore">0</span></div>
+    <div class="panel"><div class="lbl" data-i18n="hud.comboLbl">COMBO</div><span class="v" id="hCombo" style="color:#ff8">x1</span></div>
     <div class="panel" id="hCoinsPanel" style="border-color:rgba(255,200,40,0.5)">
       <div class="lbl" style="color:#ff8">💰</div>
       <span class="v" id="hCoins" style="color:#ff0;text-shadow:0 0 10px #ff8">0</span>
@@ -307,8 +307,8 @@
     <div class="progress"><div class="fill" id="hProgress"></div></div>
   </div>
   <div class="hud-right">
-    <div class="panel"><div class="lbl">NIVEL</div><span class="v" id="hLevel">1</span></div>
-    <div class="panel"><div class="lbl" id="hPlanetLbl">PLANETA</div><span class="v" id="hPlanet" style="font-size:18px">🌍</span></div>
+    <div class="panel"><div class="lbl" data-i18n="hud.levelLbl">NIVEL</div><span class="v" id="hLevel">1</span></div>
+    <div class="panel"><div class="lbl" id="hPlanetLbl" data-i18n="hud.planetLbl">PLANETA</div><span class="v" id="hPlanet" style="font-size:18px">🌍</span></div>
   </div>
 </div>
 
@@ -331,59 +331,63 @@
 
 <!-- MENU -->
 <div id="menu" class="overlay">
+  <button id="btnLangToggle" style="position:absolute;top:14px;right:14px;background:rgba(0,15,30,0.6);border:1px solid #0ff5;color:#0ff;font-size:11px;padding:8px 14px;letter-spacing:2px;cursor:pointer;z-index:10;font-family:inherit" data-i18n="menu.langToggle">🌐 EN</button>
   <h1>NEXO</h1>
   <div class="sub">VIAJE AL SOL</div>
-  <p>Recolectá estrellitas. Esquivá monstruitos espaciales.<br>
+  <p data-i18n="menu.tagline">Recolectá estrellitas. Esquivá monstruitos espaciales.<br>
      Viajá de la Tierra al Sol aprendiendo el sistema solar.</p>
   <div style="margin-bottom:14px">
-    <input id="inputName" type="text" placeholder="TU NOMBRE" maxlength="16" autocomplete="off"
+    <input id="inputName" type="text" data-i18n-placeholder="menu.namePlaceholder" placeholder="TU NOMBRE" maxlength="16" autocomplete="off"
            style="background:rgba(0,30,60,0.6);border:1px solid #0ff8;color:#0ff;
                   padding:11px 16px;font-family:inherit;font-size:14px;letter-spacing:4px;
                   text-align:center;text-transform:uppercase;width:230px;outline:none;
                   text-shadow:0 0 8px #0ff;border-radius:0">
   </div>
   <div>
-    <button id="btnStart">EMPEZAR</button>
-    <button id="btnContinue" class="secondary" style="display:none">CONTINUAR</button>
+    <button id="btnQuickPlay" data-i18n="menu.quickPlay" style="background:linear-gradient(135deg,#ff8,#fa0);color:#000;font-weight:bold;text-shadow:none;border-color:#ff0;box-shadow:0 0 24px #ff8">⚡ JUGAR YA</button>
   </div>
   <div style="margin-top:8px">
-    <button id="btnShop" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff0;border-color:#ff0">🛒 TIENDA · <span id="menuCoins">0</span> 💰</button>
-    <button id="btnStory" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff8;border-color:#ff8">📖 LA MISIÓN</button>
-    <button id="btnShareMenu" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#4f8;border-color:#4f8">📣 COMPARTIR</button>
-    <button id="btnInstall" class="green" style="display:none;font-size:11px;padding:10px 22px;min-height:auto;min-width:auto">📲 INSTALAR APP</button>
-    <button id="btnHowInstall" class="secondary" style="font-size:10px;padding:8px 18px;min-height:auto;min-width:auto">¿CÓMO INSTALAR?</button>
+    <button id="btnStart" class="secondary" data-i18n="menu.customize" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto">⚙️ PERSONALIZAR</button>
+    <button id="btnContinue" class="secondary" data-i18n="menu.continue" style="display:none">CONTINUAR</button>
+  </div>
+  <div style="margin-top:8px">
+    <button id="btnShop" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff0;border-color:#ff0"><span data-i18n="shop.title">🛒 TIENDA</span> · <span id="menuCoins">0</span> 💰</button>
+    <button id="btnStory" class="secondary" data-i18n="menu.story" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff8;border-color:#ff8">📖 LA MISIÓN</button>
+    <button id="btnShareMenu" class="secondary" data-i18n="menu.share" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#4f8;border-color:#4f8">📣 COMPARTIR</button>
+    <button id="btnInstall" class="green" data-i18n="menu.install" style="display:none;font-size:11px;padding:10px 22px;min-height:auto;min-width:auto">📲 INSTALAR APP</button>
+    <button id="btnHowInstall" class="secondary" data-i18n="menu.howInstall" style="font-size:10px;padding:8px 18px;min-height:auto;min-width:auto">¿CÓMO INSTALAR?</button>
   </div>
   <p style="margin-top:18px;font-size:10px;opacity:0.5">RÉCORD: <span id="mRecord">0</span> · MÁX NIVEL: <span id="mMaxLevel">1</span></p>
 </div>
 
 <!-- DIFICULTAD -->
 <div id="diffSelect" class="overlay" style="display:none">
-  <h1 style="font-size:38px">DIFICULTAD</h1>
+  <h1 style="font-size:38px" data-i18n="diff.title">DIFICULTAD</h1>
   <div id="difficulties">
     <div class="diffcard facil" data-diff="facil">
       <div class="emoji">😊</div>
-      <div class="name">FÁCIL</div>
-      <div class="desc">Más vida. Pulso barato. Pocos enemigos. Para nenes.</div>
+      <div class="name" data-i18n="diff.facil">FÁCIL</div>
+      <div class="desc" data-i18n="diff.facil.desc">Más vida. Pulso barato. Pocos enemigos. Para nenes.</div>
     </div>
     <div class="diffcard medio" data-diff="medio">
       <div class="emoji">😎</div>
-      <div class="name">MEDIO</div>
-      <div class="desc">Balanceado. Para todos.</div>
+      <div class="name" data-i18n="diff.medio">MEDIO</div>
+      <div class="desc" data-i18n="diff.medio.desc">Balanceado. Para todos.</div>
     </div>
     <div class="diffcard dificil" data-diff="dificil">
       <div class="emoji">💀</div>
-      <div class="name">DIFÍCIL</div>
-      <div class="desc">Poca vida. Enemigos veloces. Para masocas.</div>
+      <div class="name" data-i18n="diff.dificil">DIFÍCIL</div>
+      <div class="desc" data-i18n="diff.dificil.desc">Poca vida. Enemigos veloces. Para masocas.</div>
     </div>
   </div>
-  <button id="btnBackDiff" class="secondary">VOLVER</button>
+  <button id="btnBackDiff" class="secondary" data-i18n="ship.back">VOLVER</button>
 </div>
 
 <!-- SHIPS -->
 <div id="shipSelect" class="overlay" style="display:none">
-  <h1 style="font-size:38px">ELEGÍ TU NAVE</h1>
+  <h1 style="font-size:38px" data-i18n="ship.title">ELEGÍ TU NAVE</h1>
   <div id="ships"></div>
-  <button id="btnBackShip" class="secondary">VOLVER</button>
+  <button id="btnBackShip" class="secondary" data-i18n="ship.back">VOLVER</button>
 </div>
 
 <!-- HISTORIA -->
@@ -422,26 +426,26 @@
 
 <!-- TIENDA / SHOP (meta-progresión permanente) -->
 <div id="shop" class="overlay" style="display:none">
-  <h1 style="font-size:32px;letter-spacing:6px">🛒 TIENDA</h1>
+  <h1 style="font-size:32px;letter-spacing:6px" data-i18n="shop.title">🛒 TIENDA</h1>
   <div style="font-size:13px;color:#ff8;letter-spacing:3px;margin-bottom:18px">
-    💰 <span id="shopCoins" style="font-size:22px;color:#ff0">0</span> MONEDAS
+    💰 <span id="shopCoins" style="font-size:22px;color:#ff0">0</span> <span data-i18n="shop.coins">MONEDAS</span>
   </div>
   <div id="upgradeCards" style="display:flex;flex-direction:column;gap:12px;width:360px;max-width:92vw"></div>
-  <button id="btnShopBack" class="secondary" style="margin-top:18px">VOLVER</button>
+  <button id="btnShopBack" class="secondary" data-i18n="shop.back" style="margin-top:18px">VOLVER</button>
   <p style="font-size:10px;opacity:0.55;margin-top:14px;max-width:380px;line-height:1.7">
-    Las mejoras son permanentes. Se aplican apenas empezás una partida nueva.<br>
-    Las monedas se ganan cazando enemigos, recolectando estrellitas y completando niveles.
+    <span data-i18n="shop.note">Las mejoras son permanentes. Se aplican apenas empezás una partida nueva.</span><br>
+    <span data-i18n="shop.note2">Las monedas se ganan cazando enemigos, recolectando estrellitas y completando niveles.</span>
   </p>
 </div>
 
 <!-- TUTORIAL -->
 <div id="tutorial">
-  <h1 style="font-size:32px;letter-spacing:8px">CÓMO JUGAR</h1>
-  <div class="step"><span class="ic">👆</span>ARRASTRÁ PARA MOVER LA NAVE</div>
-  <div class="step"><span class="ic">⭐</span>TOCÁ ESTRELLITAS PARA SUMAR</div>
-  <div class="step"><span class="ic">👾</span>EVITÁ A LOS MONSTRUITOS</div>
-  <div class="step"><span class="ic">✌️</span>DOBLE TAP = PULSO DE ONDA</div>
-  <button id="btnTutorialOk">¡A JUGAR!</button>
+  <h1 style="font-size:32px;letter-spacing:8px" data-i18n="tutorial.title">CÓMO JUGAR</h1>
+  <div class="step"><span class="ic">👆</span><span data-i18n="tutorial.move">ARRASTRÁ PARA MOVER LA NAVE</span></div>
+  <div class="step"><span class="ic">⭐</span><span data-i18n="tutorial.collect">TOCÁ ESTRELLITAS PARA SUMAR</span></div>
+  <div class="step"><span class="ic">👾</span><span data-i18n="tutorial.avoid">EVITÁ A LOS MONSTRUITOS</span></div>
+  <div class="step"><span class="ic">✌️</span><span data-i18n="tutorial.pulse">DOBLE TAP = PULSO DE ONDA</span></div>
+  <button id="btnTutorialOk" data-i18n="tutorial.ok">¡A JUGAR!</button>
 </div>
 
 <!-- PLANET INTRO -->
@@ -456,11 +460,11 @@
 <!-- LEVEL COMPLETE -->
 <div id="levelComplete" class="overlay" style="display:none">
   <h1 style="font-size:44px;color:#4f8;text-shadow:0 0 40px #4f8" id="lcTitle">NIVEL SUPERADO</h1>
-  <div class="stat">SCORE: <span class="num" id="lcScore">0</span></div>
-  <div class="stat">COMBO MÁX: <span class="num" id="lcMaxCombo">x1</span></div>
-  <div class="stat" style="color:#ff0">BONUS: <span class="num" id="lcCoinBonus" style="color:#ff0">+0 💰</span></div>
-  <div class="stat" style="font-size:10px;margin-top:14px;color:#0ff;letter-spacing:3px">CHECKPOINT GUARDADO</div>
-  <button id="btnNext">SIGUIENTE</button>
+  <div class="stat"><span data-i18n="level.score">SCORE:</span> <span class="num" id="lcScore">0</span></div>
+  <div class="stat"><span data-i18n="level.combo">COMBO MÁX:</span> <span class="num" id="lcMaxCombo">x1</span></div>
+  <div class="stat" style="color:#ff0"><span data-i18n="level.bonus">BONUS:</span> <span class="num" id="lcCoinBonus" style="color:#ff0">+0 💰</span></div>
+  <div class="stat" style="font-size:10px;margin-top:14px;color:#0ff;letter-spacing:3px" data-i18n="level.cp">CHECKPOINT GUARDADO</div>
+  <button id="btnNext" data-i18n="level.next">SIGUIENTE</button>
 </div>
 
 <!-- PLANET REACHED -->
@@ -495,22 +499,22 @@
 
 <!-- GAME OVER -->
 <div id="gameover" class="overlay" style="display:none">
-  <h1 style="color:#f44;text-shadow:0 0 30px #f00,0 0 60px #f00">FIN</h1>
-  <div class="stat">SCORE: <span class="num" id="goScore">0</span></div>
-  <div class="stat">NIVEL: <span class="num" id="goLevel">1</span></div>
-  <div class="stat">RÉCORD: <span class="num" id="goRecord">0</span></div>
+  <h1 style="color:#f44;text-shadow:0 0 30px #f00,0 0 60px #f00" data-i18n="gameover.title">FIN</h1>
+  <div class="stat"><span data-i18n="gameover.score">SCORE</span>: <span class="num" id="goScore">0</span></div>
+  <div class="stat"><span data-i18n="gameover.level">NIVEL</span>: <span class="num" id="goLevel">1</span></div>
+  <div class="stat"><span data-i18n="gameover.record">RÉCORD</span>: <span class="num" id="goRecord">0</span></div>
   <div style="margin-top:18px">
-    <button id="btnShareGameover" style="color:#ff8;border-color:#ff8">📣 COMPARTIR</button>
-    <button id="btnContinueFromCp" style="display:none">CONTINUAR</button>
-    <button id="btnRestart">MENÚ</button>
+    <button id="btnShareGameover" data-i18n="menu.share" style="color:#ff8;border-color:#ff8">📣 COMPARTIR</button>
+    <button id="btnContinueFromCp" data-i18n="gameover.cp" style="display:none">CONTINUAR</button>
+    <button id="btnRestart" data-i18n="gameover.menu">MENÚ</button>
   </div>
 </div>
 
 <!-- PAUSE -->
 <div id="paused" class="overlay" style="display:none;background:rgba(0,0,0,0.85)">
-  <h1 style="font-size:42px">PAUSA</h1>
-  <button id="btnResume">CONTINUAR</button>
-  <button id="btnQuit" class="secondary">SALIR AL MENÚ</button>
+  <h1 style="font-size:42px" data-i18n="pause.title">PAUSA</h1>
+  <button id="btnResume" data-i18n="pause.resume">CONTINUAR</button>
+  <button id="btnQuit" class="secondary" data-i18n="pause.menu">SALIR AL MENÚ</button>
 </div>
 
 <!-- INSTALL BANNER (auto) -->
@@ -638,24 +642,29 @@ function stopMusic() {
 const SHIPS = {
   saeta: {
     name: 'SAETA', desc: 'Veloz · Frágil · Pulso barato',
+    nameKey: 'ship.saeta', descKey: 'ship.saeta.desc',
     vidaMax: 50, energiaRegen: 0.035, pulseCost: 28, pulseRadius: 220,
     color: '#fa0', glow: '#f80', followSpeed: 0.30,
     stats: { vel: 5, vida: 2, pulso: 3 },
   },
   coraza: {
     name: 'CORAZA', desc: 'Tanque · Lento · Pulso destructor',
+    nameKey: 'ship.coraza', descKey: 'ship.coraza.desc',
     vidaMax: 100, energiaRegen: 0.020, pulseCost: 42, pulseRadius: 340,
     color: '#48f', glow: '#08f', followSpeed: 0.18,
     stats: { vel: 2, vida: 5, pulso: 5 },
   },
   eco: {
     name: 'ECO', desc: 'Balanceada · Doble pulso encadenado',
+    nameKey: 'ship.eco', descKey: 'ship.eco.desc',
     vidaMax: 70, energiaRegen: 0.027, pulseCost: 34, pulseRadius: 260,
     color: '#0ff', glow: '#0ff', followSpeed: 0.24,
     doubleShot: true,
     stats: { vel: 4, vida: 3, pulso: 4 },
   },
 };
+function shipName(key) { return t(SHIPS[key].nameKey); }
+function shipDesc(key) { return t(SHIPS[key].descKey); }
 
 // ═══ Dificultad ═══
 const DIFFICULTIES = {
@@ -664,37 +673,56 @@ const DIFFICULTIES = {
   dificil: { vidaMult: 0.7, dmgMult: 1.5, spawnMult: 0.7, regenMult: 0.75, scoreMult: 1.5 },
 };
 
-// ═══ Frases narrativas al llegar a cada planeta ═══
+// ═══ Frases narrativas al llegar a cada planeta (bilingual) ═══
 const PLANET_STORIES = [
-  'Despegás. La órbita queda atrás. Tu hogar se encoge en el espejo retrovisor.',
-  'Primera escala. La Luna te observa silenciosa. Algo se mueve en sus cráteres.',
-  'El Planeta Rojo. Cementerio de antiguas flotas. Ya muchos lo intentaron. Ninguno volvió.',
-  'El gigante gaseoso. Su gravedad podría destrozarte. Sus tormentas duran siglos. No mires abajo.',
-  'Anillos de hielo y roca. Cada partícula puede atravesarte. Pero ya casi llegás.',
-  'El núcleo de la estrella. La Semilla Solar pulsa. El último Guardián te espera.',
+  { es: 'Despegás. La órbita queda atrás. Tu hogar se encoge en el espejo retrovisor.',
+    en: 'You lift off. Orbit slips away. Home shrinks in the rear-view mirror.' },
+  { es: 'Primera escala. La Luna te observa silenciosa. Algo se mueve en sus cráteres.',
+    en: 'First stop. The Moon watches in silence. Something stirs in its craters.' },
+  { es: 'El Planeta Rojo. Cementerio de antiguas flotas. Ya muchos lo intentaron. Ninguno volvió.',
+    en: 'The Red Planet. Graveyard of ancient fleets. Many tried. None returned.' },
+  { es: 'El gigante gaseoso. Su gravedad podría destrozarte. Sus tormentas duran siglos. No mires abajo.',
+    en: 'The gas giant. Its gravity could rip you apart. Its storms last centuries. Don\'t look down.' },
+  { es: 'Anillos de hielo y roca. Cada partícula puede atravesarte. Pero ya casi llegás.',
+    en: 'Rings of ice and rock. Every particle could pierce you. But you\'re almost there.' },
+  { es: 'El núcleo de la estrella. La Semilla Solar pulsa. El último Guardián te espera.',
+    en: 'The core of the star. The Solar Seed pulses. The last Guardian awaits.' },
 ];
 
-// ═══ Planetas (sectores) ═══
+// ═══ Planetas (sectores) — name/dist/fact bilingues ═══
 const PLANETS = [
-  { name: 'TIERRA',  emoji: '🌍', dist: 'CASA',         color: '#4af', tint: '#000a18',
-    fact: 'Tu hogar. Único planeta conocido con vida. Tiene 1 luna.',
-    bg: 'earth',   music: { base: 220, scale: [0,2,4,7,9], tempo: 95 } },
-  { name: 'LUNA',    emoji: '🌕', dist: '384.000 KM',   color: '#ccc', tint: '#0a0a14',
-    fact: 'Único satélite natural de la Tierra. Sin atmósfera. Sin sonido.',
-    bg: 'moon',    music: { base: 196, scale: [0,2,3,5,7,10], tempo: 80 } },
-  { name: 'MARTE',   emoji: '🔴', dist: '78M KM',       color: '#f64', tint: '#1a0808',
-    fact: 'El Planeta Rojo. Tiene el volcán más grande: Olympus Mons (22 km).',
-    bg: 'mars',    music: { base: 247, scale: [0,2,3,5,7,8,11], tempo: 105 } },
-  { name: 'JÚPITER', emoji: '🪐', dist: '628M KM',      color: '#fa4', tint: '#1a1408',
-    fact: 'Gigante gaseoso. Tiene 95 lunas. Su tormenta dura 350 años.',
-    bg: 'jupiter', music: { base: 174, scale: [0,1,3,5,7,8,10], tempo: 115 } },
-  { name: 'SATURNO', emoji: '💫', dist: '1.4B KM',      color: '#fc8', tint: '#181208',
-    fact: 'Famoso por sus anillos de hielo y roca. 146 lunas.',
-    bg: 'saturn',  music: { base: 208, scale: [0,2,4,6,7,9,11], tempo: 100 } },
-  { name: 'SOL',     emoji: '☀️', dist: 'EL CORAZÓN',  color: '#ff4', tint: '#1a1000',
-    fact: 'La estrella del sistema. 99,86% de toda la masa. 5.500°C en la superficie.',
-    bg: 'sun',     music: { base: 277, scale: [0,1,4,5,7,8,11], tempo: 135 } },
+  { name: { es: 'TIERRA', en: 'EARTH' },  emoji: '🌍', dist: { es: 'CASA', en: 'HOME' },
+    fact: { es: 'Tu hogar. Único planeta conocido con vida. Tiene 1 luna.',
+            en: 'Your home. The only known planet with life. One moon.' },
+    color: '#4af', tint: '#000a18', bg: 'earth',
+    music: { base: 220, scale: [0,2,4,7,9], tempo: 95 } },
+  { name: { es: 'LUNA', en: 'MOON' }, emoji: '🌕', dist: { es: '384.000 KM', en: '384,000 KM' },
+    fact: { es: 'Único satélite natural de la Tierra. Sin atmósfera. Sin sonido.',
+            en: 'Earth\'s only natural satellite. No atmosphere. No sound.' },
+    color: '#ccc', tint: '#0a0a14', bg: 'moon',
+    music: { base: 196, scale: [0,2,3,5,7,10], tempo: 80 } },
+  { name: { es: 'MARTE', en: 'MARS' }, emoji: '🔴', dist: { es: '78M KM', en: '78M KM' },
+    fact: { es: 'El Planeta Rojo. Tiene el volcán más grande: Olympus Mons (22 km).',
+            en: 'The Red Planet. Home to the largest volcano: Olympus Mons (22 km).' },
+    color: '#f64', tint: '#1a0808', bg: 'mars',
+    music: { base: 247, scale: [0,2,3,5,7,8,11], tempo: 105 } },
+  { name: { es: 'JÚPITER', en: 'JUPITER' }, emoji: '🪐', dist: { es: '628M KM', en: '628M KM' },
+    fact: { es: 'Gigante gaseoso. Tiene 95 lunas. Su tormenta dura 350 años.',
+            en: 'Gas giant. 95 moons. Its storm has lasted 350 years.' },
+    color: '#fa4', tint: '#1a1408', bg: 'jupiter',
+    music: { base: 174, scale: [0,1,3,5,7,8,10], tempo: 115 } },
+  { name: { es: 'SATURNO', en: 'SATURN' }, emoji: '💫', dist: { es: '1.4B KM', en: '1.4B KM' },
+    fact: { es: 'Famoso por sus anillos de hielo y roca. 146 lunas.',
+            en: 'Famous for its rings of ice and rock. 146 moons.' },
+    color: '#fc8', tint: '#181208', bg: 'saturn',
+    music: { base: 208, scale: [0,2,4,6,7,9,11], tempo: 100 } },
+  { name: { es: 'SOL', en: 'SUN' }, emoji: '☀️', dist: { es: 'EL CORAZÓN', en: 'THE HEART' },
+    fact: { es: 'La estrella del sistema. 99,86% de toda la masa. 5.500°C en la superficie.',
+            en: 'The system\'s star. 99.86% of all mass. 5,500°C surface.' },
+    color: '#ff4', tint: '#1a1000', bg: 'sun',
+    music: { base: 277, scale: [0,1,4,5,7,8,11], tempo: 135 } },
 ];
+function L(obj) { return (obj && typeof obj === 'object' && obj[currentLang]) || (obj && obj.en) || obj; }
 
 // ═══ Enemigos ═══
 const ENEMY_TYPES = {
@@ -747,10 +775,247 @@ try {
   if (u) upgrades = { ...upgrades, ...JSON.parse(u) };
 } catch (e) {}
 const UPGRADE_DEFS = {
-  hull:    { name: 'CASCO',   color: '#4f8', icon: '🛡', desc: '+15% vida máxima por nivel',     max: 5 },
-  pulse:   { name: 'PULSO',   color: '#f8f', icon: '⚡', desc: '+12% daño del pulso por nivel',  max: 5 },
-  reactor: { name: 'REACTOR', color: '#0ff', icon: '🔋', desc: '+20% regeneración de energía',   max: 5 },
+  hull:    { nameKey: 'shop.hull',    descKey: 'shop.hull.desc',    color: '#4f8', icon: '🛡', max: 5 },
+  pulse:   { nameKey: 'shop.pulse',   descKey: 'shop.pulse.desc',   color: '#f8f', icon: '⚡', max: 5 },
+  reactor: { nameKey: 'shop.reactor', descKey: 'shop.reactor.desc', color: '#0ff', icon: '🔋', max: 5 },
 };
+// ─── i18n: bilingual ES/EN con toggle ───
+const LANGS = {
+  es: {
+    'menu.quickPlay':    '⚡ JUGAR YA',
+    'menu.customize':    '⚙️ PERSONALIZAR',
+    'menu.continue':     'CONTINUAR',
+    'menu.story':        '📖 LA MISIÓN',
+    'menu.share':        '📣 COMPARTIR',
+    'menu.install':      '📲 INSTALAR APP',
+    'menu.howInstall':   '¿CÓMO INSTALAR?',
+    'menu.record':       'RÉCORD',
+    'menu.maxLevel':     'MÁX NIVEL',
+    'menu.namePlaceholder': 'TU NOMBRE',
+    'menu.langToggle':   '🌐 EN',
+    'menu.tagline':      'Recolectá estrellitas. Esquivá monstruitos espaciales. Viajá de la Tierra al Sol aprendiendo el sistema solar.',
+    'diff.title':        'DIFICULTAD',
+    'diff.facil':        'FÁCIL',
+    'diff.facil.desc':   'Más vida. Pulso barato. Pocos enemigos. Para nenes.',
+    'diff.medio':        'MEDIO',
+    'diff.medio.desc':   'Balanceado. Para todos.',
+    'diff.dificil':      'DIFÍCIL',
+    'diff.dificil.desc': 'Para los duros. Sin perdón.',
+    'ship.title':        'ELEGÍ TU NAVE',
+    'ship.saeta':        'SAETA',
+    'ship.saeta.desc':   'Veloz · Frágil · Pulso barato',
+    'ship.coraza':       'CORAZA',
+    'ship.coraza.desc':  'Tanque · Lento · Pulso destructor',
+    'ship.eco':          'ECO',
+    'ship.eco.desc':     'Balanceada · Doble pulso encadenado',
+    'ship.stat.vel':     'VEL',
+    'ship.stat.vida':    'VIDA',
+    'ship.stat.pulso':   'PULSO',
+    'ship.back':         'VOLVER',
+    'tutorial.title':    'CÓMO JUGAR',
+    'tutorial.move':     'ARRASTRÁ PARA MOVER LA NAVE',
+    'tutorial.collect':  'TOCÁ ESTRELLITAS PARA SUMAR',
+    'tutorial.avoid':    'EVITÁ A LOS MONSTRUITOS',
+    'tutorial.pulse':    'DOBLE TAP = PULSO DE ONDA',
+    'tutorial.ok':       '¡A JUGAR!',
+    'hud.scoreLbl':      'SCORE',
+    'hud.comboLbl':      'COMBO',
+    'hud.levelLbl':      'NIVEL',
+    'hud.planetLbl':     'PLANETA',
+    'hud.lifeLbl':       'VIDA',
+    'hud.energyLbl':     'ENERGÍA',
+    'planet.distLabel':  'DISTANCIA:',
+    'mission.collect':   'RECOLECTÁ {n} ESTRELLITAS',
+    'mission.kill':      'ELIMINÁ {n} ENEMIGOS',
+    'mission.survive':   'SOBREVIVÍ {n}s',
+    'mission.boss':      'DERROTÁ AL GUARDIÁN',
+    'shop.title':        '🛒 TIENDA',
+    'shop.coins':        'MONEDAS',
+    'shop.hull':         'CASCO',
+    'shop.hull.desc':    '+15% vida máxima por nivel',
+    'shop.pulse':        'PULSO',
+    'shop.pulse.desc':   '+12% daño del pulso por nivel',
+    'shop.reactor':      'REACTOR',
+    'shop.reactor.desc': '+20% regeneración de energía',
+    'shop.max':          'MÁX',
+    'shop.back':         'VOLVER',
+    'shop.note':         'Las mejoras son permanentes. Se aplican apenas empezás una partida nueva.',
+    'shop.note2':        'Las monedas se ganan cazando enemigos, recolectando estrellitas y completando niveles.',
+    'pause.title':       'PAUSA',
+    'pause.resume':      'CONTINUAR',
+    'pause.menu':        'SALIR AL MENÚ',
+    'gameover.title':    'PERDISTE',
+    'gameover.score':    'SCORE',
+    'gameover.level':    'NIVEL ALCANZADO',
+    'gameover.record':   'RÉCORD',
+    'gameover.restart':  'REINTENTAR',
+    'gameover.menu':     'MENÚ',
+    'gameover.cp':       'DESDE CHECKPOINT',
+    'level.title':       'NIVEL SUPERADO',
+    'level.titleBoss':   'GUARDIÁN ESPERA',
+    'level.score':       'SCORE:',
+    'level.combo':       'COMBO MÁX:',
+    'level.bonus':       'BONUS:',
+    'level.cp':          'CHECKPOINT GUARDADO',
+    'level.next':        'SIGUIENTE',
+    'planet.reached':    '¡LLEGASTE A',
+    'planet.next':       'SIGUIENTE',
+    'victory.title':     '¡VICTORIA!',
+    'victory.sub':       'ALCANZASTE LA SEMILLA SOLAR',
+    'victory.score':     'SCORE FINAL',
+    'victory.endless':   'MODO INFINITO',
+    'victory.menu':      'MENÚ',
+    'story.title':       'LA MISIÓN',
+    'story.year':        'AÑO 2199.',
+    'story.p1':          'El Sol se está apagando. Su luz se debilita día a día.',
+    'story.p2':          'La Tierra se congela. Los océanos se vuelven hielo. La humanidad se prepara para morir.',
+    'story.p3':          'Pero un viejo astrónomo descubre algo: en el núcleo del Sol late una Semilla Solar — la fuente original. Si alguien la trae de vuelta, el Sol puede reencenderse.',
+    'story.p4':          'Te eligen a vos. La última misión. Atravesar el sistema solar entero. Llegar al corazón del Sol. Traer la Semilla.',
+    'story.p5':          'Seis Guardianes ancestrales te esperan en cada planeta. Ninguno volvió antes.',
+    'story.p6':          'Pero alguien tiene que intentarlo.',
+    'story.back':        'VOLVER',
+    'how.title':         'CÓMO INSTALAR',
+    'how.back':          'VOLVER',
+    'common.score':      'SCORE',
+    'common.combo':      'COMBO',
+    'common.distance':   'DISTANCIA',
+  },
+  en: {
+    'menu.quickPlay':    '⚡ QUICK PLAY',
+    'menu.customize':    '⚙️ CUSTOMIZE',
+    'menu.continue':     'CONTINUE',
+    'menu.story':        '📖 THE MISSION',
+    'menu.share':        '📣 SHARE',
+    'menu.install':      '📲 INSTALL APP',
+    'menu.howInstall':   'HOW TO INSTALL?',
+    'menu.record':       'BEST',
+    'menu.maxLevel':     'MAX LEVEL',
+    'menu.namePlaceholder': 'YOUR NAME',
+    'menu.langToggle':   '🌐 ES',
+    'menu.tagline':      'Collect stars. Dodge space creatures. Travel from Earth to the Sun while learning about the solar system.',
+    'diff.title':        'DIFFICULTY',
+    'diff.facil':        'EASY',
+    'diff.facil.desc':   'More health. Cheap pulse. Few enemies. For kids.',
+    'diff.medio':        'NORMAL',
+    'diff.medio.desc':   'Balanced. For everyone.',
+    'diff.dificil':      'HARD',
+    'diff.dificil.desc': 'For the tough. No mercy.',
+    'ship.title':        'CHOOSE YOUR SHIP',
+    'ship.saeta':        'ARROW',
+    'ship.saeta.desc':   'Fast · Fragile · Cheap pulse',
+    'ship.coraza':       'BULWARK',
+    'ship.coraza.desc':  'Tank · Slow · Crushing pulse',
+    'ship.eco':          'ECHO',
+    'ship.eco.desc':     'Balanced · Chained double pulse',
+    'ship.stat.vel':     'SPD',
+    'ship.stat.vida':    'HP',
+    'ship.stat.pulso':   'PULSE',
+    'ship.back':         'BACK',
+    'tutorial.title':    'HOW TO PLAY',
+    'tutorial.move':     'DRAG TO MOVE YOUR SHIP',
+    'tutorial.collect':  'TOUCH STARS TO COLLECT',
+    'tutorial.avoid':    'AVOID THE ENEMIES',
+    'tutorial.pulse':    'DOUBLE TAP = WAVE PULSE',
+    'tutorial.ok':       'LET\'S GO!',
+    'hud.scoreLbl':      'SCORE',
+    'hud.comboLbl':      'COMBO',
+    'hud.levelLbl':      'LEVEL',
+    'hud.planetLbl':     'PLANET',
+    'hud.lifeLbl':       'HP',
+    'hud.energyLbl':     'ENERGY',
+    'planet.distLabel':  'DISTANCE:',
+    'mission.collect':   'COLLECT {n} STARS',
+    'mission.kill':      'KILL {n} ENEMIES',
+    'mission.survive':   'SURVIVE {n}s',
+    'mission.boss':      'DEFEAT THE GUARDIAN',
+    'shop.title':        '🛒 SHOP',
+    'shop.coins':        'COINS',
+    'shop.hull':         'HULL',
+    'shop.hull.desc':    '+15% max health per level',
+    'shop.pulse':        'PULSE',
+    'shop.pulse.desc':   '+12% pulse damage per level',
+    'shop.reactor':      'REACTOR',
+    'shop.reactor.desc': '+20% energy regen per level',
+    'shop.max':          'MAX',
+    'shop.back':         'BACK',
+    'shop.note':         'Upgrades are permanent. Applied when you start a new run.',
+    'shop.note2':        'Earn coins by killing enemies, collecting stars, and beating levels.',
+    'pause.title':       'PAUSED',
+    'pause.resume':      'RESUME',
+    'pause.menu':        'EXIT TO MENU',
+    'gameover.title':    'GAME OVER',
+    'gameover.score':    'SCORE',
+    'gameover.level':    'LEVEL REACHED',
+    'gameover.record':   'BEST',
+    'gameover.restart':  'RETRY',
+    'gameover.menu':     'MENU',
+    'gameover.cp':       'FROM CHECKPOINT',
+    'level.title':       'LEVEL CLEARED',
+    'level.titleBoss':   'GUARDIAN AWAITS',
+    'level.score':       'SCORE:',
+    'level.combo':       'MAX COMBO:',
+    'level.bonus':       'BONUS:',
+    'level.cp':          'CHECKPOINT SAVED',
+    'level.next':        'NEXT',
+    'planet.reached':    'YOU REACHED',
+    'planet.next':       'CONTINUE',
+    'victory.title':     'VICTORY!',
+    'victory.sub':       'YOU REACHED THE SOLAR SEED',
+    'victory.score':     'FINAL SCORE',
+    'victory.endless':   'ENDLESS MODE',
+    'victory.menu':      'MENU',
+    'story.title':       'THE MISSION',
+    'story.year':        'YEAR 2199.',
+    'story.p1':          'The Sun is dying. Its light fades day by day.',
+    'story.p2':          'Earth is freezing. The oceans turn to ice. Humanity prepares to die.',
+    'story.p3':          'But an old astronomer discovers something: deep in the Sun\'s core beats a Solar Seed — the original spark. If someone brings it back, the Sun can reignite.',
+    'story.p4':          'They chose you. The last mission. Cross the entire solar system. Reach the heart of the Sun. Bring back the Seed.',
+    'story.p5':          'Six ancient Guardians wait at each planet. None have ever returned.',
+    'story.p6':          'But someone has to try.',
+    'story.back':        'BACK',
+    'how.title':         'HOW TO INSTALL',
+    'how.back':          'BACK',
+    'common.score':      'SCORE',
+    'common.combo':      'COMBO',
+    'common.distance':   'DISTANCE',
+  },
+};
+let currentLang = localStorage.getItem('nexo_lang')
+  || (navigator.language && navigator.language.toLowerCase().startsWith('es') ? 'es' : 'en');
+function t(key, vars) {
+  let s = (LANGS[currentLang] && LANGS[currentLang][key]) || (LANGS.en[key]) || key;
+  if (vars) for (const k in vars) s = s.replace('{' + k + '}', vars[k]);
+  return s;
+}
+function setLang(lang) {
+  if (!LANGS[lang]) return;
+  currentLang = lang;
+  localStorage.setItem('nexo_lang', lang);
+  applyTranslations();
+}
+function applyTranslations() {
+  document.querySelectorAll('[data-i18n]').forEach(el => {
+    el.textContent = t(el.dataset.i18n);
+  });
+  document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+    el.placeholder = t(el.dataset.i18nPlaceholder);
+  });
+  // Refresh dinámicos
+  const cm = document.getElementById('menuCoins');
+  if (cm) cm.textContent = coins;
+  if (document.getElementById('shop')?.style.display === 'flex') renderShop();
+  if (game.mission) {
+    const lbl = missionLabel(game.mission);
+    game.mission.label = lbl;
+    const hm = document.getElementById('hMission');
+    if (hm) hm.textContent = lbl;
+  }
+}
+function missionLabel(m) {
+  if (m.type === 'boss') return t('mission.boss');
+  return t('mission.' + m.type, { n: m.target });
+}
+
 function upgradeCost(key) { return Math.floor(100 * Math.pow(2.0, upgrades[key])); }
 function saveCoins() {
   localStorage.setItem('nexo_coins', String(coins));
@@ -1061,34 +1326,40 @@ function drawAcechador(c, x, y, angle, t, size = 18) {
 // ═══════════════════════════════════════════
 
 const BOSSES = [
-  { name: 'SATÉLITE CORRUPTO', sub: 'CENTINELA OXIDADO DE LA ÓRBITA',
-    intro: '"Te esperaba, %NAME%."',
-    deathQuote: 'Sistema... apagándose...',
+  { name: { es: 'SATÉLITE CORRUPTO', en: 'CORRUPTED SATELLITE' },
+    sub:  { es: 'CENTINELA OXIDADO DE LA ÓRBITA', en: 'RUSTED ORBITAL SENTINEL' },
+    intro:{ es: '"Te esperaba, %NAME%."', en: '"I was waiting for you, %NAME%."' },
+    deathQuote: { es: 'Sistema... apagándose...', en: 'Systems... shutting down...' },
     size: 60, hpMult: 1.0, color: '#4af', glow: '#08f',
     draw: drawBossSatelite, update: updateBossSatelite },
-  { name: 'CAZADOR LUNAR', sub: 'EL QUE ACECHA EN LOS CRÁTERES',
-    intro: '"Ya nadie pasa de aquí, %NAME%."',
-    deathQuote: 'No... volverás. Como los otros.',
+  { name: { es: 'CAZADOR LUNAR', en: 'LUNAR HUNTER' },
+    sub:  { es: 'EL QUE ACECHA EN LOS CRÁTERES', en: 'STALKER OF THE CRATERS' },
+    intro:{ es: '"Ya nadie pasa de aquí, %NAME%."', en: '"None pass beyond here, %NAME%."' },
+    deathQuote: { es: 'No... volverás. Como los otros.', en: 'You won\'t... return. Like the others.' },
     size: 55, hpMult: 1.2, color: '#ccc', glow: '#aaf',
     draw: drawBossCazador, update: updateBossCazador },
-  { name: 'REINA DE POLVO', sub: 'MADRE DE LAS TORMENTAS ROJAS',
-    intro: '"Marte se cobra a sus visitantes."',
-    deathQuote: 'La tormenta... nunca se detiene...',
+  { name: { es: 'REINA DE POLVO', en: 'DUST QUEEN' },
+    sub:  { es: 'MADRE DE LAS TORMENTAS ROJAS', en: 'MOTHER OF THE RED STORMS' },
+    intro:{ es: '"Marte se cobra a sus visitantes."', en: '"Mars claims its visitors."' },
+    deathQuote: { es: 'La tormenta... nunca se detiene...', en: 'The storm... never stops...' },
     size: 70, hpMult: 1.35, color: '#f64', glow: '#f40',
     draw: drawBossReina, update: updateBossReina },
-  { name: 'OJO DE TORMENTA', sub: 'EL VÓRTICE QUE TODO LO TRAGA',
-    intro: '"La gravedad te traga."',
-    deathQuote: 'El vórtice te alcanzará... algún día.',
+  { name: { es: 'OJO DE TORMENTA', en: 'STORM EYE' },
+    sub:  { es: 'EL VÓRTICE QUE TODO LO TRAGA', en: 'THE VORTEX THAT SWALLOWS ALL' },
+    intro:{ es: '"La gravedad te traga."', en: '"Gravity devours you."' },
+    deathQuote: { es: 'El vórtice te alcanzará... algún día.', en: 'The vortex will find you... someday.' },
     size: 85, hpMult: 1.5, color: '#fa4', glow: '#f80',
     draw: drawBossTormenta, update: updateBossTormenta },
-  { name: 'DEVORADOR DE ANILLOS', sub: 'MAESTRO DEL HIELO Y LA ROCA',
-    intro: '"Mis anillos te cortarán."',
-    deathQuote: 'Mis anillos... te buscarán...',
+  { name: { es: 'DEVORADOR DE ANILLOS', en: 'RING DEVOURER' },
+    sub:  { es: 'MAESTRO DEL HIELO Y LA ROCA', en: 'MASTER OF ICE AND ROCK' },
+    intro:{ es: '"Mis anillos te cortarán."', en: '"My rings will cut you."' },
+    deathQuote: { es: 'Mis anillos... te buscarán...', en: 'My rings... will hunt you...' },
     size: 75, hpMult: 1.7, color: '#fc8', glow: '#fa0',
     draw: drawBossDevorador, update: updateBossDevorador },
-  { name: 'NÚCLEO SOLAR', sub: 'EL CORAZÓN DE LA ESTRELLA',
-    intro: '"Vienes por la Semilla. Morirás aquí."',
-    deathQuote: 'No puede ser... la Semilla... es tuya.',
+  { name: { es: 'NÚCLEO SOLAR', en: 'SOLAR CORE' },
+    sub:  { es: 'EL CORAZÓN DE LA ESTRELLA', en: 'HEART OF THE STAR' },
+    intro:{ es: '"Vienes por la Semilla. Morirás aquí."', en: '"You come for the Seed. You die here."' },
+    deathQuote: { es: 'No puede ser... la Semilla... es tuya.', en: 'Impossible... the Seed... is yours.' },
     size: 95, hpMult: 2.2, color: '#ff4', glow: '#f80',
     draw: drawBossSolar, update: updateBossSolar },
 ];
@@ -1820,16 +2091,16 @@ function spawnBoss() {
     lastShoot: 0, lastBomb: 0, lastSpawn: 0,
   };
   document.getElementById('bossbar').style.display = 'block';
-  document.getElementById('bossName').textContent = bt.name;
+  document.getElementById('bossName').textContent = L(bt.name);
   showBossWarning(bt);
 }
 
 function showBossWarning(bt) {
   const el = document.getElementById('bossWarning');
   if (!el) return;
-  document.getElementById('bwName').textContent = bt.name;
-  document.getElementById('bwSub').textContent = bt.sub;
-  document.getElementById('bwIntro').textContent = bt.intro.replace('%NAME%', playerName);
+  document.getElementById('bwName').textContent = L(bt.name);
+  document.getElementById('bwSub').textContent = L(bt.sub);
+  document.getElementById('bwIntro').textContent = L(bt.intro).replace('%NAME%', playerName);
   el.style.display = 'flex';
   el.style.animation = 'none';
   void el.offsetWidth; // reflow para reiniciar animación
@@ -2296,24 +2567,19 @@ function render(t) {
 function generateMission() {
   const lvl = game.level;
   if (lvl % 5 === 0) {
-    game.mission = { type: 'boss', target: 1, progress: 0, label: 'DERROTÁ AL GUARDIÁN' };
+    game.mission = { type: 'boss', target: 1, progress: 0 };
+    game.mission.label = missionLabel(game.mission);
     spawnBoss();
     return;
   }
   const inSec = (lvl - 1) % 5;
-  if (inSec === 0) {
-    const t = 8 + Math.floor(lvl * 1.2);
-    game.mission = { type: 'collect', target: t, progress: 0, label: `RECOLECTÁ ${t} ESTRELLITAS` };
-  } else if (inSec === 1) {
-    const t = 8 + Math.floor(lvl * 1);
-    game.mission = { type: 'kill', target: t, progress: 0, label: `ELIMINÁ ${t} ENEMIGOS` };
-  } else if (inSec === 2) {
-    const t = 25 + Math.floor(lvl * 1.5);
-    game.mission = { type: 'survive', target: t, progress: 0, label: `SOBREVIVÍ ${t}s` };
-  } else {
-    const t = 12 + Math.floor(lvl * 1.3);
-    game.mission = { type: 'collect', target: t, progress: 0, label: `RECOLECTÁ ${t} ESTRELLITAS` };
-  }
+  let mt, tg;
+  if (inSec === 0)      { mt = 'collect'; tg = 8 + Math.floor(lvl * 1.2); }
+  else if (inSec === 1) { mt = 'kill';    tg = 8 + Math.floor(lvl * 1); }
+  else if (inSec === 2) { mt = 'survive'; tg = 25 + Math.floor(lvl * 1.5); }
+  else                  { mt = 'collect'; tg = 12 + Math.floor(lvl * 1.3); }
+  game.mission = { type: mt, target: tg, progress: 0 };
+  game.mission.label = missionLabel(game.mission);
 }
 
 function startLevel(lvl) {
@@ -2328,8 +2594,10 @@ function startLevel(lvl) {
   document.getElementById('bossbar').style.display = 'none';
   generateMission();
   if (game.mission.type !== 'boss') {
-    for (let i = 0; i < 4; i++) spawnCristal();
-    setTimeout(() => spawnEnemy(), 600);
+    // Juice: más actividad inmediata = primeros 5s más vivos
+    for (let i = 0; i < 6; i++) spawnCristal();
+    setTimeout(() => spawnEnemy(), 250);
+    setTimeout(() => spawnEnemy(), 900);
   }
   showPlanetIntro();
   // música del planeta si es nuevo sector o primer nivel
@@ -2342,18 +2610,19 @@ function showPlanetIntro() {
   const el = document.getElementById('planetIntro');
   document.getElementById('piEmoji').textContent = p.emoji;
   document.getElementById('piEmoji').style.color = p.color;
-  document.getElementById('piName').textContent = p.name;
+  document.getElementById('piName').textContent = L(p.name);
   document.getElementById('piName').style.color = p.color;
-  document.getElementById('piDist').textContent = 'DISTANCIA: ' + p.dist;
-  document.getElementById('piFact').textContent = p.fact;
+  document.getElementById('piDist').textContent = t('planet.distLabel') + ' ' + L(p.dist);
+  document.getElementById('piFact').textContent = L(p.fact);
   document.getElementById('piMission').textContent = game.mission.label;
   el.style.display = 'flex';
   el.style.opacity = 1;
+  // Juice: intro más rápido (1500ms display + 500ms fade en vez de 2200+700)
   setTimeout(() => {
-    el.style.transition = 'opacity 0.7s';
+    el.style.transition = 'opacity 0.5s';
     el.style.opacity = 0;
-    setTimeout(() => { el.style.display = 'none'; el.style.transition = ''; }, 700);
-  }, 2200);
+    setTimeout(() => { el.style.display = 'none'; el.style.transition = ''; }, 500);
+  }, 1500);
 }
 
 function saveCheckpoint() {
@@ -2426,12 +2695,13 @@ function bossDefeated() {
   }
   const p = PLANETS[Math.min(nextSector, PLANETS.length - 1)];
   document.getElementById('prEmoji').textContent = p.emoji;
-  document.getElementById('prTitle').textContent = '¡LLEGASTE A ' + p.name + '!';
+  document.getElementById('prTitle').textContent = t('planet.reached') + ' ' + L(p.name) + '!';
   document.getElementById('prTitle').style.color = p.color;
-  document.getElementById('prNarrative').textContent = '"' + (PLANET_STORIES[nextSector] || '') + '"';
-  document.getElementById('prFact').textContent = p.fact;
+  const story = PLANET_STORIES[nextSector];
+  document.getElementById('prNarrative').textContent = '"' + (story ? L(story) : '') + '"';
+  document.getElementById('prFact').textContent = L(p.fact);
   const dq = document.getElementById('prDeathQuote');
-  if (dq) dq.textContent = bt && bt.deathQuote ? '— Últimas palabras del Guardián: "' + bt.deathQuote + '"' : '';
+  if (dq) dq.textContent = bt && L(bt.deathQuote) ? '— ' + (currentLang === 'es' ? 'Últimas palabras del Guardián' : 'Last words of the Guardian') + ': "' + L(bt.deathQuote) + '"' : '';
   document.getElementById('prScore').textContent = game.score;
   document.getElementById('planetReached').style.display = 'flex';
 }
@@ -2506,8 +2776,8 @@ function renderShop() {
     card.innerHTML = `
       <div style="font-size:32px;text-shadow:0 0 14px ${def.color}">${def.icon}</div>
       <div style="flex:1;text-align:left">
-        <div style="font-size:13px;letter-spacing:3px;color:${def.color}">${def.name}</div>
-        <div style="font-size:10px;opacity:0.7;letter-spacing:1px;margin-top:2px">${def.desc}</div>
+        <div style="font-size:13px;letter-spacing:3px;color:${def.color}">${t(def.nameKey)}</div>
+        <div style="font-size:10px;opacity:0.7;letter-spacing:1px;margin-top:2px">${t(def.descKey)}</div>
         <div style="font-size:14px;color:${def.color};margin-top:4px;letter-spacing:2px">${stars}</div>
       </div>
       <button data-buy="${key}" class="secondary" style="
@@ -2515,7 +2785,7 @@ function renderShop() {
         color:${maxed ? '#666' : (canBuy ? def.color : '#888')};
         border-color:${maxed ? '#444' : (canBuy ? def.color : '#666')};
         ${maxed || !canBuy ? 'cursor:not-allowed;opacity:0.6' : ''}">
-        ${maxed ? 'MÁX' : `${cost} 💰`}
+        ${maxed ? t('shop.max') : `${cost} 💰`}
       </button>`;
     container.appendChild(card);
   }
@@ -2535,7 +2805,7 @@ function buyUpgrade(key) {
   saveUpgrades();
   renderShop();
   // Feedback visual breve
-  comboFlash('+1 ' + def.name, def.color);
+  comboFlash('+1 ' + t(def.nameKey), def.color);
   sfx.collect();
 }
 
@@ -2600,13 +2870,13 @@ function showShipSelect(continueFromCp) {
     card.className = 'shipcard';
     card.innerHTML = `
       <canvas width="150" height="80" data-ship="${key}"></canvas>
-      <h3 style="color:${ship.color}">${ship.name}</h3>
+      <h3 style="color:${ship.color}">${shipName(key)}</h3>
       <div class="stats">
-        <div class="s"><span>VEL</span><b>${'■'.repeat(ship.stats.vel)}${'□'.repeat(5 - ship.stats.vel)}</b></div>
-        <div class="s"><span>VIDA</span><b>${'■'.repeat(ship.stats.vida)}${'□'.repeat(5 - ship.stats.vida)}</b></div>
-        <div class="s"><span>PULSO</span><b>${'■'.repeat(ship.stats.pulso)}${'□'.repeat(5 - ship.stats.pulso)}</b></div>
+        <div class="s"><span>${t('ship.stat.vel')}</span><b>${'■'.repeat(ship.stats.vel)}${'□'.repeat(5 - ship.stats.vel)}</b></div>
+        <div class="s"><span>${t('ship.stat.vida')}</span><b>${'■'.repeat(ship.stats.vida)}${'□'.repeat(5 - ship.stats.vida)}</b></div>
+        <div class="s"><span>${t('ship.stat.pulso')}</span><b>${'■'.repeat(ship.stats.pulso)}${'□'.repeat(5 - ship.stats.pulso)}</b></div>
       </div>
-      <p class="desc">${ship.desc}</p>
+      <p class="desc">${shipDesc(key)}</p>
     `;
     card.addEventListener('click', () => {
       game.shipType = key;
@@ -2791,6 +3061,25 @@ canvas.addEventListener('touchstart', e => {
 }, { passive: false });
 
 // Botones
+// Quick Play: salta al juego con defaults (medio + saeta + tutorial-aware)
+document.getElementById('btnQuickPlay').addEventListener('click', () => {
+  commitPlayerName();
+  game.difficulty = localStorage.getItem('nexo_diff') || 'medio';
+  game.shipType   = localStorage.getItem('nexo_ship') || 'saeta';
+  // Skip overlays directos
+  document.getElementById('menu').style.display = 'none';
+  document.getElementById('diffSelect').style.display = 'none';
+  document.getElementById('shipSelect').style.display = 'none';
+  if (!tutorialShown) {
+    document.getElementById('tutorial').style.display = 'flex';
+  } else {
+    startGame(false);
+  }
+});
+// Lang toggle
+document.getElementById('btnLangToggle').addEventListener('click', () => {
+  setLang(currentLang === 'es' ? 'en' : 'es');
+});
 document.getElementById('btnStart').addEventListener('click', () => { commitPlayerName(); showDifficulty(false); });
 document.getElementById('btnContinue').addEventListener('click', () => { commitPlayerName(); showDifficulty(true); });
 document.getElementById('btnBackDiff').addEventListener('click', showMenu);
@@ -2896,6 +3185,8 @@ window.addEventListener('appinstalled', () => {
 // Mute inicial
 document.getElementById('btnMute').textContent = muted ? '🔇' : '♪';
 
+// Aplicar idioma detectado (browser ES → es, sino EN)
+applyTranslations();
 showMenu();
 requestAnimationFrame(loop);
 

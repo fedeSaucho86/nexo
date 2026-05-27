@@ -100,7 +100,7 @@
     overflow-y: auto;
   }
   /* En pantallas previas al juego, dejar ver el canvas detrás */
-  #menu, #diffSelect, #shipSelect, #story, #howInstall {
+  #menu, #diffSelect, #shipSelect, #story {
     background: radial-gradient(ellipse at center, rgba(0,20,40,0.62), rgba(0,0,0,0.85));
   }
   .overlay h1 {
@@ -196,16 +196,6 @@
   #tutorial .step { margin: 14px 0; font-size: 14px; letter-spacing: 2px; }
   #tutorial .step .ic { font-size: 30px; display: block; margin-bottom: 6px; }
   #tutorial button { margin-top: 24px; }
-
-  /* Install banner */
-  #installBanner {
-    position: fixed; bottom: 0; left: 0; right: 0;
-    background: linear-gradient(180deg, rgba(0,30,60,0.95), rgba(0,15,30,0.98));
-    border-top: 2px solid #0ff;
-    padding: 12px 16px; display: none; z-index: 80;
-    text-align: center; font-size: 12px; letter-spacing: 2px;
-  }
-  #installBanner button { margin-left: 12px; padding: 8px 18px; font-size: 11px; min-height: 0; min-width: 0; }
 
   /* Responsive */
   @media (max-width: 600px) {
@@ -354,8 +344,6 @@
     <button id="btnShop" class="secondary" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff0;border-color:#ff0"><span data-i18n="shop.title">🛒 TIENDA</span> · <span id="menuCoins">0</span> 💰</button>
     <button id="btnStory" class="secondary" data-i18n="menu.story" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#ff8;border-color:#ff8">📖 LA MISIÓN</button>
     <button id="btnShareMenu" class="secondary" data-i18n="menu.share" style="font-size:11px;padding:10px 22px;min-height:auto;min-width:auto;color:#4f8;border-color:#4f8">📣 COMPARTIR</button>
-    <button id="btnInstall" class="green" data-i18n="menu.install" style="display:none;font-size:11px;padding:10px 22px;min-height:auto;min-width:auto">📲 INSTALAR APP</button>
-    <button id="btnHowInstall" class="secondary" data-i18n="menu.howInstall" style="font-size:10px;padding:8px 18px;min-height:auto;min-width:auto">¿CÓMO INSTALAR?</button>
   </div>
   <p style="margin-top:18px;font-size:10px;opacity:0.5">RÉCORD: <span id="mRecord">0</span> · MÁX NIVEL: <span id="mMaxLevel">1</span></p>
 </div>
@@ -405,23 +393,6 @@
     <p style="text-align:center;margin-top:22px;font-size:16px;letter-spacing:6px"><b data-i18n="story.dontFail">NO FALLES.</b></p>
   </div>
   <button id="btnStoryBack" class="secondary" data-i18n="story.back">VOLVER</button>
-</div>
-
-<!-- HOW TO INSTALL -->
-<div id="howInstall" class="overlay" style="display:none">
-  <h1 style="font-size:34px" data-i18n="how.title">CÓMO INSTALAR</h1>
-  <p style="text-align:left;line-height:2" data-i18n-html="how.body">
-    <b style="color:#4f8">📱 ANDROID (Chrome):</b><br>
-    1. Tocá el menú ⋮ arriba a la derecha<br>
-    2. Tocá "Instalar aplicación" o "Agregar a inicio"<br>
-    3. Confirmá<br><br>
-    <b style="color:#0ff">🍎 IPHONE (Safari):</b><br>
-    1. Tocá el botón compartir ⎙ (abajo en el centro)<br>
-    2. Scrolleá y tocá "Agregar a inicio"<br>
-    3. Confirmá<br><br>
-    <span style="color:#ff8;font-size:11px">⚠️ No funciona desde WhatsApp/Instagram.<br>Abrí el link en Chrome o Safari directo.</span>
-  </p>
-  <button id="btnBackHow" class="secondary">VOLVER</button>
 </div>
 
 <!-- TIENDA / SHOP (meta-progresión permanente) -->
@@ -515,13 +486,6 @@
   <h1 style="font-size:42px" data-i18n="pause.title">PAUSA</h1>
   <button id="btnResume" data-i18n="pause.resume">CONTINUAR</button>
   <button id="btnQuit" class="secondary" data-i18n="pause.menu">SALIR AL MENÚ</button>
-</div>
-
-<!-- INSTALL BANNER (auto) -->
-<div id="installBanner">
-  📲 Instalá NEXO en tu celu para jugar offline
-  <button id="btnInstallBanner" class="green">INSTALAR</button>
-  <button id="btnDismissBanner" class="secondary" style="background:transparent;color:#888;border-color:#444">×</button>
 </div>
 
 <div id="pauseHint">DOBLE TAP = PULSO</div>
@@ -2803,7 +2767,7 @@ function nextLevel() {
 function showMenu() {
   game.state = 'menu';
   stopMusic();
-  ['menu','diffSelect','shipSelect','howInstall','story','shop','tutorial','gameover','levelComplete','planetReached','victory','paused'].forEach(id => {
+  ['menu','diffSelect','shipSelect','story','shop','tutorial','gameover','levelComplete','planetReached','victory','paused'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.style.display = id === 'menu' ? 'flex' : 'none';
   });
@@ -3175,14 +3139,6 @@ document.getElementById('btnPauseTop').addEventListener('click', () => {
   else if (game.state === 'paused') resume();
 });
 document.getElementById('btnMute').addEventListener('click', () => setMuted(!muted));
-document.getElementById('btnHowInstall').addEventListener('click', () => {
-  document.getElementById('menu').style.display = 'none';
-  document.getElementById('howInstall').style.display = 'flex';
-});
-document.getElementById('btnBackHow').addEventListener('click', () => {
-  document.getElementById('howInstall').style.display = 'none';
-  document.getElementById('menu').style.display = 'flex';
-});
 document.getElementById('btnStory').addEventListener('click', () => {
   commitPlayerName();
   document.getElementById('menu').style.display = 'none';
@@ -3214,47 +3170,6 @@ document.getElementById('btnVictoryMenu').addEventListener('click', showMenu);
 document.getElementById('btnShareMenu')?.addEventListener('click', shareRecord);
 document.getElementById('btnShareVictory')?.addEventListener('click', shareRecord);
 document.getElementById('btnShareGameover')?.addEventListener('click', shareRecord);
-
-// ═══════════════════════════════════════════
-//  PWA INSTALL
-// ═══════════════════════════════════════════
-let deferredPrompt = null;
-window.addEventListener('beforeinstallprompt', e => {
-  e.preventDefault();
-  deferredPrompt = e;
-  document.getElementById('btnInstall').style.display = 'inline-block';
-  // Banner solo si no fue dismissed
-  if (localStorage.getItem('nexo_install_dismissed') !== '1' &&
-      !window.matchMedia('(display-mode: standalone)').matches) {
-    setTimeout(() => {
-      if (game.state === 'menu') {
-        document.getElementById('installBanner').style.display = 'block';
-      }
-    }, 3000);
-  }
-});
-async function promptInstall() {
-  if (!deferredPrompt) {
-    document.getElementById('menu').style.display = 'none';
-    document.getElementById('howInstall').style.display = 'flex';
-    return;
-  }
-  deferredPrompt.prompt();
-  await deferredPrompt.userChoice;
-  deferredPrompt = null;
-  document.getElementById('btnInstall').style.display = 'none';
-  document.getElementById('installBanner').style.display = 'none';
-}
-document.getElementById('btnInstall').addEventListener('click', promptInstall);
-document.getElementById('btnInstallBanner').addEventListener('click', promptInstall);
-document.getElementById('btnDismissBanner').addEventListener('click', () => {
-  document.getElementById('installBanner').style.display = 'none';
-  localStorage.setItem('nexo_install_dismissed', '1');
-});
-window.addEventListener('appinstalled', () => {
-  document.getElementById('btnInstall').style.display = 'none';
-  document.getElementById('installBanner').style.display = 'none';
-});
 
 // Mute inicial
 document.getElementById('btnMute').textContent = muted ? '🔇' : '♪';
